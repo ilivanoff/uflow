@@ -1,0 +1,200 @@
+html, body {
+    text-align: center;
+}
+
+body {
+    background-color: #F0F0F0;
+    color: #333333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857;
+    margin: 0px;
+}
+
+.top-container {
+    width: 960px;
+    margin: 3px auto;
+}
+
+
+h1.head {
+    background-color: #368AD2;
+    color: #FFFFFF;
+    padding: 20px 0px;
+    margin: 0px;
+    font-size: 40px;
+}
+
+h1.head a {
+    color: white;
+    text-decoration: none;
+}
+
+/* МЕНЮ */
+.navigation {
+    background-color: #388CD4;
+    border-bottom: 4px solid #CCCCCC;
+    text-align: center;
+    /*font-size: 12px;*/
+    text-transform: uppercase;
+    font: 400 14px/20px "Roboto",sans-serif;
+}
+
+.navigation a {
+    color: white;
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+.navigation a.active {
+    color: black;
+    background-color: #EFC62C;
+}
+
+/* CROP */
+#carrier {
+    text-align: justify;
+    background-color: white;
+    background: white url("/ps-content/images/background-right.gif") right top repeat-y scroll;
+}
+
+/* Crop */
+.container {
+    float: left;
+    width: 640px;
+    text-align: center;
+    padding-left: 36px;
+}
+
+.container .top-buttons {
+    display: none;
+    margin: 20px 0px;
+    font-size: 16px;
+}
+
+input#choose-file {
+    display: none;
+}
+
+.choose-file-label, .choose-file-label .ui-button-text {
+    border-radius: 5px 5px 5px 5px !important;
+}
+
+.container .progress {
+    display: none;
+    margin: 20px 0px;
+}
+
+.container .info_box {
+    display: none;
+    font-weight: bold;
+}
+
+.container .crop-editor {
+    margin: 10px 0px;
+    display: none;
+}
+
+.container .bottom-buttons {
+    margin: 10px  0px;
+    font-size: 14px;
+    display: none;
+}
+
+.crop-preview {
+    overflow:hidden;
+}
+
+.crop-text {
+    margin: 10px 0px;
+}
+
+.crop-text .crop-preview {
+    width: 60px;
+    height: 60px;
+    float: left;
+}
+
+.crop-text .crop-textarea-holder {
+    text-align: left;
+    /*margin-left: 70px;*/
+}
+
+.crop-text textarea {
+}
+
+
+/* Правое меню */
+.crop-menu {
+    float: right;
+    text-align: left;
+    width: 240px;
+    background-color: #F5F5F5;
+    padding: 10px;
+    visibility: hidden;
+}
+
+.crop-menu .crop-preview {
+    width: 240px;
+    height: 240px;
+    margin: 15px 0px;
+}
+
+.crop-menu .rotate {
+    margin: 10px 0px;
+}
+
+#PresetFilters {
+    clear: both;
+}
+
+#PresetFilters a {
+    border-radius: 3px;
+    -webkit-transition: background-color .3s ease-out;
+    -moz-transition: background-color .3s ease-out;
+    transition: background-color .3s ease-out;
+    background-color: #368ad2;
+    display: block;
+    float: left;
+    text-align: center;
+    padding: 4px 5px;
+    color: #f8f8f2;
+    margin: 5px;
+    border: none;
+    font-size: 13px;
+    width: 100px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#PresetFilters a.active {
+    background-color: #e69751;
+}
+
+#PresetFilters a.disabled {
+    opacity: 0.3;
+}
+
+/*
+.crop-grid {
+    background: url(/ps-content/images/bg/crop-bg3.png) left top no-repeat;
+    width: 240px;
+    height: 240px;
+}
+*/
+
+.crop-menu .crop-grid .crop-preview {
+    width: 60px;
+    height: 60px;
+    margin: 0px 0px 0px 0px;
+}
+
+/* СТЕНА */
+.wall {
+    height: 100%;
+    min-height: 100%;
+    background-color: white;
+    line-height: 0px;
+    text-align: right;
+}
