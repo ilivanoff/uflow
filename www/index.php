@@ -19,5 +19,5 @@ $SMARTY_PARAMS['CROP_SUFFIX'] = $suffix;
 $PARAMS['RESOURCES'] = PSSmarty::template('crop/page_resources.tpl', $SMARTY_PARAMS)->fetch();
 $PARAMS['CONTENT'] = PSSmarty::template($tplPath)->fetch();
 $PARAMS['TITLE'] = 'Мои мысли';
-PSSmarty::template('crop/page_pattern.tpl', $PARAMS)->display();
+PSSmarty::template('page/page_pattern.tpl', $PARAMS)->display();
 ?>
