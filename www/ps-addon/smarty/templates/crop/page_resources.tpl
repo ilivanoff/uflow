@@ -1,5 +1,5 @@
 {*Ресурсы для wordpress*}
-<link rel="stylesheet" href="/ps-content/css/addon.crop.css" type="text/css" media="all" />
+<link rel="stylesheet" href="/ps-addon/css/addon.crop.css" type="text/css" media="all" />
 <link rel="stylesheet" href="/ps-content/css/core.css" type="text/css" media="all" />
 <!--<link rel="stylesheet" href="/ps-content/css/common.css" type="text/css" media="all" />-->
 <link rel="stylesheet" href="/ps-content/css/common.widgets.css" type="text/css" media="all" />
@@ -121,4 +121,4 @@
 <link rel="stylesheet" href="/ps-content/css/common.dev.or.admin.css" type="text/css" media="all" />
 {/devmodeOrAdmin}
 
-<script type="text/javascript" src="/ps-content/js/crop/addon.crop.{$CROP_SUFFIX}.js"></script>
+<script type="text/javascript" src="/ps-addon/js/addon.crop.{$CROP_SUFFIX}.js"></script>
