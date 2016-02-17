@@ -1,10 +1,10 @@
 <div class='top-container'>
     <h1 class='head'><a href='ps-crop.php?page=wall'>Публикатор мыслей</a></h1>
     <div class='navigation'>
-        <a href="ps-crop.php?page=wall" class='active'>
+        <a href="index.php?page=wall" class='active'>
             Стена
         </a>
-        <a href="ps-crop.php?page=img">
+        <a href="index.php?page=img">
             Опубликовать
         </a>
     </div>
