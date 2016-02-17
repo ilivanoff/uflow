@@ -1,5 +1,6 @@
 <div class='top-container'>
-    <h1 class='head'><a href='ps-crop.php?page=wall'>Публикатор мыслей</a></h1>
+    <h1 class='head'><a href='/'>Публикатор мыслей</a></h1>
+
     <div class='navigation'>
         <a href="index.php?page=wall" class='active'>
             Стена

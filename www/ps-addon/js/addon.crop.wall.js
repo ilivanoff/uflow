@@ -94,11 +94,13 @@ $(function () {
             onHide();
             var id = $item.data('id');
 
-            if (!defs.cellowners.hasOwnProperty(id)) {
-                return;//---
-            }
+            /*
+             if (!defs.cellowners.hasOwnProperty(id)) {
+             return;//---
+             }
+             */
 
-            var ob = defs.cellowners[id];
+            //var ob = defs.cellowners[id];
 
             /*
              <div class="mosaic-popup">
@@ -112,23 +114,27 @@ $(function () {
              */
 
             $div = $('<div>').addClass('mosaic-popup');
-            $div.append(crIMG(ob.avatar).addClass('avatar'));
+            //$div.append(crIMG(ob.avatar).addClass('avatar'));
             var $content = $('<div>').addClass('content').appendTo($div);
-            $content.append($('<h5>').html(ob.name));
-            if (ob.msg) {
-                $content.append($('<div>').addClass('message').html(ob.msg));
-            }
+            $content.append($('<h5>').html('Мой заголовок ' + $item.attr('src')));
+            /*
+             if (ob.msg) {
+             $content.append($('<div>').addClass('message').html(ob.msg));
+             }
+             */
             $div.append($('<div>').addClass('clearall'));
             $div.appendTo('body').width($div.width());
             onUpdate(e);
         }
         var onUpdate = function (e) {
-            $div.calculatePosition(e);
+            $div.calculatePosition(e, 3, 3);
         }
 
         PsJquery.on({
-            parent: '#mosaicmap',
-            item: 'area',
+            //parent: '#mosaicmap',
+            //item: 'area',
+            parent: '.wall',
+            item: 'img',
             mouseenter: onShow,
             mousemove: onUpdate,
             mouseleave: onHide
