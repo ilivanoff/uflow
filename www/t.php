@@ -6,6 +6,13 @@ require_once 'ps-includes/MainImport.php';
 
 ExceptionHandler::registerPretty();
 
+echo DirManagerCrop::cropAuto(3)->absDirPath();
+echo DirManagerCrop::cropExists(3);
+
+//CropBean::inst()->saveCell();
+
+die;
+
 //PsMailSender::fastSend('Hello', 'My body', 'azazello85@mail.ru');
 
 $sender = PsMailSender::inst();

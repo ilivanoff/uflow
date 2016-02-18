@@ -146,14 +146,28 @@ $(function () {
         this.submit = function (text) {
             CropLogger.logInfo("Submitting {} with text: '{}'", img.toString(), text);
 
+            var crop = CropEditor.crop;
+
             CropCore.progress.start();
 
-            AjaxExecutor.executePost('CropUpload', {
-                //img: img.file,
-                imgo: img.canvas.toDataURL(),
-                imgf: CropEditor.getImgCanvas().toDataURL(),
-                imgc: CropEditor.getCropCanvas().toDataURL()
-            },
+            var data = {
+                file: {
+                    name: img.file.name,
+                    type: img.file.type,
+                    size: img.file.size,
+                    filter: crop.filter
+                },
+                imgo: img.canvas.toDataURL(), //Оригинальная картинка
+                imgf: crop.canvas.toDataURL(), //Изменённая картинка
+                imgc: crop.getCropCanvas().toDataURL() //Обрезанная картинка
+            }
+
+            //Если оригинальная и изменённая картинка совпадают - не передаём на сервер
+            if (data.imgo == data.imgf) {
+                delete data['imgf'];
+            }
+
+            AjaxExecutor.executePost('CropUpload', data,
                     function (ok) {
                     }, function (err) {
                 CropCore.showError(err);
@@ -299,9 +313,13 @@ $(function () {
 
             //Инициализируем новый
             var cropNew = {
+                filter: filter,
                 canvas: canvas,
                 $cropper: null,
                 $holder: $('<div>').addClass('crop-holder').hide().appendTo(CropCore.$cropEditor).css('height', CropCore.calcHolderHeight(img)).append(canvas),
+                getCropCanvas: function () {
+                    return this.$cropper ? this.$cropper.cropper('getCroppedCanvas') : null;
+                },
                 destroy: function () {
                     if (this.$cropper) {
                         this.$cropper.cropper('destroy');
@@ -370,14 +388,6 @@ $(function () {
             if (this.crop) {
                 this.crop.setEnabled(enabled);
             }
-        },
-        //Метод получает canvas с данными
-        getCropCanvas: function () {
-            return this.crop.$cropper.cropper('getCroppedCanvas');
-        },
-        //Метод получает canvas с данными
-        getImgCanvas: function () {
-            return this.crop.canvas;
         }
     }
 
@@ -408,6 +418,9 @@ $(function () {
         },
         filter: function () {
             return getHrefAnchor(CropCore.$presetFiltersA.filter('.active'));
+        },
+        hasFilter: function () {
+            return !PsIs.empty(this.filter());
         }
     }
 
