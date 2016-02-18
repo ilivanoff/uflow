@@ -20,6 +20,8 @@ class CropUpload extends AbstractAjaxAction {
         $imgf = $params->str('imgf');
         $imgc = $params->str('imgc');
 
+        echo Autoload::inst()->getClassPath('CropUploader');
+
         CropUploader::upload($imgo, $imgf, $imgc, $file);
 
         return new AjaxSuccess();

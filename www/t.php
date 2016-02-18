@@ -6,6 +6,10 @@ require_once 'ps-includes/MainImport.php';
 
 ExceptionHandler::registerPretty();
 
+CropUploader::upload(null, null, null, array());
+
+die;
+
 echo DirManagerCrop::cropAuto(3)->absDirPath();
 echo DirManagerCrop::cropExists(3);
 

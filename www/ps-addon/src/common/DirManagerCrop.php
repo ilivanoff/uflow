@@ -16,7 +16,7 @@ class DirManagerCrop {
      * @return DirManager
      */
     public static function cropAuto($code) {
-        return DirManager::inst(null, array(self::DIR_CROPS, PsCheck::int($code)));
+        return DirManager::inst(self::DIR_CROPS, PsCheck::int($code));
     }
 
     /**
@@ -27,6 +27,15 @@ class DirManagerCrop {
      */
     public static function cropExists($code) {
         return is_dir(PATH_BASE_DIR . self::DIR_CROPS . DIR_SEPARATOR . PsCheck::int($code));
+    }
+
+    /**
+     * Метод возвращает временную директорию для работы и сохранения изображений
+     * 
+     * @return DirManager
+     */
+    public static function cropTempDir() {
+        return DirManager::inst(self::DIR_CROPS . '/temp', PsUtil::fileUniqueTime());
     }
 
 }
