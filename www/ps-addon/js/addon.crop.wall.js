@@ -115,7 +115,7 @@ $(function () {
 
             $div = $('<div>').addClass('mosaic-popup');
             //$div.append($('<img>').attr('src', $item.attr('src')));
-            $div.append($('<img>').attr('src', 'crops/temp/2016-02-18_14-00-55_zzho/imgc.png'));
+            $div.append($('<img>').attr('src', 'crops/5/big.png'));
             $div.append($('<div>').addClass('content').text($item.attr('src')));
             /*
              if (ob.msg) {
@@ -143,10 +143,10 @@ $(function () {
          */
 
         onShow({
-            pageX: 150,
+            pageX: $('.wall')[0].offsetLeft,
             pageY: 150
         },
-                $('.wall img:first'));
+        $('.wall img:first'));
     }
     // # 1.
 
