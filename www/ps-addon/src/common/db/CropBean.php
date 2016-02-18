@@ -8,6 +8,15 @@
 class CropBean extends BaseBean {
 
     /**
+     * 
+     * @param string $tempStorage - временное хранилище
+     * @param string $text - текст пользователя
+     */
+    public function makeCell($tempStorage, $text) {
+        return $this->insert('INSERT INTO crop_cell (v_temp, dt_event, v_text) VALUES (?, unix_timestamp(), ?)', array($tempStorage, $text));
+    }
+
+    /**
      * Возвращает информацию о картинке, сразу проверяя её наличие.
      * 
      * @param int $imgId - код картинки

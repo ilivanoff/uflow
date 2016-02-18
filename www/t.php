@@ -6,7 +6,10 @@ require_once 'ps-includes/MainImport.php';
 
 ExceptionHandler::registerPretty();
 
-CropUploader::upload(null, null, null, array());
+
+echo DirManager::inst('a/')->isDocumentRoot();
+
+//echo basename(DirManagerCrop::cropTempDir()->relDirPath());
 
 die;
 

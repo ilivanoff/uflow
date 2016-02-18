@@ -202,11 +202,32 @@ input#choose-file {
 div.mosaic-popup {
     position: absolute;
     /*    width: 400px;*/
+    /*
     padding: 4px;
-    padding-right: 6px;
     background-color: white;
-    border: 2px solid #bbb;
-    border-radius: 7px 7px 7px 7px;
     font-family: Georgia;
-    max-width: 450px;
+    */
+    max-width: 600px;
+
+    color: #222;
+    background-color: #eee;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+
+    border-radius: 6px 6px 6px 6px;
+    border: 1px solid #bbb;
+    color: #333333;
+    padding: 10px;
+}
+
+.mosaic-popup img {
+    float: left;
+    padding: 0px;
+    margin: 0px;
+    width: 240px;
+}
+
+.mosaic-popup .content {
+    margin: 0px;
+    margin-left: 250px;
+    text-align: left;
 }

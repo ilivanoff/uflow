@@ -11,7 +11,7 @@ class CropUpload extends AbstractAjaxAction {
     }
 
     protected function getRequiredParamKeys() {
-        return array('imgo', 'imgc', 'imgf', 'file');
+        return array('imgo', 'imgc', 'file', 'cropped');
     }
 
     protected function executeImpl(ArrayAdapter $params) {
@@ -20,9 +20,7 @@ class CropUpload extends AbstractAjaxAction {
         $imgf = $params->str('imgf');
         $imgc = $params->str('imgc');
 
-        echo Autoload::inst()->getClassPath('CropUploader');
-
-        CropUploader::upload($imgo, $imgf, $imgc, $file);
+        CropUploader::upload($imgo, $imgf, $imgc, $file, $params->str('text'), $params->arr('cropped'));
 
         return new AjaxSuccess();
     }

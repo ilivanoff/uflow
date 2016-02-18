@@ -10,42 +10,49 @@ class CropUploader {
     /** @var PsLoggerEmpty */
     private $LOGGER;
 
+    /** @var DirManager */
+    private $DIR_MANAGER_TMP;
+
+    private function save($dataUrl, $name) {
+        if ($dataUrl) {
+            $dataUrl = explode(',', $dataUrl, 2)[1];
+            $unencoded = base64_decode($dataUrl);
+            $im = imagecreatefromstring($unencoded);
+            //print_r(imagesx($im));
+            //print_r(imagesy($im));
+            imagepng($im, $this->DIR_MANAGER_TMP->absFilePath(null, $name, PsConst::EXT_PNG));
+            imagedestroy($im);
+        }
+    }
+
     /**
+     * Загрузка изображений на сервер
      * 
      * @param string $imgo - оригинальное изображение
      * @param string $imgf - изображение с фильтром (может и не быть указано)
      * @param string $imgc - обрезанное изображение
      * @param array $file  - информация о файле
+     * @param type $text   - текст сообщения
      */
-    public function uploadImpl($imgo, $imgf, $imgc, $file) {
-        $data = $params->str('imgc');
-        $data = explode(',', $data, 2)[1];
-        $unencoded = base64_decode($data);
-        $im = imagecreatefromstring($unencoded);
-        imagepng($im, DirItem::inst(PS_DIR_ADDON . '/crop', 'imgc', PsConst::EXT_PNG)->getAbsPath());
-        imagedestroy($im);
+    public function uploadImpl($imgo, $imgf, $imgc, array $file, $text, array $crop) {
+        $this->LOGGER->info('Dir: ' . $this->DIR_MANAGER_TMP->absDirPath());
+        $this->LOGGER->info('imgo: ' . $imgo);
+        $this->LOGGER->info('imgf: ' . $imgf);
+        $this->LOGGER->info('imgc: ' . $imgc);
+        $this->LOGGER->info('file: ' . print_r($file, true));
+        $this->LOGGER->info('crop: ' . print_r($crop, true));
+        $this->LOGGER->info('text: ' . $text);
 
-        $data = $params->str('imgo');
-        $data = explode(',', $data, 2)[1];
-        $unencoded = base64_decode($data);
-        $im = imagecreatefromstring($unencoded);
-        imagejpeg($im, DirItem::inst(PS_DIR_ADDON . '/crop', 'imgo', PsConst::EXT_JPEG)->getAbsPath(), 70);
-        imagepng($im, DirItem::inst(PS_DIR_ADDON . '/crop', 'imgo', PsConst::EXT_PNG)->getAbsPath());
-        imagedestroy($im);
-
-        $data = $params->str('imgf');
-        $data = explode(',', $data, 2)[1];
-        $unencoded = base64_decode($data);
-        $im = imagecreatefromstring($unencoded);
-        imagepng($im, DirItem::inst(PS_DIR_ADDON . '/crop', 'imgf', PsConst::EXT_PNG)->getAbsPath());
-        imagedestroy($im);
+        $this->save($imgo, 'imgo');
+        $this->save($imgf, 'imgf');
+        $this->save($imgc, 'imgc');
     }
 
     /**
      * Метод вызывается для загрузки изображения
      */
-    public static function upload($imgo, $imgf, $imgc, array $file) {
-        return (new CropUploader())->uploadImpl($imgo, $imgf, $imgc, $file);
+    public static function upload($imgo, $imgf, $imgc, array $file, $text, array $crop) {
+        return (new CropUploader())->uploadImpl($imgo, $imgf, $imgc, $file, $text, $crop);
     }
 
     /**
@@ -53,6 +60,7 @@ class CropUploader {
      */
     private function __construct() {
         $this->LOGGER = PsLogger::inst(__CLASS__);
+        $this->DIR_MANAGER_TMP = DirManagerCrop::cropTempDir();
     }
 
 }

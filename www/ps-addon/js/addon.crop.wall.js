@@ -114,9 +114,9 @@ $(function () {
              */
 
             $div = $('<div>').addClass('mosaic-popup');
-            //$div.append(crIMG(ob.avatar).addClass('avatar'));
-            var $content = $('<div>').addClass('content').appendTo($div);
-            $content.append($('<h5>').html('Мой заголовок ' + $item.attr('src')));
+            //$div.append($('<img>').attr('src', $item.attr('src')));
+            $div.append($('<img>').attr('src', 'crops/temp/2016-02-18_14-00-55_zzho/imgc.png'));
+            $div.append($('<div>').addClass('content').text($item.attr('src')));
             /*
              if (ob.msg) {
              $content.append($('<div>').addClass('message').html(ob.msg));
@@ -130,15 +130,23 @@ $(function () {
             $div.calculatePosition(e, 3, 3);
         }
 
-        PsJquery.on({
-            //parent: '#mosaicmap',
-            //item: 'area',
-            parent: '.wall',
-            item: 'img',
-            mouseenter: onShow,
-            mousemove: onUpdate,
-            mouseleave: onHide
-        });
+        /*
+         PsJquery.on({
+         //parent: '#mosaicmap',
+         //item: 'area',
+         parent: '.wall',
+         item: 'img',
+         mouseenter: onShow,
+         mousemove: onUpdate,
+         mouseleave: onHide
+         });
+         */
+
+        onShow({
+            pageX: 150,
+            pageY: 150
+        },
+                $('.wall img:first'));
     }
     // # 1.
 

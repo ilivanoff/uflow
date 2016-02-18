@@ -50,10 +50,10 @@ $(function () {
         },
         //Методы работы с ошибкой
         showError: function (error) {
-            this.$error.html($.trim(error)).show();
+            CropCore.$error.html($.trim(error)).show();
         },
         hideError: function () {
-            this.$error.hide();
+            CropCore.$error.hide();
         },
         //Инициализация ядра
         init: function () {
@@ -143,6 +143,23 @@ $(function () {
         }
 
         //Сабмит формы
+        this.submitLight = function (text) {
+            CropLogger.logInfo("Submitting light {} with text: '{}'", img.toString(), text);
+
+            CropCore.progress.start();
+
+            var crop = PsCanvas.cloneAndResize(CropEditor.crop.getCropCanvas(), 240, 240);
+
+            AjaxExecutor.executePost('CropUploadLight', {
+                crop: crop.toDataURL(),
+                text: text //Текст
+            },
+                    CropCore.hideError, CropCore.showError, function () {
+                        CropCore.progress.stop();
+                    });
+        }
+
+        //Сабмит формы
         this.submit = function (text) {
             CropLogger.logInfo("Submitting {} with text: '{}'", img.toString(), text);
 
@@ -159,7 +176,9 @@ $(function () {
                 },
                 imgo: img.canvas.toDataURL(), //Оригинальная картинка
                 imgf: crop.canvas.toDataURL(), //Изменённая картинка
-                imgc: crop.getCropCanvas().toDataURL() //Обрезанная картинка
+                imgc: crop.getCropCanvas().toDataURL(), //Обрезанная картинка
+                text: text, //Текст
+                cropped: crop.getData() //Данные выделения
             }
 
             //Если оригинальная и изменённая картинка совпадают - не передаём на сервер
@@ -168,12 +187,9 @@ $(function () {
             }
 
             AjaxExecutor.executePost('CropUpload', data,
-                    function (ok) {
-                    }, function (err) {
-                CropCore.showError(err);
-            }, function () {
-                CropCore.progress.stop();
-            });
+                    CropCore.hideError, CropCore.showError, function () {
+                        CropCore.progress.stop();
+                    });
         }
     }
 
@@ -319,6 +335,9 @@ $(function () {
                 $holder: $('<div>').addClass('crop-holder').hide().appendTo(CropCore.$cropEditor).css('height', CropCore.calcHolderHeight(img)).append(canvas),
                 getCropCanvas: function () {
                     return this.$cropper ? this.$cropper.cropper('getCroppedCanvas') : null;
+                },
+                getData: function () {
+                    return this.$cropper ? this.$cropper.cropper('getData') : null;
                 },
                 destroy: function () {
                     if (this.$cropper) {
@@ -476,7 +495,7 @@ $(function () {
             CropCore.$cropTextArea.focus();
             return;//---
         }
-        CropController.submit(text);
+        CropController.submitLight(text);
     });
 
     return;//---
