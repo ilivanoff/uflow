@@ -25,6 +25,9 @@ class CropGroupsGenerator {
         //Сохраним уменьшенное изображение
         $group_image = imagecreatetruecolor(round($cellsCnt * CropConst::CROP_SIZE_SMALL), CropConst::CROP_SIZE_SMALL);
         check_condition($group_image, 'Cannot image create true color for group');
+        //Сделаем фон прозрачным
+        $black = imagecolorallocate($group_image, 0, 0, 0);
+        imagecolortransparent($group_image, $black);
         //Копируем ячейки
         $cells = array_reverse($cells);
         $cellNum = 0;
