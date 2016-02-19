@@ -10,11 +10,11 @@ class CropBean extends BaseBean {
     /**
      * Метод привязывает ячейку в БД
      * 
-     * @param string $tempStorage - временное хранилище
+     * @param string $temp - временное хранилище
      * @param string $text - текст ячейки
      */
-    public function makeCell($tempStorage, $text) {
-        return PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, b_ok, v_temp, v_text) VALUES (unix_timestamp(), 0, ?, ?)', array($tempStorage, $text)));
+    public function makeCell($temp, $text) {
+        return PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, b_ok, v_temp, v_text) VALUES (unix_timestamp(), 0, ?, ?)', array($temp, $text)));
     }
 
     /**

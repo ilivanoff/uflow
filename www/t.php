@@ -6,12 +6,9 @@ require_once 'ps-includes/MainImport.php';
 
 ExceptionHandler::registerPretty();
 
-echo PsHtml::img(array('src' => CropTests::randomCropImgDi()));
-echo PsHtml::img(array('src' => CropTests::randomCropImgBase64()));
-
 //CropTests::clean();
 
-echo CropTests::makeCropCells(50);
+CropTests::makeCropCells(100);
 
 die;
 
