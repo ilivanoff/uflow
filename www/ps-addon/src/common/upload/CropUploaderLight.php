@@ -17,18 +17,6 @@ class CropUploaderLight {
     const DATA_IMG_PREFIX = 'data:image/png;base64,';
 
     /**
-     * Размер загруженного изображения
-     */
-    const CROP_SIZE_BIG = 240;
-    const CROP_SIZE_SMALL = 60;
-
-    /**
-     * Названия временных файлов
-     */
-    const TMP_FILE_BIG = 'big';
-    const TMP_FILE_SMALL = 'small';
-
-    /**
      * Загрузка изображений на сервер
      * 
      * @param string $imgo - оригинальное изображение
@@ -70,22 +58,22 @@ class CropUploaderLight {
             $this->LOGGER->info('Image dimensions: {}x{}', $w, $h);
 
             //Проверим размеры изображения
-            if ($w != self::CROP_SIZE_BIG || $w != $h) {
+            if ($w != CropConst::CROP_SIZE_BIG || $w != $h) {
                 return PsUtil::raise('Invalid crop upload size: {}x{}', $w, $h);
             }
 
             //Сохраним уменьшенное изображение
-            $imSmall = imagecreatetruecolor(self::CROP_SIZE_SMALL, self::CROP_SIZE_SMALL);
+            $imSmall = imagecreatetruecolor(CropConst::CROP_SIZE_SMALL, CropConst::CROP_SIZE_SMALL);
             check_condition($imSmall, 'Cannot image create true color');
-            $success = imagecopyresampled($imSmall, $imBig, 0, 0, 0, 0, self::CROP_SIZE_SMALL, self::CROP_SIZE_SMALL, $w, $h);
+            $success = imagecopyresampled($imSmall, $imBig, 0, 0, 0, 0, CropConst::CROP_SIZE_SMALL, CropConst::CROP_SIZE_SMALL, $w, $h);
             check_condition($success, 'Cannot create thumbnail');
-            $success = imagepng($imSmall, $absPathSmall = $DM_TEMP->absFilePath(null, self::TMP_FILE_SMALL, PsConst::EXT_PNG));
+            $success = imagepng($imSmall, $absPathSmall = $DM_TEMP->absFilePath(null, CropConst::TMP_FILE_SMALL, CropConst::CROP_EXT));
             check_condition($success, 'Cannot save thumbnail');
             @imagedestroy($imSmall);
             $imSmall = null;
 
             //Сохраним полученное с клиента изображение
-            $success = imagepng($imBig, $absPathBig = $DM_TEMP->absFilePath(null, self::TMP_FILE_BIG, PsConst::EXT_PNG));
+            $success = imagepng($imBig, $absPathBig = $DM_TEMP->absFilePath(null, CropConst::TMP_FILE_BIG, CropConst::CROP_EXT));
             check_condition($success, 'Cannot save cropped image');
             @imagedestroy($imBig);
             $imBig = null;
@@ -100,12 +88,12 @@ class CropUploaderLight {
             $this->LOGGER->info('Dest dir: ' . $DM_DEST->relDirPath());
 
             //Копируем файлы в конечную директорию
-            $success = copy($absPathBig, $DM_DEST->absFilePath(null, self::TMP_FILE_BIG, PsConst::EXT_PNG));
+            $success = copy($absPathBig, $DM_DEST->absFilePath(null, CropConst::TMP_FILE_BIG, CropConst::CROP_EXT));
             if (!$success) {
                 $DM_DEST->removeDir();
                 return PsUtil::raise('Cannot copy crop image');
             }
-            $success = copy($absPathSmall, $DM_DEST->absFilePath(null, self::TMP_FILE_SMALL, PsConst::EXT_PNG));
+            $success = copy($absPathSmall, $DM_DEST->absFilePath(null, CropConst::TMP_FILE_SMALL, CropConst::CROP_EXT));
             if (!$success) {
                 $DM_DEST->removeDir();
                 return PsUtil::raise('Cannot copy thumbnail');

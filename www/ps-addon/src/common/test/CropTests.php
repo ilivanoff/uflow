@@ -19,7 +19,7 @@ class CropTests {
      */
     public static function randomCropImgDi() {
         $img = self::images()[array_rand(self::images())];
-        return PsImgEditor::resize($img, CropUploaderLight::CROP_SIZE_BIG . 'x' . CropUploaderLight::CROP_SIZE_BIG);
+        return PsImgEditor::resize($img, CropConst::CROP_SIZE_BIG . 'x' . CropConst::CROP_SIZE_BIG);
     }
 
     /**
@@ -54,6 +54,7 @@ class CropTests {
     public static function clean() {
         DirManagerCrop::cropsDir()->removeDir();
         DirManagerCrop::tempsDir()->removeDir();
+        DirManagerCrop::groupsDir()->removeDir();
         PSDB::update('delete from crop_cell');
         PSDB::update('ALTER TABLE crop_cell AUTO_INCREMENT = 1');
     }

@@ -7,8 +7,9 @@ require_once 'ps-includes/MainImport.php';
 ExceptionHandler::registerPretty();
 
 //CropTests::clean();
+//CropTests::makeCropCells(100);
 
-CropTests::makeCropCells(100);
+CropGroupsGenerator::makeGroup(range(1, 16));
 
 die;
 

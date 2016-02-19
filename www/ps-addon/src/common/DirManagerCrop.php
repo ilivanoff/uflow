@@ -9,6 +9,7 @@ class DirManagerCrop {
 
     const DIR_CROP = 'c';
     const DIR_TEMP = 'd';
+    const DIR_GROUP = 'g';
     const DIR_CROP_TEST = 'testcrops';
 
     /**
@@ -23,6 +24,13 @@ class DirManagerCrop {
      */
     public static function tempsDir() {
         return DirManager::inst(self::DIR_CROP);
+    }
+
+    /**
+     * Директория, в которой хранятся сгруппированные изображения
+     */
+    public static function groupsDir() {
+        return DirManager::inst(self::DIR_GROUP);
     }
 
     /**
