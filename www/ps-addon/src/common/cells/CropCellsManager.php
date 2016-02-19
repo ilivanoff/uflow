@@ -11,14 +11,21 @@ class CropCellsManager extends AbstractSingleton {
      * Метод привязывает ячейку
      * 
      * @param string $tempStorage - название директории временного хранилища, чтобы восстановить привязку в случае ошибки
+     * @param string $text - текст ячейки
+     * @return type
      */
     public function bindCell($tempStorage, $text) {
-        $cellId = CropBean::inst()->makeCell($tempStorage, $text);
-        return $cellId; //---
+        return CropBean::inst()->makeCell($tempStorage, $text);
     }
 
-    public function subitCell($cellId) {
-        //TODO
+    /**
+     * Метод подтверждает ячейку
+     * 
+     * @param int $cellId - код ячейки
+     * @return bool - признак, привязана ли ячейка
+     */
+    public function submitCell($cellId) {
+        return 1 == CropBean::inst()->submitCell($cellId);
     }
 
     /** @return CropCellsManager */

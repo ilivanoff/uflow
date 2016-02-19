@@ -12,21 +12,21 @@ class DirManagerCrop {
     /**
      * Директория хранения картинок
      * 
-     * @param int $code - код картинки
+     * @param int $cellId - код картинки
      * @return DirManager
      */
-    public static function cropAuto($code) {
-        return DirManager::inst(self::DIR_CROPS, PsCheck::int($code));
+    public static function cropAuto($cellId) {
+        return DirManager::inst(self::DIR_CROPS, PsCheck::positiveInt($cellId));
     }
 
     /**
      * Метод проверяет существование картинки
      * 
-     * @param int $code - код картинки
+     * @param int $cellId - код картинки
      * @return bool
      */
-    public static function cropExists($code) {
-        return is_dir(PATH_BASE_DIR . self::DIR_CROPS . DIR_SEPARATOR . PsCheck::int($code));
+    public static function cropExists($cellId) {
+        return is_dir(PATH_BASE_DIR . self::DIR_CROPS . DIR_SEPARATOR . PsCheck::positiveInt($cellId));
     }
 
     /**

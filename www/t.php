@@ -7,7 +7,9 @@ require_once 'ps-includes/MainImport.php';
 ExceptionHandler::registerPretty();
 
 
-echo DirManager::inst('a/')->isDocumentRoot();
+
+$idCell = CropBean::inst()->makeCell('xxx', 'my text');
+echo CropBean::inst()->submitCell($idCell);
 
 //echo basename(DirManagerCrop::cropTempDir()->relDirPath());
 

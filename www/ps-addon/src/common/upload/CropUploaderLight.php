@@ -10,12 +10,10 @@ class CropUploaderLight {
     /** @var PsLoggerEmpty */
     private $LOGGER;
 
-    /** @var DirManager */
-    private $DIR_MANAGER_TMP;
-
     /**
      * Префикс данных изображения
      */
+
     const DATA_IMG_PREFIX = 'data:image/png;base64,';
 
     /**
@@ -41,7 +39,6 @@ class CropUploaderLight {
      */
     public function uploadImpl($dataUrl, $text) {
         if ($this->LOGGER->isEnabled()) {
-            $this->LOGGER->info('Dir: ' . $this->DIR_MANAGER_TMP->absDirPath());
             $this->LOGGER->info('Crop len: ' . strlen($dataUrl));
         }
 
@@ -58,6 +55,12 @@ class CropUploaderLight {
         //Создаём изображение из строки
         $imBig = imagecreatefromstring($dataUrl);
         $imSmall = null;
+
+        //Создаём временную директорию
+        $DM_TEMP = DirManagerCrop::cropTempDir();
+        //Признак удаления временной директории на ошибку
+        $DM_TEMP_CLEAR = true;
+        $this->LOGGER->info('Temp dir: ' . $DM_TEMP->relDirPath());
         try {
 
             //Получим параметры изображения
@@ -76,36 +79,45 @@ class CropUploaderLight {
             check_condition($imSmall, 'Cannot image create true color');
             $success = imagecopyresampled($imSmall, $imBig, 0, 0, 0, 0, self::CROP_SIZE_SMALL, self::CROP_SIZE_SMALL, $w, $h);
             check_condition($success, 'Cannot create thumbnail');
-            $success = imagepng($imSmall, $absPathSmall = $this->DIR_MANAGER_TMP->absFilePath(null, self::TMP_FILE_SMALL, PsConst::EXT_PNG));
+            $success = imagepng($imSmall, $absPathSmall = $DM_TEMP->absFilePath(null, self::TMP_FILE_SMALL, PsConst::EXT_PNG));
             check_condition($success, 'Cannot save thumbnail');
             @imagedestroy($imSmall);
             $imSmall = null;
 
             //Сохраним полученное с клиента изображение
-            $success = imagepng($imBig, $absPathBig = $this->DIR_MANAGER_TMP->absFilePath(null, self::TMP_FILE_BIG, PsConst::EXT_PNG));
+            $success = imagepng($imBig, $absPathBig = $DM_TEMP->absFilePath(null, self::TMP_FILE_BIG, PsConst::EXT_PNG));
             check_condition($success, 'Cannot save cropped image');
             @imagedestroy($imBig);
             $imBig = null;
 
             //Бронируем ячейку
-            $cellId = CropCellsManager::inst()->bindCell($this->DIR_MANAGER_TMP->getDirName(), $text);
+            $cellId = CropCellsManager::inst()->bindCell($DM_TEMP->getDirName(), $text);
+            //Временную директорию до подтверждения ячейки удалять
+            $DM_TEMP_CLEAR = false;
 
             //Копируем файлы в директорию
-            $DEST_DM = DirManagerCrop::cropAuto($cellId);
+            $DM_DEST = DirManagerCrop::cropAuto($cellId);
+            $this->LOGGER->info('Dest dir: ' . $DM_DEST->relDirPath());
 
             //Копируем файлы в конечную директорию
-            /*
-             * TODO - проверить, что удалось скопировать
-             * TODO - обновить признак удачной привязки
-             */
-            copy($absPathBig, $DEST_DM->absFilePath(null, self::TMP_FILE_BIG, PsConst::EXT_PNG));
-            copy($absPathSmall, $DEST_DM->absFilePath(null, self::TMP_FILE_SMALL, PsConst::EXT_PNG));
+            $success = copy($absPathBig, $DM_DEST->absFilePath(null, self::TMP_FILE_BIG, PsConst::EXT_PNG));
+            if (!$success) {
+                $DM_DEST->removeDir();
+                return PsUtil::raise('Cannot copy crop image');
+            }
+            $success = copy($absPathSmall, $DM_DEST->absFilePath(null, self::TMP_FILE_SMALL, PsConst::EXT_PNG));
+            if (!$success) {
+                $DM_DEST->removeDir();
+                return PsUtil::raise('Cannot copy thumbnail');
+            }
 
             //Подтверждаем ячейку
-            CropCellsManager::inst()->subitCell($cellId);
+            CropCellsManager::inst()->submitCell($cellId);
+            //Временная директория теперь не нужна
+            $DM_TEMP_CLEAR = true;
 
             //Чистим временную директорию
-            $this->DIR_MANAGER_TMP->clearDir(null, true);
+            $DM_TEMP->removeDir();
         } catch (Exception $ex) {
             /*
              * Обязательно уничтожаем изображение!
@@ -119,9 +131,12 @@ class CropUploaderLight {
                 $imBig = null;
             }
             /*
-             * Удаляем временную директорию
+             * Чистим временную директорию, если необходимо
              */
-            $this->DIR_MANAGER_TMP->clearDir(null, true);
+            if ($DM_TEMP_CLEAR) {
+                $DM_TEMP_CLEAR = false;
+                $DM_TEMP->removeDir();
+            }
             /*
              * Логируем ошибку
              */
@@ -146,7 +161,6 @@ class CropUploaderLight {
      */
     private function __construct() {
         $this->LOGGER = PsLogger::inst(__CLASS__);
-        $this->DIR_MANAGER_TMP = DirManagerCrop::cropTempDir();
     }
 
 }
