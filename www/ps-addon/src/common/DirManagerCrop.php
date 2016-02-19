@@ -38,4 +38,5 @@ class DirManagerCrop {
         return DirManager::inst(self::DIR_CROPS . '/temp', PsUtil::fileUniqueTime());
     }
 
+    
 }

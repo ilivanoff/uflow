@@ -153,8 +153,8 @@ class CropUploaderLight {
         }
 
         //В данном месте мы должны уже освободить ресурсы
-        PsCheck::_null($imBig);
         PsCheck::_null($imSmall);
+        PsCheck::_null($imBig);
     }
 
     /**
