@@ -449,7 +449,7 @@ CREATE TABLE crop_cell
   COMMENT 'Сообщение',
   v_temp Varchar(30)
   COMMENT 'Директория, в которой схарятся временные файлы',
-  b_confirmed Bool NOT NULL DEFAULT 0
+  b_ok Bool NOT NULL DEFAULT 0
   COMMENT 'Признак подтверждённости ячейки. Вместе с этим обнуляется v_temp',
  PRIMARY KEY (id_cell)
 )
