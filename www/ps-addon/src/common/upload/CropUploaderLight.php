@@ -43,7 +43,7 @@ class CropUploaderLight {
         }
 
         if (!starts_with($dataUrl, self::DATA_IMG_PREFIX)) {
-            die('Invalid image dataUrl given');
+            return PsUtil::raise('Invalid image dataUrl given');
         }
 
         //Выкинем префикс
@@ -140,13 +140,21 @@ class CropUploaderLight {
             /*
              * Логируем ошибку
              */
-            $this->LOGGER->info('Crop processing error: {}', $ex->getMessage());
+            $errMsg = 'Crop processing error: ' . $ex->getMessage();
+            $this->LOGGER->info($errMsg);
+            /*
+             * Снимаем дамп
+             */
             ExceptionHandler::dumpError($ex);
-            die('Crop processing error: ' . $ex->getMessage());
+            /*
+             * Пробрасываем
+             */
+            return PsUtil::raise($errMsg);
         }
 
         //В данном месте мы должны уже освободить ресурсы
         PsCheck::_null($imBig);
+        PsCheck::_null($imSmall);
     }
 
     /**
