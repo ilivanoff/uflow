@@ -12,6 +12,20 @@ class DirManagerCrop {
     const DIR_CROP_TEST = 'testcrops';
 
     /**
+     * Директория, в которой хранятся изображения
+     */
+    public static function cropsDir() {
+        return DirManager::inst(self::DIR_CROP);
+    }
+
+    /**
+     * Директория, в которой хранятся временные файлы загружаемых изображений
+     */
+    public static function tempsDir() {
+        return DirManager::inst(self::DIR_CROP);
+    }
+
+    /**
      * Директория хранения картинок
      * 
      * @param int $cellId - код картинки
@@ -36,7 +50,7 @@ class DirManagerCrop {
      * 
      * @return DirManager
      */
-    public static function cropTemp() {
+    public static function cropTempAuto() {
         return DirManager::inst(null, self::DIR_TEMP . DIR_SEPARATOR . PsUtil::fileUniqueTime());
     }
 

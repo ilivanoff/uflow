@@ -57,7 +57,7 @@ class CropUploaderLight {
         $imSmall = null;
 
         //Создаём временную директорию
-        $DM_TEMP = DirManagerCrop::cropTemp();
+        $DM_TEMP = DirManagerCrop::cropTempAuto();
         //Признак удаления временной директории на ошибку
         $DM_TEMP_CLEAR = true;
         $this->LOGGER->info('Temp dir: ' . $DM_TEMP->relDirPath());

@@ -48,6 +48,16 @@ class CropTests {
         }
     }
 
+    /**
+     * Метод удаляет всё - все ячейки, всю историю
+     */
+    public static function clean() {
+        DirManagerCrop::cropsDir()->removeDir();
+        DirManagerCrop::tempsDir()->removeDir();
+        PSDB::update('delete from crop_cell');
+        PSDB::update('ALTER TABLE crop_cell AUTO_INCREMENT = 1');
+    }
+
 }
 
 ?>
