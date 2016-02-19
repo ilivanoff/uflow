@@ -7,7 +7,9 @@
  */
 class DirManagerCrop {
 
-    const DIR_CROPS = 'crops';
+    const DIR_CROP = 'c';
+    const DIR_TEMP = 'd';
+    const DIR_CROP_TEST = 'testcrops';
 
     /**
      * Директория хранения картинок
@@ -16,7 +18,7 @@ class DirManagerCrop {
      * @return DirManager
      */
     public static function cropAuto($cellId) {
-        return DirManager::inst(self::DIR_CROPS, PsCheck::positiveInt($cellId));
+        return DirManager::inst(null, self::DIR_CROP . DIR_SEPARATOR . PsCheck::positiveInt($cellId));
     }
 
     /**
@@ -26,7 +28,7 @@ class DirManagerCrop {
      * @return bool
      */
     public static function cropExists($cellId) {
-        return is_dir(PATH_BASE_DIR . self::DIR_CROPS . DIR_SEPARATOR . PsCheck::positiveInt($cellId));
+        return is_dir(PATH_BASE_DIR . self::DIR_CROP . DIR_SEPARATOR . PsCheck::positiveInt($cellId));
     }
 
     /**
@@ -34,9 +36,8 @@ class DirManagerCrop {
      * 
      * @return DirManager
      */
-    public static function cropTempDir() {
-        return DirManager::inst(self::DIR_CROPS . '/temp', PsUtil::fileUniqueTime());
+    public static function cropTemp() {
+        return DirManager::inst(null, self::DIR_TEMP . DIR_SEPARATOR . PsUtil::fileUniqueTime());
     }
 
-    
 }

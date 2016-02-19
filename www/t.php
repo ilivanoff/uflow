@@ -6,19 +6,18 @@ require_once 'ps-includes/MainImport.php';
 
 ExceptionHandler::registerPretty();
 
+echo PsHtml::img(array('src' => CropTests::randomCropImgDi()));
+echo PsHtml::img(array('src' => CropTests::randomCropImgBase64()));
+
+echo CropTests::makeCropCells(5);
+
+die;
 
 
 $idCell = CropBean::inst()->makeCell('xxx', 'my text');
 echo CropBean::inst()->submitCell($idCell);
 
 //echo basename(DirManagerCrop::cropTempDir()->relDirPath());
-
-die;
-
-echo DirManagerCrop::cropAuto(3)->absDirPath();
-echo DirManagerCrop::cropExists(3);
-
-//CropBean::inst()->saveCell();
 
 die;
 

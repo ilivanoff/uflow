@@ -57,7 +57,7 @@ class CropUploaderLight {
         $imSmall = null;
 
         //Создаём временную директорию
-        $DM_TEMP = DirManagerCrop::cropTempDir();
+        $DM_TEMP = DirManagerCrop::cropTemp();
         //Признак удаления временной директории на ошибку
         $DM_TEMP_CLEAR = true;
         $this->LOGGER->info('Temp dir: ' . $DM_TEMP->relDirPath());
@@ -113,11 +113,19 @@ class CropUploaderLight {
 
             //Подтверждаем ячейку
             CropCellsManager::inst()->submitCell($cellId);
+
             //Временная директория теперь не нужна
             $DM_TEMP_CLEAR = true;
 
             //Чистим временную директорию
             $DM_TEMP->removeDir();
+
+            //В данном месте мы должны уже освободить ресурсы
+            PsCheck::_null($imSmall);
+            PsCheck::_null($imBig);
+
+            //Возвращаем код ячейки
+            return $cellId; //---
         } catch (Exception $ex) {
             /*
              * Обязательно уничтожаем изображение!
@@ -151,10 +159,6 @@ class CropUploaderLight {
              */
             return PsUtil::raise($errMsg);
         }
-
-        //В данном месте мы должны уже освободить ресурсы
-        PsCheck::_null($imSmall);
-        PsCheck::_null($imBig);
     }
 
     /**
