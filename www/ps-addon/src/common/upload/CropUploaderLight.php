@@ -64,6 +64,7 @@ class CropUploaderLight {
             //Сохраним уменьшенное изображение
             $imSmall = imagecreatetruecolor(CropConst::CROP_SIZE_SMALL, CropConst::CROP_SIZE_SMALL);
             check_condition($imSmall, 'Cannot image create true color');
+            imagefill($imSmall, 0, 0, imagecolorallocate($imSmall, 255, 255, 255));
             $success = imagecopyresampled($imSmall, $imBig, 0, 0, 0, 0, CropConst::CROP_SIZE_SMALL, CropConst::CROP_SIZE_SMALL, $w, $h);
             check_condition($success, 'Cannot create thumbnail');
             $success = imagepng($imSmall, $absPathSmall = $DM_TEMP->absFilePath(null, CropConst::TMP_FILE_SMALL, CropConst::CROP_EXT));

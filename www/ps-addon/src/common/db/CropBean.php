@@ -14,6 +14,8 @@ class CropBean extends BaseBean {
      * @param string $text - текст ячейки
      */
     public function makeCell($temp, $text) {
+        $cellId = null;
+
         PsLock::lockMethod(__CLASS__, __FUNCTION__);
         try {
             $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, b_ok, v_temp, v_text) VALUES (unix_timestamp(), 0, ?, ?)', array($temp, $text)));
@@ -24,12 +26,13 @@ class CropBean extends BaseBean {
             $y = 1 + round(($cellNum - $x) / CropConst::CROPS_GROUP_CELLS);
 
             $this->update('update crop_cell set x=?, y=?, n=? where id_cell=?', array($x, $y, 1 + $cellNum, $cellId));
-
-            return $cellId; //---
         } catch (Exception $e) {
             PsLock::unlock();
             throw $e; //---
         }
+
+        PsLock::unlock();
+        return $cellId; //---
     }
 
     /**
@@ -40,6 +43,15 @@ class CropBean extends BaseBean {
      */
     public function submitCell($cellId) {
         return $this->update('UPDATE crop_cell set v_temp=null, b_ok=1 where b_ok=0 and id_cell=?', PsCheck::positiveInt($cellId));
+    }
+
+    /**
+     * Метод загружает ячейки группы от левого края к правому
+     * 
+     * @param int $n - номер группы
+     */
+    public function getGroupCells($n) {
+        return $this->getValues('select id_cell as value from crop_cell where y=? order by x desc', PsCheck::positiveInt($n));
     }
 
     /**
