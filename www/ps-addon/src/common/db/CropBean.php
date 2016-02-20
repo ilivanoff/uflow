@@ -12,27 +12,28 @@ class CropBean extends BaseBean {
      * 
      * @param string $temp - временное хранилище
      * @param string $text - текст ячейки
+     * @return CropCell Ячейка
      */
     public function makeCell($temp, $text) {
-        $cellId = null;
-
         PsLock::lockMethod(__CLASS__, __FUNCTION__);
         try {
             $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, b_ok, v_temp, v_text) VALUES (unix_timestamp(), 0, ?, ?)', array($temp, $text)));
 
             $cellNum = PsCheck::notNegativeInt($this->getCnt('select count(1) as cnt from crop_cell') - 1);
 
-            $x = 1 + $cellNum % CropConst::CROPS_GROUP_CELLS;
-            $y = 1 + round(($cellNum - $x) / CropConst::CROPS_GROUP_CELLS);
+            $x = PsCheck::int(1 + $cellNum % CropConst::CROPS_GROUP_CELLS);
+            $y = PsCheck::int(1 + round(($cellNum - $x) / CropConst::CROPS_GROUP_CELLS));
+            $n = PsCheck::int(1 + $cellNum);
 
-            $this->update('update crop_cell set x=?, y=?, n=? where id_cell=?', array($x, $y, 1 + $cellNum, $cellId));
+            $this->update('update crop_cell set x=?, y=?, n=? where id_cell=?', array($x, $y, $n, $cellId));
+
+            PsLock::unlock();
+
+            return new CropCell($cellId, $x, $y, $n); //---
         } catch (Exception $e) {
             PsLock::unlock();
             throw $e; //---
         }
-
-        PsLock::unlock();
-        return $cellId; //---
     }
 
     /**

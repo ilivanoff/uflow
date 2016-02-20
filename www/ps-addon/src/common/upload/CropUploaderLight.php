@@ -13,6 +13,7 @@ class CropUploaderLight {
     /**
      * Префикс данных изображения
      */
+
     const DATA_IMG_PREFIX = 'data:image/png;base64,';
 
     /**
@@ -43,11 +44,9 @@ class CropUploaderLight {
         $imBig = imagecreatefromstring($dataUrl);
         $imSmall = null;
 
-        //Создаём временную директорию
-        $DM_TEMP = DirManagerCrop::cropTempAuto();
         //Признак удаления временной директории на ошибку
+        $DM_TEMP = null;
         $DM_TEMP_CLEAR = true;
-        $this->LOGGER->info('Temp dir: ' . $DM_TEMP->relDirPath());
         try {
 
             //Получим параметры изображения
@@ -67,6 +66,14 @@ class CropUploaderLight {
             imagefill($imSmall, 0, 0, imagecolorallocate($imSmall, 255, 255, 255));
             $success = imagecopyresampled($imSmall, $imBig, 0, 0, 0, 0, CropConst::CROP_SIZE_SMALL, CropConst::CROP_SIZE_SMALL, $w, $h);
             check_condition($success, 'Cannot create thumbnail');
+
+            // TODO - подумать насчёт unlimited mode
+            //Создаём временную директорию. В случае ошибки она будет удалена
+            $DM_TEMP = DirManagerCrop::cropTempAuto();
+            $this->LOGGER->info('Temp dir: ' . $DM_TEMP->relDirPath());
+
+            //Начинаем создание ячеек
+
             $success = imagepng($imSmall, $absPathSmall = $DM_TEMP->absFilePath(null, CropConst::TMP_FILE_SMALL, CropConst::CROP_EXT));
             check_condition($success, 'Cannot save thumbnail');
             @imagedestroy($imSmall);
@@ -78,13 +85,14 @@ class CropUploaderLight {
             @imagedestroy($imBig);
             $imBig = null;
 
-            //Бронируем ячейку
-            $cellId = CropCellsManager::inst()->bindCell($DM_TEMP->getDirName(), $text);
-            //Временную директорию до подтверждения ячейки удалять
+            //Временную директорию до подтверждения ячейки не удалять
             $DM_TEMP_CLEAR = false;
 
+            //Бронируем ячейку
+            $cell = CropCellsManager::inst()->bindCell($DM_TEMP->getDirName(), $text);
+
             //Копируем файлы в директорию
-            $DM_DEST = DirManagerCrop::cropAuto($cellId);
+            $DM_DEST = DirManagerCrop::cropAuto($cell->getCellId());
             $this->LOGGER->info('Dest dir: ' . $DM_DEST->relDirPath());
 
             //Копируем файлы в конечную директорию
@@ -100,20 +108,24 @@ class CropUploaderLight {
             }
 
             //Подтверждаем ячейку
-            CropCellsManager::inst()->submitCell($cellId);
+            CropCellsManager::inst()->submitCell($cell->getCellId());
 
             //Временная директория теперь не нужна
-            $DM_TEMP_CLEAR = true;
-
-            //Чистим временную директорию
             $DM_TEMP->removeDir();
+            $DM_TEMP = null;
 
-            //В данном месте мы должны уже освободить ресурсы
-            PsCheck::_null($imSmall);
-            PsCheck::_null($imBig);
+            //Если у нас крайняя ячейка - перестроим группу
+            if (CropConst::CROPS_GROUP_CELLS == $cell->getX()) {
+                $this->LOGGER->info('We should rebuild group №{}', $cell->getY());
+                try {
+                    CropGroupsGenerator::makeGroup($cell->getY());
+                } catch (Exception $e) {
+                    $this->LOGGER->info('Group №{} rebuilding error: {}', $cell->getY(), $e->getTraceAsString());
+                }
+            }
 
-            //Возвращаем код ячейки
-            return $cellId; //---
+            //Возвращаем ячейку
+            return $cell; //---
         } catch (Exception $ex) {
             /*
              * Обязательно уничтожаем изображение!
@@ -129,7 +141,7 @@ class CropUploaderLight {
             /*
              * Чистим временную директорию, если необходимо
              */
-            if ($DM_TEMP_CLEAR) {
+            if ($DM_TEMP_CLEAR && $DM_TEMP) {
                 $DM_TEMP_CLEAR = false;
                 $DM_TEMP->removeDir();
             }
@@ -150,6 +162,7 @@ class CropUploaderLight {
 
     /**
      * Метод вызывается для загрузки изображения
+     * @return CropCell Ячейка
      */
     public static function upload($crop, $text) {
         return (new CropUploaderLight())->uploadImpl(PsCheck::notEmptyString($crop), PsCheck::notEmptyString($text));

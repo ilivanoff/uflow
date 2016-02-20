@@ -12,7 +12,7 @@ class CropCellsManager extends AbstractSingleton {
      * 
      * @param string $tempStorage - название директории временного хранилища, чтобы восстановить привязку в случае ошибки
      * @param string $text - текст ячейки
-     * @return type
+     * @return CropCell
      */
     public function bindCell($tempStorage, $text) {
         return CropBean::inst()->makeCell($tempStorage, $text);
