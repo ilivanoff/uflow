@@ -16,8 +16,15 @@ class CropGroupsGenerator {
         $maxY = CropCellsManager::inst()->getMaxY();
         if (PsCheck::isInt($maxY)) {
             for ($y = $maxY; $y >= 1; --$y) {
-                if ($forceRebuild || !DirManagerCrop::groupExists($y)) {
-                    self::makeGroup($y);
+                $groupDi = DirManagerCrop::groupFile($y);
+                $exists = $groupDi->isFile();
+                $made = false;
+                if ($forceRebuild || !$exists) {
+                    $made = self::makeGroup($y);
+                }
+                //Если у нас перестроение и мы не создали группу - удалим файл, вдруг он существовал
+                if ($forceRebuild && !$made) {
+                    $groupDi->remove();
                 }
             }
         }
@@ -36,19 +43,15 @@ class CropGroupsGenerator {
 
     /**
      * Коды ячеек, по которым будет построена группа.
-     * Не должно превышать кол-во CropConst::CROPS_GROUP_CELLS.
+     * Группа будет построена только в том случае, когда кол-во ячеек равно CropConst::CROPS_GROUP_CELLS.
      * 
      * @param array $cells - коды ячеек
      */
     private static function makeGroupImpl($groupNum, array $cells) {
         $cellsCnt = count($cells);
-        if ($cellsCnt == 0) {
-            return null; //---
+        if ($cellsCnt != CropConst::CROPS_GROUP_CELLS) {
+            return false; //---
         }
-        if ($cellsCnt > CropConst::CROPS_GROUP_CELLS) {
-            return PsUtil::raise('Invalid cells count for group. Given: {}. Maximum: {}.', $cellsCnt, CropConst::CROPS_GROUP_CELLS);
-        }
-
         //Сохраним уменьшенное изображение
         $group_image = imagecreatetruecolor(round($cellsCnt * CropConst::CROP_SIZE_SMALL), CropConst::CROP_SIZE_SMALL);
         check_condition($group_image, 'Cannot image create true color for group');
@@ -59,8 +62,12 @@ class CropGroupsGenerator {
         foreach ($cells as $cellId) {
             $cellImgAbs = DirManagerCrop::cropsDir()->absFilePath($cellId, CropConst::TMP_FILE_SMALL, CropConst::CROP_EXT);
             if (!PsImg::isImg($cellImgAbs)) {
-                @imagedestroy($group_image);
-                return PsUtil::raise('Cannot build group. Cannot find image for cell {}.', $cellId);
+                /*
+                  @imagedestroy($group_image);
+                  return PsUtil::raise('Cannot build group. Cannot find image for cell {}.', $cellId);
+                 */
+                //Просто пропускаем в мозайке
+                continue; //----
             }
             $imSmall = imagecreatefrompng($cellImgAbs);
             //Проверим размеры загруженной картинки
@@ -89,6 +96,8 @@ class CropGroupsGenerator {
         //Уничтожаем картинку
         @imagedestroy($group_image);
         $group_image = null;
+
+        return true; //---
     }
 
 }

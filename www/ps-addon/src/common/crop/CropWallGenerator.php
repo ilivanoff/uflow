@@ -16,18 +16,30 @@ class CropWallGenerator {
      */
     public static function build($lastGr = null) {
         $lastY = null;
+        $groupY = null;
         foreach (CropCellsManager::inst()->loadCells4Show($lastGr, 100) as $cell) {
             $idCell = $cell['id_cell'];
             $x = $cell['x'];
             $y = $cell['y'];
             if ($lastY != $y) {
+                $groupY = null;
                 if ($lastY) {
                     echo '</div>';
                 }
                 echo "<div data-gr='$y'>";
                 $lastY = $y;
             }
-            echo PsHtml::img(array('src' => '/' . DirManagerCrop::DIR_CROP . '/' . $idCell . '/' . CropConst::TMP_FILE_SMALL . '.' . CropConst::CROP_EXT));
+            if ($groupY == $y) {
+                //Подключена группа
+                continue; //---
+            }
+            $groupDi = DirManagerCrop::groupFile($y);
+            if ($groupDi->isFile()) {
+                $groupY = $y;
+                echo PsHtml::img(array('src' => $groupDi));
+            } else {
+                echo PsHtml::img(array('src' => '/' . DirManagerCrop::DIR_CROP . '/' . $idCell . '/' . CropConst::TMP_FILE_SMALL . '.' . CropConst::CROP_EXT));
+            }
         }
         if ($lastY) {
             echo '</div>';
