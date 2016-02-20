@@ -32,7 +32,12 @@ class CropCellsManager extends AbstractSingleton {
      * Метод загружает ячейки групп для показа
      */
     public function loadCells4Show($lastGr = null, $portion = CropConst::GROUPS_LOAD_PORTION) {
-        $lastGr = PsCheck::isInt($lastGr) ? 1 * $lastGr : 1 + CropBean::inst()->getMaxY();
+        if (PsCheck::isInt($lastGr)) {
+            $lastGr = 1 * $lastGr;
+        } else {
+            $maxY = CropBean::inst()->getMaxY();
+            $lastGr = PsCheck::isInt($maxY) ? 1 + $maxY : null;
+        }
         return is_null($lastGr) ? array() : CropBean::inst()->loadCells4Show($lastGr, $portion);
     }
 
