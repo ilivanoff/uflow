@@ -7,9 +7,31 @@
  */
 class CropGroupsGenerator {
 
-    public static function makeGroup($groupNum) {
+    /**
+     * Метод создаёт все группы.
+     * 
+     * @param bool $forceRebuild - признак ознает, что группа будет перестроена, даже если существует
+     */
+    public static function makeGroups($forceRebuild = false) {
+        $maxY = CropCellsManager::inst()->getMaxY();
+        if (PsCheck::isInt($maxY)) {
+            for ($y = $maxY; $y >= 1; --$y) {
+                if ($forceRebuild || !DirManagerCrop::groupExists($y)) {
+                    self::makeGroup($y);
+                }
+            }
+        }
+    }
+
+    /**
+     * Метод создаёт группу
+     * 
+     * @param int $y - номер группы
+     * @return type
+     */
+    public static function makeGroup($y) {
         //Создаём картинку
-        return self::makeGroupImpl($groupNum, CropBean::inst()->getGroupCells($groupNum));
+        return self::makeGroupImpl($y, CropBean::inst()->getGroupCells($y));
     }
 
     /**

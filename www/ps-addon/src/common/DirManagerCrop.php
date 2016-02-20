@@ -34,6 +34,13 @@ class DirManagerCrop {
     }
 
     /**
+     * Директория, в которой хранятся сгруппированные изображения
+     */
+    public static function groupFile($y) {
+        return self::groupsDir()->getDirItem(null, PsCheck::int($y), CropConst::CROP_EXT);
+    }
+
+    /**
      * Директория хранения картинок
      * 
      * @param int $cellId - код картинки
@@ -51,6 +58,16 @@ class DirManagerCrop {
      */
     public static function cropExists($cellId) {
         return is_dir(PATH_BASE_DIR . self::DIR_CROP . DIR_SEPARATOR . PsCheck::positiveInt($cellId));
+    }
+
+    /**
+     * Метод проверяет существование группы
+     * 
+     * @param int $y - код группы
+     * @return bool
+     */
+    public static function groupExists($y) {
+        return self::groupFile($y)->isImg();
     }
 
     /**

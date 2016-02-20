@@ -6,10 +6,8 @@ require_once 'ps-includes/MainImport.php';
 
 ExceptionHandler::registerPretty();
 
-PsUtil::startUnlimitedMode();
-
 //CropTests::clean();
-CropTests::makeCropCells(1000);
+CropTests::makeCropCells(1);
 //CropGroupsGenerator::makeGroup(1);
 //echo PsHtml::img(array('src' => DirItem::inst('g', 1, CropConst::CROP_EXT)));
 
