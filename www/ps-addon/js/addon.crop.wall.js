@@ -92,7 +92,7 @@ $(function () {
 
         var onShow = function (e, $item) {
             onHide();
-            var id = $item.data('id');
+            var cell = $item.data('c');
 
             /*
              if (!defs.cellowners.hasOwnProperty(id)) {
@@ -115,7 +115,7 @@ $(function () {
 
             $div = $('<div>').addClass('mosaic-popup');
             //$div.append($('<img>').attr('src', $item.attr('src')));
-            $div.append($('<img>').attr('src', '/c/1/big.png'));
+            $div.append($('<img>').attr('src', '/c/' + cell + '/big.png'));
             $div.append($('<div>').addClass('content').text($item.attr('src')));
             /*
              if (ob.msg) {
@@ -131,7 +131,7 @@ $(function () {
         }
 
         PsJquery.on({
-            parent: '.wall-maps map',
+            parent: 'map',
             item: 'area',
             mouseenter: onShow,
             mousemove: onUpdate,
