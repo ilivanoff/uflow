@@ -1,6 +1,6 @@
 ﻿/*
 Created: 14.08.2010
-Modified: 19.02.2016
+Modified: 20.02.2016
 Model: MySQL 5.1
 Database: MySQL 5.1
 */
@@ -14,6 +14,12 @@ CREATE TABLE crop_cell
   id_cell Int UNSIGNED NOT NULL AUTO_INCREMENT
   COMMENT 'Код ячейки',
   id_user Int UNSIGNED,
+  y Int UNSIGNED
+  COMMENT 'Номер группы, в которую входит ячейка. Нумерация - снизу вверх, начиная с 1.',
+  x Int UNSIGNED
+  COMMENT 'Номер ячейки в группе. Нумерация - справа налево, начиная с 1.',
+  n Int UNSIGNED
+  COMMENT 'Номер ячейки, считая справа снизу',
   dt_event Int UNSIGNED NOT NULL
   COMMENT 'Дата привязки ячейки',
   v_text Text
