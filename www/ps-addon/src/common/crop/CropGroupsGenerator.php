@@ -7,13 +7,18 @@
  */
 class CropGroupsGenerator {
 
+    public static function makeGroup($groupNum) {
+        //Создаём картинку
+        return self::makeGroupImpl($groupNum, CropBean::inst()->getGroupCells($groupNum));
+    }
+
     /**
      * Коды ячеек, по которым будет построена группа.
      * Не должно превышать кол-во CropConst::CROPS_GROUP_CELLS.
      * 
      * @param array $cells - коды ячеек
      */
-    public static function makeGroup(array $cells) {
+    private static function makeGroupImpl($groupNum, array $cells) {
         $cellsCnt = count($cells);
         if ($cellsCnt == 0) {
             return null; //---
@@ -25,11 +30,9 @@ class CropGroupsGenerator {
         //Сохраним уменьшенное изображение
         $group_image = imagecreatetruecolor(round($cellsCnt * CropConst::CROP_SIZE_SMALL), CropConst::CROP_SIZE_SMALL);
         check_condition($group_image, 'Cannot image create true color for group');
-        //Сделаем фон прозрачным
-        $black = imagecolorallocate($group_image, 0, 0, 0);
-        imagecolortransparent($group_image, $black);
+        //Сделаем фон белым
+        imagefill($group_image, 0, 0, imagecolorallocate($group_image, 255, 255, 255));
         //Копируем ячейки
-        $cells = array_reverse($cells);
         $cellNum = 0;
         foreach ($cells as $cellId) {
             $cellImgAbs = DirManagerCrop::cropsDir()->absFilePath($cellId, CropConst::TMP_FILE_SMALL, CropConst::CROP_EXT);
@@ -38,16 +41,30 @@ class CropGroupsGenerator {
                 return PsUtil::raise('Cannot build group. Cannot find image for cell {}.', $cellId);
             }
             $imSmall = imagecreatefrompng($cellImgAbs);
-            //TODO - проверить размеры полученного файла, а также - что всё скопировалось
-            imagecopy($group_image, $imSmall, $cellNum * CropConst::CROP_SIZE_SMALL, 0, 0, 0, CropConst::CROP_SIZE_SMALL, CropConst::CROP_SIZE_SMALL);
+            //Проверим размеры загруженной картинки
+            check_condition($imSmall, 'Cannot image create from png for cell ' . $cellId);
+            //Получим параметры изображения
+            $w = imagesx($imSmall);
+            $h = imagesy($imSmall);
+            //Проверим размеры изображения
+            if ($w != CropConst::CROP_SIZE_SMALL || $w != $h) {
+                return PsUtil::raise('Invalid size of crop cell {}: {}x{}', $cellId, $w, $h);
+            }
+            //Копируем ячейку в группу
+            $success = imagecopy($group_image, $imSmall, $cellNum * CropConst::CROP_SIZE_SMALL, 0, 0, 0, CropConst::CROP_SIZE_SMALL, CropConst::CROP_SIZE_SMALL);
+            check_condition($success, "Cannot copy cell $cellId to group img");
+
+            //Уничтожаем картинку
             @imagedestroy($imSmall);
             //Увеличиваем счётчик
             ++$cellNum;
         }
 
         //Сохраним полученное с клиента изображение
-        $success = imagepng($group_image, DirManager::inst(null, DirManagerCrop::DIR_GROUP)->absFilePath(null, 'gr', CropConst::CROP_EXT));
+        $success = imagepng($group_image, DirManager::inst(null, DirManagerCrop::DIR_GROUP)->absFilePath(null, $groupNum, CropConst::CROP_EXT));
         check_condition($success, 'Cannot save cropped group');
+
+        //Уничтожаем картинку
         @imagedestroy($group_image);
         $group_image = null;
     }
