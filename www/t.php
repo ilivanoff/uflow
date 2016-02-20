@@ -6,10 +6,18 @@ require_once 'ps-includes/MainImport.php';
 
 ExceptionHandler::registerPretty();
 
-//CropTests::clean();
-//CropTests::makeCropCells(100);
+CropTests::clean();
+CropTests::makeCropCells(100);
 
-CropGroupsGenerator::makeGroup(range(1, 16));
+die;
+
+$cellsCnt = 17;
+$cellsCnt = $cellsCnt - 1;
+$x = 1 + $cellsCnt % CropConst::CROPS_GROUP_CELLS;
+$y = 1 + round(($cellsCnt - $x) / CropConst::CROPS_GROUP_CELLS);
+
+echo "$y x $x";
+
 
 die;
 

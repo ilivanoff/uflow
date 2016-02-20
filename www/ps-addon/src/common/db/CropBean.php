@@ -14,7 +14,22 @@ class CropBean extends BaseBean {
      * @param string $text - текст ячейки
      */
     public function makeCell($temp, $text) {
-        return PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, b_ok, v_temp, v_text) VALUES (unix_timestamp(), 0, ?, ?)', array($temp, $text)));
+        PsLock::lockMethod(__CLASS__, __FUNCTION__);
+        try {
+            $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, b_ok, v_temp, v_text) VALUES (unix_timestamp(), 0, ?, ?)', array($temp, $text)));
+
+            $cellNum = PsCheck::notNegativeInt($this->getCnt('select count(1) as cnt from crop_cell') - 1);
+
+            $x = 1 + $cellNum % CropConst::CROPS_GROUP_CELLS;
+            $y = 1 + round(($cellNum - $x) / CropConst::CROPS_GROUP_CELLS);
+
+            $this->update('update crop_cell set x=?, y=?, n=? where id_cell=?', array($x, $y, 1 + $cellNum, $cellId));
+
+            return $cellId; //---
+        } catch (Exception $e) {
+            PsLock::unlock();
+            throw $e; //---
+        }
     }
 
     /**

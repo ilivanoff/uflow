@@ -13,7 +13,6 @@ class CropUploaderLight {
     /**
      * Префикс данных изображения
      */
-
     const DATA_IMG_PREFIX = 'data:image/png;base64,';
 
     /**
@@ -136,8 +135,7 @@ class CropUploaderLight {
             /*
              * Логируем ошибку
              */
-            $errMsg = 'Crop processing error: ' . $ex->getMessage();
-            $this->LOGGER->info($errMsg);
+            $this->LOGGER->info('Crop processing error: {}', $ex->getMessage());
             /*
              * Снимаем дамп
              */
@@ -145,7 +143,7 @@ class CropUploaderLight {
             /*
              * Пробрасываем
              */
-            return PsUtil::raise($errMsg);
+            throw $ex;
         }
     }
 

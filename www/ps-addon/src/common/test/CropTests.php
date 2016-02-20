@@ -14,12 +14,21 @@ class CropTests {
     }
 
     /**
-     * Метод возвращает случайное изображение
+     * Метод возвращает случайное изображение больших размеров (как загружаемая картинка)
      * @return DirItem картинка стандартных загружаемых размеров
      */
-    public static function randomCropImgDi() {
+    public static function randomCropBigImgDi() {
         $img = self::images()[array_rand(self::images())];
         return PsImgEditor::resize($img, CropConst::CROP_SIZE_BIG . 'x' . CropConst::CROP_SIZE_BIG);
+    }
+
+    /**
+     * Метод возвращает случайное изображение маленьких размеров
+     * @return DirItem картинка стандартных загружаемых размеров
+     */
+    public static function randomCropSmallImgDi() {
+        $img = self::images()[array_rand(self::images())];
+        return PsImgEditor::resize($img, CropConst::CROP_SIZE_SMALL . 'x' . CropConst::CROP_SIZE_SMALL);
     }
 
     /**
@@ -27,7 +36,7 @@ class CropTests {
      * @return string картинка стандартных загружаемых размеров
      */
     public static function randomCropImgBase64() {
-        $imagedata = file_get_contents(self::randomCropImgDi()->getAbsPath());
+        $imagedata = file_get_contents(self::randomCropBigImgDi()->getAbsPath());
         $base64 = base64_encode($imagedata);
         return CropUploaderLight::DATA_IMG_PREFIX . $base64;
     }
