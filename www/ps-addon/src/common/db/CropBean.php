@@ -66,7 +66,7 @@ class CropBean extends BaseBean {
      * Метод загружает ячейки групп для показа
      */
     public function loadCells4Show($lastGr, $portion) {
-        return $this->getArray('select id_cell, x, y from crop_cell where y<? and y>=? order by n desc', array($lastGr, $lastGr - $portion));
+        return $this->getArrayIndexedMulti('select id_cell, x, y from crop_cell where y<? and y>=? order by n desc', array($lastGr, $lastGr - $portion), 'y');
     }
 
     /** @return CropBean */

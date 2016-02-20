@@ -8,6 +8,10 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
+print_r(CropCellsManager::inst()->loadCells4Show());
+
+die;
+
 //CropTests::clean();
 CropTests::makeCropCells(10);
 CropGroupsGenerator::makeGroups();
