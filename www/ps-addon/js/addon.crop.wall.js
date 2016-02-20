@@ -130,23 +130,20 @@ $(function () {
             $div.calculatePosition(e, 3, 3);
         }
 
-        /*
-         PsJquery.on({
-         //parent: '#mosaicmap',
-         //item: 'area',
-         parent: '.wall',
-         item: 'img',
-         mouseenter: onShow,
-         mousemove: onUpdate,
-         mouseleave: onHide
-         });
-         */
+        PsJquery.on({
+            parent: '.wall-maps map',
+            item: 'area',
+            mouseenter: onShow,
+            mousemove: onUpdate,
+            mouseleave: onHide
+        });
 
-        onShow({
-            pageX: $('.wall')[0].offsetLeft,
-            pageY: 150
-        },
-                $('.wall img:first'));
+        /*
+         onShow({
+         pageX: $('.wall')[0].offsetLeft,
+         pageY: 150
+         }, $('.wall img:first'));
+         */
     }
     // # 1.
 

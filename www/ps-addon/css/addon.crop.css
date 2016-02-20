@@ -199,6 +199,10 @@ input#choose-file {
     text-align: right;
 }
 
+.wall-maps {
+    display: none;
+}
+
 div.mosaic-popup {
     position: absolute;
     max-width: 600px;

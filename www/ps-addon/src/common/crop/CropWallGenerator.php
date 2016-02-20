@@ -36,7 +36,7 @@ class CropWallGenerator {
             $groupDi = DirManagerCrop::groupFile($y);
             if ($groupDi->isFile()) {
                 $groupY = $y;
-                echo PsHtml::img(array('src' => $groupDi));
+                echo PsHtml::img(array('usemap' => '#cgr-' . $y, 'src' => $groupDi));
             } else {
                 echo PsHtml::img(array('src' => '/' . DirManagerCrop::DIR_CROP . '/' . $idCell . '/' . CropConst::TMP_FILE_SMALL . '.' . CropConst::CROP_EXT));
             }
