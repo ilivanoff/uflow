@@ -6,17 +6,16 @@
  * @author azazello
  */
 class CropConst {
+
     /**
      * Максимальное кол-во ячеек в группе (960/60)
      */
-
     const CROPS_GROUP_CELLS = 16;
 
     /**
      * Ширина группы ячеек
      */
     const CROPS_GROUP_WIDTH = 960;
-
 
     /**
      * Размер загруженного изображения
@@ -34,6 +33,11 @@ class CropConst {
      * Расширение файлов
      */
     const CROP_EXT = PsConst::EXT_PNG;
+
+    /**
+     * Порция загружаемых групп
+     */
+    const GROUPS_LOAD_PORTION = 16;
 
 }
 

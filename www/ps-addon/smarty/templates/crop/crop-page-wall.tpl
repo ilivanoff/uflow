@@ -11,7 +11,7 @@
     </div>
 
     <div class='wall'>
-        {CropWallGenerator::generate()}
+        {CropWallGenerator::build()}
     </div>
 
     <div style="width: 1000px; height: 740px" class="holder binds-show">
@@ -25,4 +25,4 @@
             <area data-id="1" coords="640, 555, 680, 592" shape="rect" nohref="nohref">
         </map>
     </div>
-</div></div>
+</div>

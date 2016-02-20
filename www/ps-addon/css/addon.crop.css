@@ -210,6 +210,7 @@ div.mosaic-popup {
     border: 1px solid #bbb;
     border-radius: 6px 6px 6px 6px;
     padding: 10px;
+    width: 600px;
 }
 
 .mosaic-popup img {
