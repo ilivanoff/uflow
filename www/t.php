@@ -8,8 +8,9 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
-CropTests::clean();
-CropTests::makeCropCells(5000);
+//CropTests::clean();
+CropTests::makeCropCells(10);
+CropGroupsGenerator::makeGroups();
 
 die;
 

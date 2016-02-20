@@ -17,7 +17,7 @@ class CropWallGenerator {
     public static function build($lastGr = null) {
         $lastY = null;
         $groupY = null;
-        foreach (CropCellsManager::inst()->loadCells4Show($lastGr, 100) as $cell) {
+        foreach (CropCellsManager::inst()->loadCells4Show($lastGr) as $cell) {
             $idCell = $cell['id_cell'];
             $x = $cell['x'];
             $y = $cell['y'];

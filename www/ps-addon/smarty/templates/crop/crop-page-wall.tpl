@@ -14,7 +14,7 @@
         {CropWallGenerator::build()}
     </div>
 
-    <div style="width: 1000px; height: 740px" class="holder binds-show">
+    <div class="holder binds-show">
 
         <img usemap="#mosaicmap" alt="" class="mosaic" src="/autogen/mosaic/1.jpg">
         <map id="mosaicmap">
