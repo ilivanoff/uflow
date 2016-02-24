@@ -93,12 +93,12 @@ $(function () {
         var onShow = function (e, $item) {
             onHide();
             var cell = $item.data('c');
-
-            /*
-             if (!defs.cellowners.hasOwnProperty(id)) {
-             return;//---
-             }
-             */
+            if (!PsIs.integer(cell)) {
+                var src = $item.attr('src');
+                var srcT = src ? src.split('/', 3) : null;
+                cell = PsIs.array(srcT) && srcT.length >= 3 ? srcT[2] : null;
+                consoleLog(cell);
+            }
 
             //var ob = defs.cellowners[id];
 
@@ -133,6 +133,14 @@ $(function () {
         PsJquery.on({
             parent: 'map',
             item: 'area',
+            mouseenter: onShow,
+            mousemove: onUpdate,
+            mouseleave: onHide
+        });
+
+        PsJquery.on({
+            parent: '.wall>div',
+            item: 'img:not(a>img)',
             mouseenter: onShow,
             mousemove: onUpdate,
             mouseleave: onHide

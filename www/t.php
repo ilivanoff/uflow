@@ -6,15 +6,16 @@ require_once 'ps-includes/MainImport.php';
 
 ExceptionHandler::registerPretty();
 
-PsUtil::startUnlimitedMode();
-
-print_r(CropCellsManager::inst()->loadCells4Show());
+//CropTests::clean();
+CropTests::makeCropCells(8);
+//CropGroupsGenerator::makeGroups();
 
 die;
 
-//CropTests::clean();
-CropTests::makeCropCells(10);
-CropGroupsGenerator::makeGroups();
+
+PsUtil::startUnlimitedMode();
+
+print_r(CropCellsManager::inst()->loadCells4Show());
 
 die;
 

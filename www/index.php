@@ -5,11 +5,11 @@ require_once 'ps-includes/MainImport.php';
 header('Content-Type: text/html; charset=utf-8');
 ExceptionHandler::registerPretty();
 
-$suffix = RequestArrayAdapter::inst()->str('page', 'img');
-$tplPath = "crop/crop-page-$suffix.tpl";
+$suffix = RequestArrayAdapter::inst()->str('page', 'wall');
+$tplPath = "crop/$suffix.tpl";
 if (!PSSmarty::smarty()->templateExists($tplPath)) {
-    $suffix = 'img';
-    $tplPath = "crop/crop-page-$suffix.tpl";
+    $suffix = 'wall';
+    $tplPath = "crop/$suffix.tpl";
 }
 
 $SMARTY_PARAMS['JS_DEFS'] = PageBuilder::inst()->buildJsDefs();

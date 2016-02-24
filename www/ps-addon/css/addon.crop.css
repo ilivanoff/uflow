@@ -199,8 +199,10 @@ input#choose-file {
     text-align: right;
 }
 
-.wall-maps {
-    display: none;
+.wall a:active img {
+    position: relative;
+    top: 1px;
+    left: 1px;
 }
 
 div.mosaic-popup {
