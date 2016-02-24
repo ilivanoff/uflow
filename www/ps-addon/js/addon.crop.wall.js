@@ -44,10 +44,12 @@ $(function () {
              <div class="clearall"></div>
              </div>
              */
+            var src = '/c/' + cell + '/big.png';
+            var $img = $('<img>').attr('src', CONST.IMG_LOADING_PROGRESS);
 
             $div = $('<div>').addClass('mosaic-popup');
             //$div.append($('<img>').attr('src', $item.attr('src')));
-            $div.append($('<img>').attr('src', '/c/' + cell + '/big.png'));
+            $div.append($img).data('cell', cell);
             $div.append($('<div>').addClass('content').text($item.attr('src')));
             /*
              if (ob.msg) {
@@ -56,7 +58,12 @@ $(function () {
              */
             $div.append($('<div>').addClass('clearall'));
             $div.appendTo('body');//.width($div.width());
+
             onUpdate(e);
+
+            PsResources.getImgSize(src, function () {
+                $img.attr('src', src).addClass('big');
+            });
         }
         var onUpdate = function (e) {
             if ($div) {

@@ -13,7 +13,6 @@ class CropUploaderLight {
     /**
      * Префикс данных изображения
      */
-
     const DATA_IMG_PREFIX = 'data:image/png;base64,';
 
     /**
@@ -79,6 +78,9 @@ class CropUploaderLight {
             @imagedestroy($imSmall);
             $imSmall = null;
 
+            //Сохраним прозрачность
+            $success = imagesavealpha($imBig, true);
+            check_condition($success, 'Cannot image save alpha');
             //Сохраним полученное с клиента изображение
             $success = imagepng($imBig, $absPathBig = $DM_TEMP->absFilePath(null, CropConst::TMP_FILE_BIG, CropConst::CROP_EXT));
             check_condition($success, 'Cannot save cropped image');

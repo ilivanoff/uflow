@@ -228,6 +228,11 @@ div.mosaic-popup {
     float: left;
     padding: 0px;
     margin: 0px;
+    margin: 112px 56px 112px 56px;
+}
+
+.mosaic-popup img.big {
+    margin: 0px;
     width: 240px;
     height: 240px;
 }
