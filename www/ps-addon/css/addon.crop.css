@@ -199,10 +199,15 @@ input#choose-file {
     text-align: right;
 }
 
+.wall a img {
+    opacity: 0.2;
+}
+
 .wall a:active img {
     position: relative;
     top: 1px;
     left: 1px;
+    opacity: 0.5;
 }
 
 div.mosaic-popup {
@@ -230,4 +235,13 @@ div.mosaic-popup {
     margin: 0px;
     margin-left: 250px;
     text-align: left;
+}
+
+.preload {
+    /*background-color: #fff;*/
+    /*background-color: #368AD2;*/
+    background-color: white;
+    padding: 10px;
+    /*border-bottom: 4px solid #ccc;*/
+    /*height: 31px;*/
 }

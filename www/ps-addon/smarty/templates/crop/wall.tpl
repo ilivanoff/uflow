@@ -2,7 +2,7 @@
     <h1 class='head'><a href='/'>Публикатор мыслей</a></h1>
 
     <div class='navigation'>
-        <a href="index.php" class='active'>
+        <a href="/" class='active'>
             Стена
         </a>
         <a href="index.php?page=img">
@@ -12,6 +12,10 @@
 
     <div class='wall'>
         {CropWallGenerator::build()}
+    </div>
+
+    <div class='preload'>
+        <button>Загрузить</button>
     </div>
 
     {*

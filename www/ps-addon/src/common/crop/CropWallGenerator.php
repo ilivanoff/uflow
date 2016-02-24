@@ -20,9 +20,10 @@ class CropWallGenerator {
 
     /**
      * Метод генерирует стену
+     * TODO - 
      */
     public static function build($lastGr = null) {
-        $add = false;
+        $add = true;
         foreach (CropCellsManager::inst()->loadCells4Show($lastGr) as $y => $cells) {
             $groupDi = DirManagerCrop::groupFile($y);
             $groupIsFile = $groupDi->isFile();
@@ -63,6 +64,15 @@ class CropWallGenerator {
             $add = true;
             echo '<div>' . self::addButton() . '</div>';
         }
+    }
+
+    /**
+     * Метод загружает группы в строку
+     * 
+     * @param int $lastGr - последняя загруженная группа
+     */
+    public static function buildToString($lastGr = null) {
+        return ContentHelper::getContent(__CLASS__ . '::build', null, array($lastGr));
     }
 
 }

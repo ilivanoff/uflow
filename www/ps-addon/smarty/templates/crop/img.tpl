@@ -2,7 +2,7 @@
     <h1 class='head'><a href='/'>Публикатор мыслей</a></h1>
 
     <div class='navigation'>
-        <a href="index.php">
+        <a href="/">
             Стена
         </a>
         <a href="index.php?page=img" class='active'>

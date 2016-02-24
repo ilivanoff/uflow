@@ -3,81 +3,13 @@ $(function () {
     var CropLogger = PsLogger.inst('CropUpload').setTrace();
 
     var CropCore = {
-        //Номер выбора
-        selectId: 0,
-        nextId: function () {
-            return ++this.selectId;
-        },
-        //Контейнер левой части
-        $container: $('.container'),
-        //Ширина контейнера
-        ContainerWidth: $('.container').width(),
-        //Верхняя панель кнопок
-        $buttonsTop: $('.container .top-buttons'),
-        //Поле выбора файла
-        $fileInput: $('input#choose-file'),
-        //Поле выбора файла
-        $fileInputLabel: $('.container .choose-file-label'),
-        //Прогресс
-        $progress: $('.container .progress'),
-        //Блок для показа ошибки
-        $error: $('.container .info_box.warn'),
-        //Нижняя панель кнопок
-        $buttonsBottom: $('.container .bottom-buttons'),
-        //Кнопка отправки сообщения
-        $buttonSend: $('.container .bottom-buttons button'),
-        //Блок с панелью редактирования картинки
-        $cropEditor: $('.crop-editor'),
-        //Текст
-        $cropText: $('.crop-text'),
-        $cropTextArea: $('.crop-text textarea'),
-        //Холдер для блока редактирования картинки
-        $croppHolder: $('.crop-holder'),
-        //Слайдбар переворот
-        $rotateSlidebar: $('.crop-menu .rotate'),
-        //Фильтры
-        $presetFilters: $('#PresetFilters'),
-        //Кнопки фильтров
-        $presetFiltersA: $('#PresetFilters>a'),
-        //Меню редактора
-        $cropMenu: $('.crop-menu'),
-        //Метод вычисляет высоту холдера для картинки
-        calcHolderHeight: function (img) {
-            var ratio = this.ContainerWidth / img.info.width;
-            if (ratio > 1)
-                return img.info.height;//---
-            return img.info.height * ratio;
-        },
-        //Методы работы с ошибкой
-        showError: function (error) {
-            this.$error.html($.trim(error)).show();
-        },
-        hideError: function () {
-            this.$error.hide();
-        },
-        //Инициализация ядра
-        init: function () {
-            this.progress = new PsUpdateModel(this, function (action) {
-                if (action !== 'filter') {
-                    this.$progress.show()
-                }
-                this.$fileInputLabel.uiButtonDisable();
-                this.$cropTextArea.disable();
-                this.$buttonSend.uiButtonDisable();
-            }, function (action) {
-                if (action !== 'filter') {
-                    this.$progress.hide()
-                }
-                this.$fileInputLabel.uiButtonEnable();
-                this.$cropTextArea.enable();
-                this.$buttonSend.uiButtonEnable();
-            });
-        },
-        //Прогресс
-        progress: null
+        //Стена
+        $wall: $('.top-container .wall'),
+        //Блок с кнопкой предзагрузки
+        $preload: $('.top-container .preload'),
+        //Кнопка предзагрузки
+        $preloadBtn: $('.top-container .preload button')
     }
-
-    CropCore.init();
 
     // # 1.
     function MosaicMapController() {
@@ -127,20 +59,14 @@ $(function () {
             onUpdate(e);
         }
         var onUpdate = function (e) {
-            $div.calculatePosition(e, 3, 3);
+            if ($div) {
+                $div.calculatePosition(e, 3, 3);
+            }
         }
 
         PsJquery.on({
-            parent: 'map',
-            item: 'area',
-            mouseenter: onShow,
-            mousemove: onUpdate,
-            mouseleave: onHide
-        });
-
-        PsJquery.on({
-            parent: '.wall>div',
-            item: 'img:not(a>img)',
+            parent: '.wall',
+            item: 'map area, img:not(a>img)',
             mouseenter: onShow,
             mousemove: onUpdate,
             mouseleave: onHide
@@ -157,4 +83,37 @@ $(function () {
 
 
     new MosaicMapController();
+
+    /*
+     * Кнопка прездагрузки
+     */
+    var getLastY = function () {
+        return CropCore.$wall.children('div:last').data('gr');
+    }
+
+    CropCore.$preloadBtn.button({
+        icons: {
+            primary: 'ui-icon ui-icon-arrowthickstop-1-s'
+        }
+    }).click(function () {
+        $(this).uiButtonDisable();
+
+        AjaxExecutor.execute('CropWallLoad', {
+            ctxt: this,
+            y: getLastY()
+        },
+                function (ok) {
+                    CropCore.$wall.append(ok);
+                }, 'Загрузка стены',
+                function () {
+                    var y = getLastY();
+                    if (PsIs.integer(y) && y > 1 && y > 547) {
+                        $(this).uiButtonEnable();
+                    } else {
+                        CropCore.$preload.remove();
+                    }
+                });
+    });
+
+
 });
