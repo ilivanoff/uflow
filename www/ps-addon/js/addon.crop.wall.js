@@ -126,7 +126,7 @@ $(function () {
         //Метод вызывается для загрузки порции данных
         doPreload: function () {
             //Если сделали больше N загрузок - далее пользователь сам должен нажимать кнопки
-            if (++this.preloads > this.PRELOADS_MAX) {
+            if (++this.preloads >= this.PRELOADS_MAX) {
                 PsScroll.unbindWndScrolledBottom(this.doPreload);
             }
 
