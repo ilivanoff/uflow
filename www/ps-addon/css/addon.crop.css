@@ -229,6 +229,7 @@ div.mosaic-popup {
     padding: 0px;
     margin: 0px;
     width: 240px;
+    height: 240px;
 }
 
 .mosaic-popup .content {

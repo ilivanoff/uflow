@@ -37,7 +37,7 @@ class CropConst {
     /**
      * Порция загружаемых групп
      */
-    const GROUPS_LOAD_PORTION = 16;
+    const GROUPS_LOAD_PORTION = 24;
 
 }
 
