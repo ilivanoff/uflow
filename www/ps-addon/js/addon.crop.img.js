@@ -154,9 +154,9 @@ $(function () {
                 crop: crop.toDataURL(),
                 text: text //Текст
             },
-                    CropCore.hideError, CropCore.showError, function () {
-                        CropCore.progress.stop();
-                    });
+            CropCore.hideError, CropCore.showError, function () {
+                CropCore.progress.stop();
+            });
         }
 
         //Сабмит формы
@@ -187,9 +187,9 @@ $(function () {
             }
 
             AjaxExecutor.executePost('CropUpload', data,
-                    CropCore.hideError, CropCore.showError, function () {
-                        CropCore.progress.stop();
-                    });
+                CropCore.hideError, CropCore.showError, function () {
+                    CropCore.progress.stop();
+                });
         }
     }
 
@@ -230,26 +230,26 @@ $(function () {
                 } else {
                     //Подгоним ширину изображения под редактор
                     FileAPI.Image(file).resize(CropCore.ContainerWidth, 600, 'width')
-                            .get(function (err, canvas) {
-                                if (err) {
-                                    CropController.onError('Ошибка обработки изображения: ' + err);
-                                } else {
-                                    var img = {
-                                        id: id,     //Код загрузки
-                                        file: file,   //Загруженный файл
-                                        info: info,   //Информация об изображении
-                                        canvas: canvas, //Объект HTML, по ширине подогнанный для редактора
-                                        canvasClone: function () {
-                                            return PsCanvas.clone(this.canvas);
-                                        },
-                                        toString: function () {
-                                            return this.id + ".'" + this.file.name + "' [" + this.file.type + "] (" + this.info.width + "x" + this.info.height + ")";
-                                        }
-                                    };
-                                    CropCore.progress.stop();
-                                    CropController.onImgSelected(img);
+                    .get(function (err, canvas) {
+                        if (err) {
+                            CropController.onError('Ошибка обработки изображения: ' + err);
+                        } else {
+                            var img = {
+                                id: id,     //Код загрузки
+                                file: file,   //Загруженный файл
+                                info: info,   //Информация об изображении
+                                canvas: canvas, //Объект HTML, по ширине подогнанный для редактора
+                                canvasClone: function () {
+                                    return PsCanvas.clone(this.canvas);
+                                },
+                                toString: function () {
+                                    return this.id + ".'" + this.file.name + "' [" + this.file.type + "] (" + this.info.width + "x" + this.info.height + ")";
                                 }
-                            });
+                            };
+                            CropCore.progress.stop();
+                            CropController.onImgSelected(img);
+                        }
+                    });
                 }
             });
         },
@@ -293,7 +293,7 @@ $(function () {
             movable: false,
             zoomable: false,
             viewMode: 1
-                    /*
+        /*
                      ,crop: function(e) {
                      $('.crop-preview').empty().each(function() {
                      $(this).append($(e.target).cropper('getCroppedCanvas'));
@@ -321,7 +321,7 @@ $(function () {
             //Перестраиваем? Тогда сохраним старый crop, с которого скопируем потом настройки
             if (rebuild) {
                 cropOld = this.crop;
-                //cropOld.setEnabled(false);
+            //cropOld.setEnabled(false);
             } else {
                 //Уничтожаем текущий crop
                 this.stopCrop();
@@ -495,6 +495,11 @@ $(function () {
             CropCore.$cropTextArea.focus();
             return;//---
         }
+        if (text.length > CROP.CROP_MSG_MAX_LEN) {
+            CropCore.showError('Максимальная длина текста: '+CROP.CROP_MSG_MAX_LEN+'. Введено: '+text.length+'.');
+            return;//---
+        }
+        
         CropController.submitLight(text);
     });
 

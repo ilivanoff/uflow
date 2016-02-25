@@ -6,9 +6,24 @@ require_once 'ps-includes/MainImport.php';
 
 ExceptionHandler::registerPretty();
 
+PsUtil::startUnlimitedMode();
+
+
+echo CropBean::inst()->getCell('a', true);
+
+die;
+
 //CropTests::clean();
-CropTests::makeCropCells(8);
+//CropTests::makeCropCells(2000);
 //CropGroupsGenerator::makeGroups();
+//print_r(ConfigIni::jsBrigeClasses());
+
+foreach (ConfigIni::jsBrigeClasses() as $prefix => $class) {
+    echo $prefix . ' : ' . $class;
+    br();
+    print_r($class);
+}
+
 
 die;
 

@@ -5,11 +5,11 @@
  *
  * @author azazello
  */
-class CropConst {
-
+class CropConst extends CropConstJs {
     /**
      * Максимальное кол-во ячеек в группе (960/60)
      */
+
     const CROPS_GROUP_CELLS = 16;
 
     /**

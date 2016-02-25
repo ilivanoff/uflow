@@ -20,9 +20,24 @@ class CropUploadLight extends AbstractAjaxAction {
     }
 
     protected function executeImpl(ArrayAdapter $params) {
+
         $text = $params->str('text');
-        $crop = $params->str('crop');
-        CropUploaderLight::upload($crop, $text);
+        //Валидируем комментарий
+        if (!$text) {
+            return 'Вы не ввели текст';
+        }
+        $error = UserInputValidator::validateLongText($text);
+        if ($error) {
+            return $error;
+        }
+        $textLen = ps_strlen($text);
+        if ($textLen > CropConst::CROP_MSG_MAX_LEN) {
+            return PsStrings::replaceWithBraced('Максимальная длина текста: {}. Введено: {}.', CropConst::CROP_MSG_MAX_LEN, $textLen);
+        }
+        //$text = UserInputTools::safeLongText($text);
+
+
+        CropUploaderLight::upload($params->str('crop'), $text);
         return new AjaxSuccess();
     }
 

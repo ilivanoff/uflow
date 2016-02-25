@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Класс склеивает изображения в группу
+ * Класс склеивает изображения группы в одно
  *
  * @author azazello
  */
-class CropGroupsGenerator {
+class CropGroupImgGenerator {
 
     /**
      * Метод создаёт все группы.

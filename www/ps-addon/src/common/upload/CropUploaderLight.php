@@ -6,13 +6,10 @@
  * @author azaz
  */
 class CropUploaderLight {
-
-    /** @var PsLoggerEmpty */
-    private $LOGGER;
-
     /**
      * Префикс данных изображения
      */
+
     const DATA_IMG_PREFIX = 'data:image/png;base64,';
 
     /**
@@ -23,10 +20,13 @@ class CropUploaderLight {
      * @param string $imgc - обрезанное изображение
      * @param array $file  - информация о файле
      * @param type $text   - текст сообщения
+     * @return CropCell Ячейка
      */
-    public function uploadImpl($dataUrl, $text) {
-        if ($this->LOGGER->isEnabled()) {
-            $this->LOGGER->info('Crop len: ' . strlen($dataUrl));
+    public static function upload($dataUrl, $text) {
+        $LOGGER = PsLogger::inst(__CLASS__);
+
+        if ($LOGGER->isEnabled()) {
+            $LOGGER->info('Crop len: ' . strlen($dataUrl));
         }
 
         if (!starts_with($dataUrl, self::DATA_IMG_PREFIX)) {
@@ -52,7 +52,7 @@ class CropUploaderLight {
             $w = imagesx($imBig);
             $h = imagesy($imBig);
 
-            $this->LOGGER->info('Image dimensions: {}x{}', $w, $h);
+            $LOGGER->info('Image dimensions: {}x{}', $w, $h);
 
             //Проверим размеры изображения
             if ($w != CropConst::CROP_SIZE_BIG || $w != $h) {
@@ -69,7 +69,7 @@ class CropUploaderLight {
             // TODO - подумать насчёт unlimited mode
             //Создаём временную директорию. В случае ошибки она будет удалена
             $DM_TEMP = DirManagerCrop::cropTempAuto();
-            $this->LOGGER->info('Temp dir: ' . $DM_TEMP->relDirPath());
+            $LOGGER->info('Temp dir: ' . $DM_TEMP->relDirPath());
 
             //Начинаем создание ячеек
 
@@ -95,7 +95,7 @@ class CropUploaderLight {
 
             //Копируем файлы в директорию
             $DM_DEST = DirManagerCrop::cropAuto($cell->getCellId());
-            $this->LOGGER->info('Dest dir: ' . $DM_DEST->relDirPath());
+            $LOGGER->info('Dest dir: ' . $DM_DEST->relDirPath());
 
             //Копируем файлы в конечную директорию
             $success = copy($absPathBig, $DM_DEST->absFilePath(null, CropConst::TMP_FILE_BIG, CropConst::CROP_EXT));
@@ -118,11 +118,11 @@ class CropUploaderLight {
 
             //Если у нас крайняя ячейка - перестроим группу
             if (CropConst::CROPS_GROUP_CELLS == $cell->getX()) {
-                $this->LOGGER->info('We should rebuild group №{}', $cell->getY());
+                $LOGGER->info('We should rebuild group №{}', $cell->getY());
                 try {
-                    CropGroupsGenerator::makeGroup($cell->getY());
+                    CropGroupImgGenerator::makeGroup($cell->getY());
                 } catch (Exception $e) {
-                    $this->LOGGER->info('Group №{} rebuilding error: {}', $cell->getY(), $e->getTraceAsString());
+                    $LOGGER->info('Group №{} rebuilding error: {}', $cell->getY(), $e->getTraceAsString());
                 }
             }
 
@@ -150,7 +150,7 @@ class CropUploaderLight {
             /*
              * Логируем ошибку
              */
-            $this->LOGGER->info('Crop processing error: {}', $ex->getMessage());
+            $LOGGER->info('Crop processing error: {}', $ex->getMessage());
             /*
              * Снимаем дамп
              */
@@ -160,21 +160,6 @@ class CropUploaderLight {
              */
             throw $ex;
         }
-    }
-
-    /**
-     * Метод вызывается для загрузки изображения
-     * @return CropCell Ячейка
-     */
-    public static function upload($crop, $text) {
-        return (new CropUploaderLight())->uploadImpl(PsCheck::notEmptyString($crop), PsCheck::notEmptyString($text));
-    }
-
-    /**
-     * Конструктор
-     */
-    private function __construct() {
-        $this->LOGGER = PsLogger::inst(__CLASS__);
     }
 
 }

@@ -5,10 +5,13 @@ html, body {
 body {
     background-color: #F0F0F0;
     color: #333333;
+    margin: 0px;
+}
+
+body, textarea {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
     line-height: 1.42857;
-    margin: 0px;
 }
 
 .top-container {
@@ -122,6 +125,8 @@ input#choose-file {
 }
 
 .crop-text textarea {
+    font-size: 14px;
+    padding: 5px;
 }
 
 
@@ -199,6 +204,32 @@ input#choose-file {
     text-align: right;
 }
 
+.wall .gr {
+    position: relative;
+}
+
+.wall .gr .crn {
+    position: absolute;
+    top: 30px;
+    width: 60px;
+    text-align: center;
+    color: #777;
+    font-size: 20px;
+    visibility: hidden;
+}
+
+.wall .gr:hover .crn, .wall .gr .crn:hover {
+    visibility: visible;
+}
+
+.wall .gr .crn.l {
+    left: -60px;
+}
+
+.wall .gr .crn.r {
+    right: -60px;
+}
+
 .wall a img {
     opacity: 0.2;
 }
@@ -210,39 +241,54 @@ input#choose-file {
     opacity: 0.5;
 }
 
-div.mosaic-popup {
-    position: absolute;
-    max-width: 600px;
+.wall map area {
+    cursor: default;
+}
 
-    background-color: #fff;
+/* Всплывающий элемент */
+.cell-view.popup {
+    position: absolute;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.cell-view.popup .content {
+    width: 350px;
+}
+
+.cell-view {
+    background-color: #fff;
 
     color: #333;
     border: 1px solid #bbb;
     border-radius: 6px 6px 6px 6px;
     padding: 10px;
-    width: 600px;
+    /*max-width: 600px;*/
 }
 
-.mosaic-popup img {
+.cell-view img {
     float: left;
     padding: 0px;
     margin: 0px;
+}
+
+.cell-view img.progress {
     margin: 112px 56px 112px 56px;
 }
 
-.mosaic-popup img.big {
-    margin: 0px;
-    width: 240px;
-    height: 240px;
-}
-
-.mosaic-popup .content {
+.cell-view .content {
     margin: 0px;
     margin-left: 250px;
     text-align: left;
+    /*word-break: break-all;*/
 }
 
+.cell-view .content .date {
+    color: #444;
+    font-weight: bold;
+    padding-bottom: 2px;
+}
+
+/* Кнопка дозагрузки стены */
 .preload {
     /*background-color: #fff;*/
     /*background-color: #368AD2;*/
@@ -250,4 +296,20 @@ div.mosaic-popup {
     padding: 10px;
     /*border-bottom: 4px solid #ccc;*/
     /*height: 31px;*/
+}
+
+
+/* ПРЕДПРОСМОТР ЯЧЕЙКИ */
+.cell {
+}
+
+.vk-like-holder {
+    margin: 7px 10px;
+}
+
+.vk-comments-holder {
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+    margin-top: 8px;
 }

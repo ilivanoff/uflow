@@ -23,22 +23,18 @@ class CropWallGenerator {
      * TODO - 
      */
     public static function build($lastGr = null) {
-        $add = true;
         foreach (CropCellsManager::inst()->loadCells4Show($lastGr) as $y => $cells) {
             $groupDi = DirManagerCrop::groupFile($y);
             $groupIsFile = $groupDi->isFile();
 
-            if (!$add && ($groupIsFile || count($cells) == CropConst::CROPS_GROUP_CELLS)) {
-                $add = true;
-                echo '<div>' . self::addButton() . '</div>';
-            }
+            echo "<div class='gr' data-gr='$y'>";
 
-            echo "<div data-gr='$y'>";
+            echo "<div class='crn l'>$y</div>";
 
             if ($groupIsFile) {
                 $grId = 'cgr-' . $y;
                 echo PsHtml::img(array('usemap' => '#' . $grId, 'src' => $groupDi));
-                echo "<map id='$grId'>";
+                echo "<map id='$grId' name='$grId'>";
                 foreach ($cells as $cell) {
                     $idCell = $cell['id_cell'];
                     $xCell = round((CropConst::CROPS_GROUP_CELLS - $cell['x']) * CropConst::CROP_SIZE_SMALL);
@@ -47,22 +43,22 @@ class CropWallGenerator {
                 }
                 echo '</map>';
             } else {
-                if (!$add) {
-                    $add = true;
-                    echo self::addButton();
-                }
                 foreach ($cells as $cell) {
                     //Не передаём данные, так как код картинки возмём из пути к ней
                     echo PsHtml::img(array(/* 'data' => array('c' => $cell['id_cell']), */'src' => '/' . DirManagerCrop::DIR_CROP . '/' . $cell['id_cell'] . '/' . CropConst::TMP_FILE_SMALL . '.' . CropConst::CROP_EXT));
                 }
             }
 
-            echo '</div>';
-        }
+            echo '<script>';
+            echo 'var cells = window["cells"] || {};';
+            foreach ($cells as $cell) {
+                echo 'cells[' . $cell['id_cell'] . ']=' . json_encode(array('x' => $cell['x'], 'y' => $cell['y'], 't' => $cell['v_text'], 'd' => $cell['dt_event'])) . ';';
+            }
+            echo '</script>';
 
-        if (!$add) {
-            $add = true;
-            echo '<div>' . self::addButton() . '</div>';
+            echo "<div class='crn r'>$y</div>";
+
+            echo '</div>';
         }
     }
 

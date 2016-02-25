@@ -29,7 +29,7 @@ class CropBean extends BaseBean {
 
             PsLock::unlock();
 
-            return new CropCell($cellId, $x, $y, $n); //---
+            return CropCell::instShort($cellId, $x, $y, $n); //---
         } catch (Exception $e) {
             PsLock::unlock();
             throw $e; //---
@@ -67,7 +67,14 @@ class CropBean extends BaseBean {
      * Метод загружает ячейки групп для показа
      */
     public function loadCells4Show($lastGr, $portion) {
-        return $this->getArrayIndexedMulti('select id_cell, x, y from crop_cell where y<? and y>=? order by n desc', array($lastGr, $lastGr - $portion), 'y');
+        return $this->getArrayIndexedMulti('select id_cell, x, y, v_text, dt_event from crop_cell where y<? and y>=? order by n desc', array($lastGr, $lastGr - $portion), 'y');
+    }
+
+    /**
+     * Метод получает ячейку по её коду
+     */
+    public function getCell($cellId, $required = true) {
+        return PsCheck::isInt($cellId) ? $this->getObject('select * from crop_cell where id_cell=?', array($cellId), CropCell::getClass(), null, $required) : ($required ? raise_error('Не передан код ячейки') : null);
     }
 
     /** @return CropBean */

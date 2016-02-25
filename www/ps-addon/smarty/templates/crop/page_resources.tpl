@@ -121,4 +121,9 @@
 <link rel="stylesheet" href="/ps-content/css/common.dev.or.admin.css" type="text/css" media="all" />
 {/devmodeOrAdmin}
 
+<script type="text/javascript" src="/ps-addon/js/crop.js"></script>
 <script type="text/javascript" src="/ps-addon/js/addon.crop.{$CROP_SUFFIX}.js"></script>
+
+{if $CROP_SUFFIX=='cell'}
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
+{/if}

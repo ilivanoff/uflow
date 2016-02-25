@@ -35,7 +35,7 @@
 
             <div class="crop-text">
                 <div class="crop-textarea-holder">
-                    <textarea ml='160'></textarea>
+                    <textarea ml={$smarty.const.CROP_MSG_MAX_LEN}></textarea>
                 </div>
             </div>
 

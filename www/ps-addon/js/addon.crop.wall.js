@@ -5,6 +5,8 @@ $(function () {
     var CropCore = {
         //Стена
         $wall: $('.top-container .wall'),
+        //Области
+        $wallAreas: $('.top-container  .wall-areas'),
         //Блок с кнопкой предзагрузки
         $preload: $('.top-container .preload'),
         //Кнопка предзагрузки
@@ -14,26 +16,40 @@ $(function () {
     // # 1.
     function MosaicMapController() {
         var $div = null;
-
+        
+        var extractCellId = function($item) {
+            var cellId = $item.data('c');
+            if (!PsIs.integer(cellId)) {
+                var src = $item.attr('src');
+                var srcT = src ? src.split('/', 3) : null;
+                cellId = PsIs.array(srcT) && srcT.length >= 3 ? srcT[2] : null;
+            }
+            return PsIs.integer(cellId) ? 1*cellId : null;//---
+        }
+        
+        var onClick = function(e, $item) {
+            var cellId = extractCellId($item);
+            if (PsIs.integer(cellId)) {
+                window.open('/?id='+cellId, '_blank');
+            }
+        }
+        
         var onHide = function () {
-            if (!$div)
-                return;
-            $div.remove();
-            $div = null;
+            if ($div) {
+                $div.remove();
+                $div = null;
+            }
         }
 
         var onShow = function (e, $item) {
             onHide();
-            var cell = $item.data('c');
-            if (!PsIs.integer(cell)) {
-                var src = $item.attr('src');
-                var srcT = src ? src.split('/', 3) : null;
-                cell = PsIs.array(srcT) && srcT.length >= 3 ? srcT[2] : null;
-                consoleLog(cell);
-            }
-
-            //var ob = defs.cellowners[id];
-
+            
+            var cellId = extractCellId($item);
+            if (!PsIs.integer(cellId)) return;//---
+            
+            var obj = cells[cellId];
+            if(!obj) return;//---
+            
             /*
              <div class="mosaic-popup">
              <img class="avatar" src="mmedia/avatars/u/u1/22_42x.jpg"/>
@@ -44,25 +60,26 @@ $(function () {
              <div class="clearall"></div>
              </div>
              */
-            var src = '/c/' + cell + '/big.png';
-            var $img = $('<img>').attr('src', CONST.IMG_LOADING_PROGRESS);
+            var src = '/c/' + cellId + '/big.png';
+            var $img = $('<img>').addClass('progress').attr('src', CONST.IMG_LOADING_PROGRESS);
 
-            $div = $('<div>').addClass('mosaic-popup');
+            $div = $('<div>').addClass('cell-view popup');
             //$div.append($('<img>').attr('src', $item.attr('src')));
-            $div.append($img).data('cell', cell);
-            $div.append($('<div>').addClass('content').text($item.attr('src')));
+            $div.append($img).data('cell', cellId);
+            $div.append($('<div>').addClass('content').append($('<div>').addClass('date').text(obj.d)).append($('<div>').html(obj.t.htmlEntities())));
             /*
              if (ob.msg) {
              $content.append($('<div>').addClass('message').html(ob.msg));
              }
              */
             $div.append($('<div>').addClass('clearall'));
+            $div = CropUtils.prepareCellView($div);
             $div.appendTo('body');//.width($div.width());
 
             onUpdate(e);
 
             PsResources.getImgSize(src, function () {
-                $img.attr('src', src).addClass('big');
+                $img.attr('src', src).removeClass('progress');
             });
         }
         var onUpdate = function (e) {
@@ -70,24 +87,25 @@ $(function () {
                 $div.calculatePosition(e, 3, 3);
             }
         }
-
-        PsJquery.on({
-            parent: '.wall',
-            item: 'map area, img:not(a>img)',
-            mouseenter: onShow,
-            mousemove: onUpdate,
-            mouseleave: onHide
-        });
-
-        /*
-         onShow({
-         pageX: $('.wall')[0].offsetLeft,
-         pageY: 150
-         }, $('.wall img:first'));
-         */
+        
+        var production = true;
+        if (production) {
+            PsJquery.on({
+                parent: '.wall',
+                item: 'map area, img:not(a>img)',
+                mouseenter: onShow,
+                mousemove: onUpdate,
+                mouseleave: onHide,
+                click: onClick
+            });
+        } else {
+            onShow({
+                pageX: $('.wall')[0].offsetLeft,
+                pageY: 150
+            }, $('.wall img:first'));
+        }
     }
     // # 1.
-
 
     new MosaicMapController();
 
@@ -128,7 +146,9 @@ $(function () {
             });
 
             //Привяжем функцию обновления
-            PsScroll.bindWndScrolledBottom(this.doPreload, this);
+            if (this.PRELOADS_MAX>0) {
+                PsScroll.bindWndScrolledBottom(this.doPreload, this);
+            }
         },
         //Метод вызывается для загрузки порции данных
         doPreload: function () {
@@ -143,18 +163,18 @@ $(function () {
                 ctxt: this,
                 y: this.getLastY()
             },
-                    function (ok) {
-                        CropCore.$wall.append(ok);
-                    }, 'Загрузка стены',
-                    function () {
-                        var y = this.getLastY();
-                        if (!y || y <= 1) {
-                            CropCore.$preload.hide();
-                            PsScroll.unbindWndScrolledBottom(this.doPreload, this);
-                        } else {
-                            CropCore.$preloadBtn.uiButtonEnable();
-                        }
-                    });
+            function (ok) {
+                CropCore.$wall.append(ok);
+            }, 'Загрузка стены',
+            function () {
+                var y = this.getLastY();
+                if (!y || y <= 1) {
+                    CropCore.$preload.hide();
+                    PsScroll.unbindWndScrolledBottom(this.doPreload, this);
+                } else {
+                    CropCore.$preloadBtn.uiButtonEnable();
+                }
+            });
         }
     }
 
