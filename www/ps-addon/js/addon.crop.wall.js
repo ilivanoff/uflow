@@ -82,6 +82,7 @@ $(function () {
                 $img.attr('src', src).removeClass('progress');
             });
         }
+        
         var onUpdate = function (e) {
             if ($div) {
                 $div.calculatePosition(e, 3, 3);
@@ -119,7 +120,7 @@ $(function () {
         PRELOADS_MAX: 3,
         //Метод вызывается для получения последней загруженной группы
         getLastY: function () {
-            var y = CropCore.$wall.children('div:last').data('gr');
+            var y = CropCore.$wall.children('div.gr:last').data('gr');
             return PsIs.integer(y) && y > 0 ? y : null;
         },
         //Метод вызывается для инициализации кнопки дозагрузки данных

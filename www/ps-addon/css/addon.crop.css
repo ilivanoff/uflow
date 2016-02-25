@@ -6,6 +6,7 @@ body {
     background-color: #F0F0F0;
     color: #333333;
     margin: 0px;
+    min-width: 1080px; /*960+60*2*/
 }
 
 body, textarea {
@@ -19,6 +20,15 @@ body, textarea {
     margin: 3px auto;
 }
 
+.nav-buttons {
+    position: fixed;
+    top: 10px;
+    right: 430px;
+    /*z-index: 999;*/
+    width: 32px;
+    display: none;
+}
+
 
 h1.head {
     background-color: #368AD2;
@@ -26,33 +36,13 @@ h1.head {
     padding: 20px 0px;
     margin: 0px;
     font-size: 40px;
+
+    border-bottom: 4px solid #CCCCCC;
 }
 
 h1.head a {
     color: white;
     text-decoration: none;
-}
-
-/* МЕНЮ */
-.navigation {
-    background-color: #388CD4;
-    border-bottom: 4px solid #CCCCCC;
-    text-align: center;
-    /*font-size: 12px;*/
-    text-transform: uppercase;
-    font: 400 14px/20px "Roboto",sans-serif;
-}
-
-.navigation a {
-    color: white;
-    display: inline-block;
-    padding: 10px 20px;
-    text-decoration: none;
-}
-
-.navigation a.active {
-    color: black;
-    background-color: #EFC62C;
 }
 
 /* CROP */

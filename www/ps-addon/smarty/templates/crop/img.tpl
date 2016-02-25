@@ -1,14 +1,5 @@
-<div class='top-container'>
-    <h1 class='head'><a href='/'>Публикатор мыслей</a></h1>
-
-    <div class='navigation'>
-        <a href="/">
-            Стена
-        </a>
-        <a href="index.php?page=img" class='active'>
-            Опубликовать
-        </a>
-    </div>
+<div class="top-container">
+    <h1 class="head"><a href='/'>Публикатор мыслей</a></h1>
 
     <div id="carrier">
         {* ЛЕВАЯ ПАНЕЛЬ *}
@@ -38,6 +29,8 @@
                     <textarea ml={$smarty.const.CROP_MSG_MAX_LEN}></textarea>
                 </div>
             </div>
+
+            {*PsHtmlForm::capture()*}
 
             <div class="bottom-buttons">
                 <button>Опубликовать</button>

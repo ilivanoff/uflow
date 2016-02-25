@@ -56,7 +56,8 @@ class CropWallGenerator {
             }
             echo '</script>';
 
-            echo "<div class='crn r'>$y</div>";
+            //Справа не показываем номер ячейки, так как там - новигация
+            //echo "<div class='crn r'>$y</div>";
 
             echo '</div>';
         }

@@ -2,6 +2,10 @@ $(function () {
     //Подготовим отображение
     CropUtils.prepareCellView($('.cell-view'));
 
+    $('.cell-view img').click(function() {
+        window.close()
+    });
+
     
     VK.init({
         apiId: CROP.CROP_VK_API_ID, 

@@ -1,14 +1,5 @@
-<div class='top-container'>
-    <h1 class='head'><a href='/'>Публикатор мыслей</a></h1>
-
-    <div class='navigation'>
-        <a href="/" class='active'>
-            Стена
-        </a>
-        <a href="index.php?page=img">
-            Опубликовать
-        </a>
-    </div>
+<div class="top-container">
+    <h1 class="head"><a href='/'>Публикатор мыслей</a></h1>
 
     <div class='wall'>
         {CropWallGenerator::build()}
