@@ -27,10 +27,12 @@ $(function () {
         //Кнопка отправки сообщения
         $buttonSend: $('.container .bottom-buttons button'),
         //Блок с панелью редактирования картинки
-        $cropEditor: $('.crop-editor'),
+        $cropEditor: $('.container .crop-editor'),
+        //Выбор эмоции
+        $emotions: $('.container .emotions'),
         //Текст
-        $cropText: $('.crop-text'),
-        $cropTextArea: $('.crop-text textarea'),
+        $cropText: $('.container .crop-text'),
+        $cropTextArea: $('.container .crop-text textarea'),
         //Холдер для блока редактирования картинки
         $croppHolder: $('.crop-holder'),
         //Слайдбар переворот
@@ -110,6 +112,8 @@ $(function () {
             CropEditor.stopCrop();
             //Прячем редактор
             CropCore.$cropEditor.hide();
+            //Скроем эмоции
+            CropCore.$emotions.hide();
             //Тукст для ввода сообщения
             CropCore.$cropText.hide();
             //Прячем кнопку публикации
@@ -134,6 +138,7 @@ $(function () {
         this.onCropReady = function () {
             ImageFilters.enable();
             CropCore.$cropText.show();
+            CropCore.$emotions.show();
             CropCore.$buttonsBottom.show();
         }
 
@@ -445,6 +450,17 @@ $(function () {
 
     ImageFilters.init();
 
+
+    //Управление эмоциями
+    var EmotionsManager = {
+        init: function() {
+            CropCore.$emotions.children('span').click(function() {
+                $(this).siblings('span').removeClass('active').end().addClass('active');
+            });
+        }
+    }
+    
+    EmotionsManager.init();
     //Трансформация картинки
     /*
      var ImageTransform = {
@@ -501,30 +517,6 @@ $(function () {
         }
         
         CropController.submitLight(text);
-    });
-
-    return;//---
-
-    $('.crop-upload').clickClbck(function () {
-        var canvas = CropEditor.$cropper.cropper('getCroppedCanvas');
-        Caman(canvas, function () {
-            this.vintage();
-            $('.container').append(canvas);
-        });
-
-        return;//--
-
-        // Uploading Files - TODO
-        FileAPI.upload({
-            url: './ctrl.php',
-            files: {
-                images: []
-            },
-            progress: function (evt) { /* ... */
-            },
-            complete: function (err, xhr) { /* ... */
-            }
-        });
     });
 
 });

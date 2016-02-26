@@ -33,14 +33,16 @@
             <img src="/i/emotions/BingBong-nc.png" class="bingbong"/>
             </div>
             *}
+
             <div class="emotions noselect">
-                <span class="joy hint--top hint--rounded hint--joy" data-hint="Радость"></span>
+                <span class="joy hint--top hint--rounded hint--joy active" data-hint="Радость"></span>
                 <span class="sadness hint--top hint--rounded hint--sadness" data-hint="Печаль"></span>
                 <span class="anger hint--top hint--rounded hint--anger" data-hint="Злость"></span>
                 <span class="fear hint--top hint--rounded hint--fear" data-hint="Страх"></span>
                 <span class="disgust hint--top hint--rounded hint--success" data-hint="Брезгливость"></span>
                 <span class="bingbong hint--top hint--rounded" data-hint="Бинго Бонг"></span>
             </div>
+
             {*
             <div class="emotions noselect">
             <div class="joy">

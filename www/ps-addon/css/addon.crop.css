@@ -97,29 +97,29 @@ input#choose-file {
 }
 
 .hint--joy:after {
-  background-color: #D58118 !important;
-  text-shadow: 0 -1px 0px #1a321a; }
+    background-color: #D58118 !important;
+    text-shadow: 0 -1px 0px #1a321a; }
 .hint--joy.hint--top:before {
-  border-top-color: #D58118 !important; }
+    border-top-color: #D58118 !important; }
 
 .hint--sadness:after {
-  /*#368AD2*/
-  background-color: #2488e0 !important;
-  text-shadow: 0 -1px 0px #1a321a; }
+    /*#368AD2*/
+    background-color: #2488e0 !important;
+    text-shadow: 0 -1px 0px #1a321a; }
 .hint--sadness.hint--top:before {
-  border-top-color: #2488e0 !important; }
+    border-top-color: #2488e0 !important; }
 
 .hint--anger:after {
-  background-color: #b34e4d !important;
-  text-shadow: 0 -1px 0px #1a321a; }
+    background-color: #b34e4d !important;
+    text-shadow: 0 -1px 0px #1a321a; }
 .hint--anger.hint--top:before {
-  border-top-color: #b34e4d !important; }
+    border-top-color: #b34e4d !important; }
 
 .hint--fear:after {
-  background-color: #C34BBD !important;
-  text-shadow: 0 -1px 0px #1a321a; }
+    background-color: #C34BBD !important;
+    text-shadow: 0 -1px 0px #1a321a; }
 .hint--fear.hint--top:before {
-  border-top-color: #C34BBD !important; }
+    border-top-color: #C34BBD !important; }
 
 
 
@@ -158,6 +158,7 @@ input#choose-file {
 */
 
 .container .emotions {
+    display: none;
     margin: 20px 0px 15px;
 }
 
@@ -168,8 +169,20 @@ input#choose-file {
     background-image: url('/i/emotions/sprite.png');
     background-repeat: no-repeat; 
     margin: 0px 6px;
+    opacity: 0.5;
 }
 
+.container .emotions span:active {
+    position: relative;
+    top: 1px;
+}
+
+.container .emotions span:hover,
+.container .emotions span.active {
+    opacity: 1;
+}
+
+/*
 .container .emotions div {
     width: 88px;
     text-align: center;
@@ -205,7 +218,7 @@ input#choose-file {
 .container .emotions div.bingbong {
     color: #F995B6;
 }
-
+*/
 .container .emotions span.joy {
     background-position: 0px -88px;
 }
