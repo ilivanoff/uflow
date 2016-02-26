@@ -23,6 +23,52 @@
             <div class="crop-editor">
                 {*<div class="crop-holder"></div>*}
             </div>
+            {*
+            <div class="emotions noselect">
+            <img src="/i/emotions/Joy-nc.png" class="joy"/>
+            <img src="/i/emotions/Sadness.png" class="sadness"/>
+            <img src="/i/emotions/Anger-nc.png" class="anger"/>
+            <img src="/i/emotions/Fear-nc.png" class="fear"/>
+            <img src="/i/emotions/Disgust-nc.png" class="disgust"/>
+            <img src="/i/emotions/BingBong-nc.png" class="bingbong"/>
+            </div>
+            *}
+            <div class="emotions noselect">
+                <span class="joy hint--top hint--rounded hint--joy" data-hint="Радость"></span>
+                <span class="sadness hint--top hint--rounded hint--sadness" data-hint="Печаль"></span>
+                <span class="anger hint--top hint--rounded hint--anger" data-hint="Злость"></span>
+                <span class="fear hint--top hint--rounded hint--fear" data-hint="Страх"></span>
+                <span class="disgust hint--top hint--rounded hint--success" data-hint="Брезгливость"></span>
+                <span class="bingbong hint--top hint--rounded" data-hint="Бинго Бонг"></span>
+            </div>
+            {*
+            <div class="emotions noselect">
+            <div class="joy">
+            <span class="joy"></span>
+            Радость
+            </div>
+            <div class="sadness">
+            <span class="sadness"></span>
+            Печаль
+            </div>
+            <div class="anger">
+            <span class="anger"></span>
+            Злость
+            </div>
+            <div class="disgust">
+            <span class="disgust"></span>
+            Брезгливость
+            </div>
+            <div class="fear">
+            <span class="fear"></span>
+            Страх
+            </div>
+            <div class="bingbong">
+            <span class="bingbong"></span>
+            Бинго Бонг
+            </div>
+            </div>
+            *}
 
             <div class="crop-text">
                 <div class="crop-textarea-holder">
@@ -39,7 +85,7 @@
         </div>
 
         {* ПРАВАЯ ПАНЕЛЬ *}
-        <div class="crop-menu">
+        <div class="crop-menu noselect">
             <div class="rotate"></div>
 
             <div id="PresetFilters">

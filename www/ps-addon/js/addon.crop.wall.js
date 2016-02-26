@@ -29,8 +29,17 @@ $(function () {
         
         var onClick = function(e, $item) {
             var cellId = extractCellId($item);
-            if (PsIs.integer(cellId)) {
+            if(!PsIs.integer(cellId)) {
+                return;//---
+            }
+            //Положим признак того, что окно может быть закрыто
+            CropUtils.setCanClose(cellId);
+            //Откроем окно просмотра обсуждения ячейки
+            try{
                 window.open('/?id='+cellId, '_blank');
+            } catch(e) {
+              CropUtils.isCanClose(cellId);
+              throw e;
             }
         }
         

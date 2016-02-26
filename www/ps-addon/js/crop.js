@@ -12,6 +12,21 @@ var CropUtils = {
             $date.text(CropUtils.utc2date(utc));
         }
         return $div;
+    },
+    
+    //Хранилище
+    STORE: PsLocalStore.inst('crop'),
+    //Метод устанавливает признак того, что окно просмотра ячейки может быть закрыто
+    setCanClose: function(cellId) {
+        this.STORE.set('can-close-'+cellId, 1);
+    },
+    //Метод возвращает признак - может ли быть закрыто окно просмотра ячейки
+    isCanClose: function(cellId) {
+        if (this.STORE.has('can-close-'+cellId)) {
+            this.STORE.remove('can-close-'+cellId);
+            return true;//----
+        }
+        return false;//---
     }
 }
 
@@ -24,18 +39,27 @@ PsUtil.scheduleDeferred(function() {
         var $head = $('h1.head:first');
         
         var $navButtons = $('<div>').addClass('nav-buttons').insertAfter($head);
-        function navButtonsAdd(icon, href) {
+        function navButtonsAdd(icon, title, href) {
             var $img = $('<img>').attr('src', '/i/png/32x32/'+icon+'.png');
-            var $a = $('<a>').attr('href', href ? href : '#').append($img);
+            var $a = $('<a>').attr('title', title).attr('href', PsIs.string(href) ? href : '#').append($img);
+            if (PsIs.func(href)) {
+                $a.clickClbck(href);
+            }
             $navButtons.append($a);
         }
         
-        navButtonsAdd('globe', '/');
-        navButtonsAdd('add', '/index.php?page=img');
+        navButtonsAdd('globe', 'Главная', '/');
+        navButtonsAdd('add', 'Добавить запись', '/index.php?page=img');
+        navButtonsAdd('info', 'Информация', '/index.php?page=about');
+        navButtonsAdd('refresh', 'Обновить страницу', function() {
+            location.reload();
+        });
         
-        ['puzzle', 'info', 'delete'].walk(function(item) {
+        /*
+        ['puzzle', 'delete'].walk(function(item) {
             navButtonsAdd(item);
         });
+        */
         
         var headWidth = $head.width();
         var dimLast = null;
