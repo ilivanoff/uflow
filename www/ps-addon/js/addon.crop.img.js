@@ -30,6 +30,8 @@ $(function () {
         $cropEditor: $('.container .crop-editor'),
         //Выбор эмоции
         $emotions: $('.container .emotions'),
+        //Выбор эмоции
+        $emotionsSpan: $('.container .emotions>span'),
         //Текст
         $cropText: $('.container .crop-text'),
         $cropTextArea: $('.container .crop-text textarea'),
@@ -148,16 +150,33 @@ $(function () {
         }
 
         //Сабмит формы
-        this.submitLight = function (text) {
-            CropLogger.logInfo("Submitting light {} with text: '{}'", img.toString(), text);
-
+        this.submitLight = function () {
+            var text = CropCore.$cropTextArea.val();
+            if (PsIs.empty(text)) {
+                CropCore.$cropTextArea.focus();
+                return;//---
+            }
+            if (text.length > CROP.CROP_MSG_MAX_LEN) {
+                CropCore.showError('Максимальная длина текста: '+CROP.CROP_MSG_MAX_LEN+'. Введено: '+text.length+'.');
+                return;//---
+            }
+        
+            var emotionCode = EmotionsManager.activeCode();
+            if(!PsIs.integer(emotionCode)) {
+                CropCore.showError('Пожалуйста, выберете эмоцию.');
+                return;//---
+            }
+            
+            CropLogger.logInfo("Submitting light {}. Emotion: {}. Text: '{}'", img.toString(), emotionCode, text);
+            
             CropCore.progress.start();
 
             var crop = PsCanvas.cloneAndResize(CropEditor.crop.getCropCanvas(), 240, 240);
 
             AjaxExecutor.executePost('CropUploadLight', {
                 crop: crop.toDataURL(),
-                text: text //Текст
+                text: text, //Текст
+                em: emotionCode //Код эмоции
             },
             CropCore.hideError, CropCore.showError, function () {
                 CropCore.progress.stop();
@@ -454,9 +473,14 @@ $(function () {
     //Управление эмоциями
     var EmotionsManager = {
         init: function() {
-            CropCore.$emotions.children('span').click(function() {
-                $(this).siblings('span').removeClass('active').end().addClass('active');
+            CropCore.$emotionsSpan.click(function() {
+                CropCore.$emotionsSpan.removeClass('active');
+                $(this).addClass('active');
             });
+        },
+        
+        activeCode: function() {
+            return CropCore.$emotionsSpan.filter('.active').data('code');
         }
     }
     
@@ -505,18 +529,6 @@ $(function () {
         icons: {
             primary: 'ui-icon-mail-closed'
         }
-    }).click(function () {
-        var text = CropCore.$cropTextArea.val();
-        if (PsIs.empty(text)) {
-            CropCore.$cropTextArea.focus();
-            return;//---
-        }
-        if (text.length > CROP.CROP_MSG_MAX_LEN) {
-            CropCore.showError('Максимальная длина текста: '+CROP.CROP_MSG_MAX_LEN+'. Введено: '+text.length+'.');
-            return;//---
-        }
-        
-        CropController.submitLight(text);
-    });
+    }).click(CropController.submitLight);
 
 });

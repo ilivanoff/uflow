@@ -35,12 +35,12 @@
             *}
 
             <div class="emotions noselect">
-                <span class="joy hint--top hint--rounded hint--joy active" data-hint="Радость"></span>
-                <span class="sadness hint--top hint--rounded hint--sadness" data-hint="Печаль"></span>
-                <span class="anger hint--top hint--rounded hint--anger" data-hint="Злость"></span>
-                <span class="fear hint--top hint--rounded hint--fear" data-hint="Страх"></span>
-                <span class="disgust hint--top hint--rounded hint--success" data-hint="Брезгливость"></span>
-                <span class="bingbong hint--top hint--rounded" data-hint="Бинго Бонг"></span>
+                <span class="joy hint--top hint--rounded hint--joy active" data-hint="Радость" data-code="{CropConst::EMOTION_JOY}"></span>
+                <span class="sadness hint--top hint--rounded hint--sadness" data-hint="Печаль" data-code="{CropConst::EMOTION_SADNESS}"></span>
+                <span class="anger hint--top hint--rounded hint--anger" data-hint="Злость" data-code="{CropConst::EMOTION_ANGER}"></span>
+                <span class="fear hint--top hint--rounded hint--fear" data-hint="Страх" data-code="{CropConst::EMOTION_FEAR}"></span>
+                <span class="disgust hint--top hint--rounded hint--success" data-hint="Брезгливость" data-code="{CropConst::EMOTION_DISGUST}"></span>
+                <span class="bingbong hint--top hint--rounded" data-hint="Бинго Бонг" data-code="{CropConst::EMOTION_BINGABONG}"></span>
             </div>
 
             {*

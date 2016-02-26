@@ -16,7 +16,7 @@ class CropUploadLight extends AbstractAjaxAction {
     }
 
     protected function getRequiredParamKeys() {
-        return array('crop', 'text');
+        return array('crop', 'text', 'em');
     }
 
     protected function executeImpl(ArrayAdapter $params) {
@@ -36,6 +36,7 @@ class CropUploadLight extends AbstractAjaxAction {
         }
         //$text = UserInputTools::safeLongText($text);
 
+        $em = $params->int('em');
 
         CropUploaderLight::upload($params->str('crop'), $text);
         return new AjaxSuccess();

@@ -39,6 +39,16 @@ class CropConst extends CropConstJs {
      */
     const GROUPS_LOAD_PORTION = 24;
 
+    /**
+     * Эмоции
+     */
+    const EMOTION_JOY = 1;
+    const EMOTION_SADNESS = 2;
+    const EMOTION_ANGER = 3;
+    const EMOTION_FEAR = 4;
+    const EMOTION_DISGUST = 5;
+    const EMOTION_BINGABONG = 6;
+
 }
 
 ?>
