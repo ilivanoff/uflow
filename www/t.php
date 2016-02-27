@@ -8,8 +8,9 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
+CropTests::makeCropCells(50);
 
-echo CropConst::getEmotionName(7);
+//echo CropConst::getEmotionName(7);
 
 die;
 
