@@ -1,0 +1,14 @@
+/* ПРЕДПРОСМОТР ЯЧЕЙКИ */
+.cell {
+}
+
+.vk-like-holder {
+    margin: 7px 10px;
+}
+
+.vk-comments-holder {
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+    margin-top: 8px;
+}

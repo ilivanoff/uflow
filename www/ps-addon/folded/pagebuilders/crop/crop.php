@@ -20,6 +20,7 @@ class PB_crop extends AbstractPageBuilder {
 
 
         //3. SMARTY RESOURCES
+        $builderCtxt->setSmartyParam4Resources('PAGE', $this->basicPage->getIdent());
         $builderCtxt->setSmartyParams4Resources($this->basicPage->getSmartyParams4Resources());
 
         //4. GET SMARTY PARAMS FOR TPL
@@ -29,6 +30,13 @@ class PB_crop extends AbstractPageBuilder {
 
     public function getProfiler() {
         return PsProfiler::inst('CropPageBuilder');
+    }
+
+    /**
+     * Шаблон с ресурсами для страницы
+     */
+    public function getPageResourcesTpl() {
+        return 'crop/page_resources.tpl';
     }
 
 }

@@ -21,7 +21,7 @@ $(function () {
     VK.Widgets.Comments('vk_comments', {
         limit: 10, 
         attach: '*',
-        pageUrl: '/?id='+CELL_ID
+        pageUrl: '/?id='+defs.cell_id
     });
     
 /*

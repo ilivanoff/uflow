@@ -1,0 +1,69 @@
+/* СТЕНА */
+.wall {
+    height: 100%;
+    min-height: 100%;
+    background-color: white;
+    line-height: 0px;
+    text-align: right;
+}
+
+.wall .gr {
+    position: relative;
+}
+
+.wall .gr .crn {
+    position: absolute;
+    top: 30px;
+    width: 60px;
+    text-align: center;
+    color: #777;
+    font-size: 20px;
+    visibility: hidden;
+}
+
+.wall .gr:hover .crn, .wall .gr .crn:hover {
+    visibility: visible;
+}
+
+.wall .gr .crn.l {
+    left: -60px;
+}
+
+.wall .gr .crn.r {
+    right: -60px;
+}
+
+.wall a img {
+    opacity: 0.2;
+}
+
+.wall a:active img {
+    position: relative;
+    top: 1px;
+    left: 1px;
+    opacity: 0.5;
+}
+
+.wall map area {
+    cursor: default;
+}
+
+/* Всплывающий элемент */
+.cell-view.popup {
+    position: absolute;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.cell-view.popup .content {
+    width: 350px;
+}
+
+/* Кнопка дозагрузки стены */
+.preload {
+    /*background-color: #fff;*/
+    /*background-color: #368AD2;*/
+    background-color: white;
+    padding: 10px;
+    /*border-bottom: 4px solid #ccc;*/
+    /*height: 31px;*/
+}

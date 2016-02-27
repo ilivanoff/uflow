@@ -1,5 +1,3 @@
-{*Ресурсы для wordpress*}
-<link rel="stylesheet" href="/ps-addon/css/addon.crop.css" type="text/css" media="all" />
 <link rel="stylesheet" href="/ps-content/css/core.css" type="text/css" media="all" />
 <!--<link rel="stylesheet" href="/ps-content/css/common.css" type="text/css" media="all" />-->
 <link rel="stylesheet" href="/ps-content/css/common.widgets.css" type="text/css" media="all" />
@@ -97,6 +95,10 @@
 {/if}
 
 
+{if $PAGE=='cell'}
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
+{/if}
+
 {*
 ========================
 Базовые ресурсы сайта
@@ -120,10 +122,3 @@
 <script type="text/javascript" src="/ps-content/js/common.dev.or.admin.js"></script>
 <link rel="stylesheet" href="/ps-content/css/common.dev.or.admin.css" type="text/css" media="all" />
 {/devmodeOrAdmin}
-
-<script type="text/javascript" src="/ps-addon/js/crop.js"></script>
-<script type="text/javascript" src="/ps-addon/js/addon.crop.{$CROP_SUFFIX}.js"></script>
-
-{if $CROP_SUFFIX=='cell'}
-    <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
-{/if}

@@ -50,3 +50,37 @@ h1.head a {
     color: white;
     text-decoration: none;
 }
+
+/* Просмотр ячейки */
+.cell-view {
+    background-color: #fff;
+
+    color: #333;
+    border: 1px solid #bbb;
+    border-radius: 6px 6px 6px 6px;
+    padding: 10px;
+    /*max-width: 600px;*/
+}
+
+.cell-view img {
+    float: left;
+    padding: 0px;
+    margin: 0px;
+}
+
+.cell-view img.progress {
+    margin: 112px 56px 112px 56px;
+}
+
+.cell-view .content {
+    margin: 0px;
+    margin-left: 250px;
+    text-align: left;
+    /*word-break: break-all;*/
+}
+
+.cell-view .content .date {
+    color: #444;
+    font-weight: bold;
+    padding-bottom: 2px;
+}

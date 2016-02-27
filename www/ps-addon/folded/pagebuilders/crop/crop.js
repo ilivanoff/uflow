@@ -49,8 +49,8 @@ PsUtil.scheduleDeferred(function() {
         }
         
         navButtonsAdd('globe', 'Главная', '/');
-        navButtonsAdd('add', 'Добавить запись', '/index.php?page=img');
-        navButtonsAdd('info', 'Информация', '/index.php?page=about');
+        navButtonsAdd('add', 'Добавить запись', '/add.php');
+        navButtonsAdd('info', 'Информация', '/info.php');
         navButtonsAdd('refresh', 'Обновить страницу', function() {
             location.reload();
         });
