@@ -1,6 +1,6 @@
 ﻿/*
 Created: 14.08.2010
-Modified: 20.02.2016
+Modified: 27.02.2016
 Model: MySQL 5.1
 Database: MySQL 5.1
 */
@@ -20,6 +20,8 @@ CREATE TABLE crop_cell
   COMMENT 'Номер ячейки в группе. Нумерация - справа налево, начиная с 1.',
   n Int UNSIGNED
   COMMENT 'Номер ячейки, считая справа снизу',
+  n_em Tinyint UNSIGNED NOT NULL
+  COMMENT 'Код эмоции',
   dt_event Int UNSIGNED NOT NULL
   COMMENT 'Дата привязки ячейки',
   v_text Text
