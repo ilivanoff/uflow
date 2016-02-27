@@ -9,6 +9,10 @@ ExceptionHandler::registerPretty();
 PsUtil::startUnlimitedMode();
 
 
+echo CropConst::getEmotionName(7);
+
+die;
+
 echo CropBean::inst()->getCell('a', true);
 
 die;

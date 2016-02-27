@@ -12,13 +12,6 @@ class CropWallGenerator {
     }
 
     /**
-     * Кнопка добавления публикации
-     */
-    private static function addButton() {
-        return "<a href='/index.php?page=img'><img src='/i/puzzle.png'></a>";
-    }
-
-    /**
      * Метод генерирует стену
      * TODO - 
      */
@@ -52,11 +45,11 @@ class CropWallGenerator {
             echo '<script>';
             echo 'var cells = window["cells"] || {};';
             foreach ($cells as $cell) {
-                echo 'cells[' . $cell['id_cell'] . ']=' . json_encode(array('x' => $cell['x'], 'y' => $cell['y'], 't' => $cell['v_text'], 'd' => $cell['dt_event'])) . ';';
+                echo 'cells[' . $cell['id_cell'] . ']=' . json_encode(array(/* 'x' => $cell['x'], 'y' => $cell['y'], */'t' => $cell['v_text'], 'd' => $cell['dt_event'])) . ';';
             }
             echo '</script>';
 
-            //Справа не показываем номер ячейки, так как там - новигация
+            //Справа не показываем номер ячейки, так как там - навигация
             //echo "<div class='crn r'>$y</div>";
 
             echo '</div>';

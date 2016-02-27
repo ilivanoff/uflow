@@ -49,6 +49,15 @@ class CropConst extends CropConstJs {
     const EMOTION_DISGUST = 5;
     const EMOTION_BINGABONG = 6;
 
+    /**
+     * Метод возвращает название эмоции по её коду
+     * 
+     * @param int $code - код эмоции
+     */
+    public static function getEmotionName($code) {
+        return strtolower(cut_string_start(PsUtil::getClassConstByValue(__CLASS__, 'EMOTION_', $code), 'EMOTION_'));
+    }
+
 }
 
 ?>

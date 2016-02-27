@@ -22,8 +22,13 @@ class CropUploaderLight {
      * @param type $text   - текст сообщения
      * @return CropCell Ячейка
      */
-    public static function upload($dataUrl, $text) {
+    public static function upload($dataUrl, $text, $em) {
         $LOGGER = PsLogger::inst(__CLASS__);
+
+        $emName = CropConst::getEmotionName($em);
+
+        $LOGGER->info();
+        $LOGGER->info('Uploading image. Emotion: {} (code: {}). Text: \'{}\' (len: {}).', $emName, $em, $text, ps_strlen($text));
 
         if ($LOGGER->isEnabled()) {
             $LOGGER->info('Crop len: ' . strlen($dataUrl));
@@ -69,7 +74,7 @@ class CropUploaderLight {
             // TODO - подумать насчёт unlimited mode
             //Создаём временную директорию. В случае ошибки она будет удалена
             $DM_TEMP = DirManagerCrop::cropTempAuto();
-            $LOGGER->info('Temp dir: ' . $DM_TEMP->relDirPath());
+            $LOGGER->info('Temp dir: {}', $DM_TEMP->relDirPath());
 
             //Начинаем создание ячеек
 
@@ -93,9 +98,11 @@ class CropUploaderLight {
             //Бронируем ячейку
             $cell = CropCellsManager::inst()->bindCell($DM_TEMP->getDirName(), $text);
 
+            $LOGGER->info('{}', $cell);
+
             //Копируем файлы в директорию
             $DM_DEST = DirManagerCrop::cropAuto($cell->getCellId());
-            $LOGGER->info('Dest dir: ' . $DM_DEST->relDirPath());
+            $LOGGER->info('Dest dir: {}', $DM_DEST->relDirPath());
 
             //Копируем файлы в конечную директорию
             $success = copy($absPathBig, $DM_DEST->absFilePath(null, CropConst::TMP_FILE_BIG, CropConst::CROP_EXT));

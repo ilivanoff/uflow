@@ -36,9 +36,8 @@ class CropUploadLight extends AbstractAjaxAction {
         }
         //$text = UserInputTools::safeLongText($text);
 
-        $em = $params->int('em');
+        CropUploaderLight::upload($params->str('crop'), $text, $params->int('em'));
 
-        CropUploaderLight::upload($params->str('crop'), $text);
         return new AjaxSuccess();
     }
 
