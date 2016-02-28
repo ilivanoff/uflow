@@ -104,6 +104,40 @@
 <script type="text/javascript" src="https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="https://yastatic.net/share2/share.js" charset="utf-8"></script>
 
+{if $PAGE=='info'}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    {literal}    
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+          function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+              ['Task', 'Hours per Day'],
+              ['Work',     11],
+              ['Eat',      2],
+              ['Commute',  2],
+              ['Watch TV', 2],
+              ['Sleep',    7]
+            ]);
+
+            var options = {
+              title: 'Распределение эмоций',
+              is3D: true,
+                  legend: {
+                      position: 'top'
+                      }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+          }
+        </script>
+    {/literal}
+{/if}
+
+
 {*
 ========================
 Базовые ресурсы сайта
@@ -127,30 +161,3 @@
 <script type="text/javascript" src="/ps-content/js/common.dev.or.admin.js"></script>
 <link rel="stylesheet" href="/ps-content/css/common.dev.or.admin.css" type="text/css" media="all" />
 {/devmodeOrAdmin}
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-{literal}    
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
-        ]);
-
-        var options = {
-          title: 'My Daily Activities'
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-        chart.draw(data, options);
-      }
-    </script>
-{/literal}
