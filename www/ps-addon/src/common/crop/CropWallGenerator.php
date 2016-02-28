@@ -6,8 +6,18 @@
 class CropWallGenerator {
 
     public static function generate() {
-        for ($i = 0; $i < rand(2000, 3000); $i++) {
+        echo '<div class="gr">';
+        for ($i = 0; $i < rand(round(CropConst::CROPS_GROUP_CELLS / 2), CropConst::CROPS_GROUP_CELLS - 1); $i++) {
             echo PsHtml::img(array('src' => CropTests::randomCropSmallImgDi()));
+        }
+        echo '</div>';
+
+        for ($i = 0; $i < 20; $i++) {
+            echo '<div class="gr">';
+            for ($j = 0; $j < CropConst::CROPS_GROUP_CELLS; $j++) {
+                echo PsHtml::img(array('src' => CropTests::randomCropSmallImgDi()));
+            }
+            echo '</div>';
         }
     }
 
@@ -23,6 +33,10 @@ class CropWallGenerator {
      * @param int|null $topY - номер последней группы
      */
     public static function build($topY = null) {
+        /*
+          self::generate();
+          return;
+         */
         $useCache = true;
         PsProfiler::inst(__CLASS__)->start('Build ' . ($useCache ? 'cached' : 'direct'));
         if ($useCache) {

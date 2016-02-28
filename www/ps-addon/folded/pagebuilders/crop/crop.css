@@ -91,3 +91,23 @@ h1.head a {
     font-weight: bold;
     padding-bottom: 2px;
 }
+
+
+/* Кнопки расшаривания */
+#ya-share {
+    position: fixed;
+    left: 0px;
+    top: 30px;
+    width: 24px;
+}
+
+#ya-share a {
+    background: none;
+    padding: 0px;
+    padding-bottom: 3px;
+}
+
+.ya-share2__popup {
+    text-align: left;
+    position: static;
+}

@@ -83,6 +83,7 @@ class CropTests {
      * Метод удаляет всё - все ячейки, всю историю
      */
     public static function clean() {
+        CropCache::GROUPS()->clean();
         DirManagerCrop::cropsDir()->removeDir();
         DirManagerCrop::tempsDir()->removeDir();
         DirManagerCrop::groupsDir()->removeDir();

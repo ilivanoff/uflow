@@ -1,0 +1,97 @@
+#bp-info {
+    background-color: white;
+    text-align: left;
+    padding: 1px 20px;
+}
+
+#bp-info h1.info-text {
+    color: #007dc6;
+    font-size: 30px;
+    font-weight: normal;
+    line-height: 1.2em;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.figure {
+    padding: 25px;
+    font-size: 16px;
+    color: #6e6e6e;
+    margin-bottom: 30px;
+}
+
+.figure h2 {
+    color: #555;
+    font-size: 28px;
+    font-weight: normal;
+    margin-top: 0px !important;
+}
+
+.figure .info {
+    text-align: justify;
+}
+
+.figure p.ps {
+    color: black;
+    text-align: center;
+    text-indent: 0em;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+.figure.fig1 {
+}
+
+.figure.fig1 h2,
+.figure.fig1 p {
+    margin: 10px 0px;
+}
+
+.figure.fig1 img.f1 {
+    float: left;
+    width: 300px;
+    padding-top: 10px;
+}
+
+.figure.fig1 .info {
+    margin-left: 350px;
+    text-align: justify;
+}
+
+.figure.fig1 .info p.ps {
+    color: black;
+    text-align: center;
+    text-indent: 0em;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+
+.figure.fig2 img.f2 {
+    width: 360px;
+    float: right;
+}
+
+.figure.fig2 .info {
+    float: left;
+    width: 470px;
+}
+
+.figure.fig2 .info img {
+    vertical-align: bottom;
+}
+
+.figure.fig2 ul {
+    list-style: disc;
+    padding-left: 38px;
+}
+
+.figure.fig-bottom {
+    text-align: center;
+    margin-bottom: 0px;
+    width: 500px;
+    height: 333px;
+    background: url('/i/info-img1.jpg') center center no-repeat transparent;
+    padding: 0px;
+    margin: 0px auto;
+}

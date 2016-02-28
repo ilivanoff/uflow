@@ -32,11 +32,12 @@ var CropUtils = {
 
 
 PsUtil.scheduleDeferred(function() {
+    var $head = $('h1.head:first');
+        
     /*
      * Навигационное меню
      */
     var CropHeaderController = function() {
-        var $head = $('h1.head:first');
         
         var $navButtons = $('<div>').addClass('nav-buttons').insertAfter($head);
         function navButtonsAdd(icon, title, href) {
@@ -59,7 +60,7 @@ PsUtil.scheduleDeferred(function() {
         ['puzzle', 'delete'].walk(function(item) {
             navButtonsAdd(item);
         });
-        */
+         */
         
         var headWidth = $head.width();
         var dimLast = null;
@@ -75,7 +76,7 @@ PsUtil.scheduleDeferred(function() {
             }
             var left = Math.ceil((docWidth - headWidth)/2 + headWidth + (60-32)/2 - scrollLeft);
             $navButtons.css('left', left);
-            //consoleLog('docWidth: {}, scrollLeft: {}',docWidth,scrollLeft );
+        //consoleLog('docWidth: {}, scrollLeft: {}',docWidth,scrollLeft );
         }
         
         $(window).resize(onResize).scroll(function() {
@@ -90,5 +91,37 @@ PsUtil.scheduleDeferred(function() {
         $navButtons.show();
     }
     new CropHeaderController();
+
+
+    /*
+     * Блок "поделиться" от яндекса
+     * https://tech.yandex.ru/share/
+     */
+    var YA_SHARE_ID = '#ya-share';
+    if (CROP.CROP_YA_SHARE_ENABED) {
+        var headHeight = $head.outerHeight();
+        $(YA_SHARE_ID).css('top', headHeight + 60 + 2);
+        PsUtil.callGlobalObject('Ya', function() {
+            var Ya = this;
+            Ya.share2(YA_SHARE_ID, {
+                theme: {
+                    services: PsStrings.trim(CROP.CROP_YA_SHARE_SERVICES).replaceAll(' ', ''),
+                    //counter: true,
+                    //lang: 'uk',
+                    limit: CROP.CROP_YA_SHARE_SERVICES_LIMIT,
+                    size: 'm'
+                //bare: false
+                },
+                content: {
+                    url: CROP.CROP_YA_SHARE_URL,
+                    title: CROP.CROP_YA_SHARE_TITLE,
+                    description: CROP.CROP_YA_SHARE_DESCRIPTION,
+                    image: CROP.CROP_YA_SHARE_IMAGE
+                }
+            });
+        });
+    } else {
+        $(YA_SHARE_ID).remove();
+    }
 
 });

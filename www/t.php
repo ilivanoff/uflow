@@ -11,7 +11,9 @@ ExceptionHandler::registerPretty();
 PsUtil::startUnlimitedMode();
 
 //CropWallGenerator::buildWall(10);
-CropTests::makeCropCells(520);
+
+CropTests::clean();
+CropTests::makeCropCells(350);
 
 //CropTests::clean();
 

@@ -20,13 +20,6 @@ class CropCellsManager extends AbstractSingleton {
         return is_null($lastGr) ? array() : CropBean::inst()->loadCells4Show($lastGr, $portion);
     }
 
-    /**
-     * Метод загружает номер последней ячейки
-     */
-    public function getMaxY() {
-        return CropBean::inst()->getMaxY();
-    }
-
     /** @return CropCellsManager */
     public static function inst() {
         return parent::inst();
