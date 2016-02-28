@@ -47,12 +47,21 @@ class CropBean extends BaseBean {
     }
 
     /**
+     * Метод загружает коды ячеек группы от левого края к правому
+     * 
+     * @param int $y - номер группы
+     */
+    public function getGroupCellIds($y) {
+        return $this->getIds('select id_cell as id as value from crop_cell where y=? order by x desc', PsCheck::positiveInt($y));
+    }
+
+    /**
      * Метод загружает ячейки группы от левого края к правому
      * 
-     * @param int $n - номер группы
+     * @param int $y - номер группы
      */
-    public function getGroupCells($n) {
-        return $this->getValues('select id_cell as value from crop_cell where y=? order by x desc', PsCheck::positiveInt($n));
+    public function getGroupCells($y) {
+        return $this->getArray('select id_cell, x, y, v_text, dt_event from crop_cell where y=? order by x desc', PsCheck::positiveInt($y));
     }
 
     /**
@@ -60,7 +69,7 @@ class CropBean extends BaseBean {
      */
     public function getMaxY() {
         $y = $this->getValue('select max(y) as y from crop_cell');
-        return PsCheck::isInt($y) ? 1 * $y : null; //---
+        return PsCheck::isInt($y) ? PsCheck::int($y) : null; //---
     }
 
     /**

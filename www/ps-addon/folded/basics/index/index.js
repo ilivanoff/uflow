@@ -1,3 +1,6 @@
+//Установим хранилище для ячеек
+cells = {};
+
 $(function () {
 
     var CropLogger = PsLogger.inst('CropUpload').setTrace();

@@ -1,3 +1,5 @@
+<link rel="shortcut icon" href="/fav.png" type="image/png">
+
 <link rel="stylesheet" href="/ps-content/css/core.css" type="text/css" media="all" />
 <!--<link rel="stylesheet" href="/ps-content/css/common.css" type="text/css" media="all" />-->
 <link rel="stylesheet" href="/ps-content/css/common.widgets.css" type="text/css" media="all" />
@@ -93,7 +95,6 @@
 {if !isset($MATHJAX_DISABLE) || !$MATHJAX_DISABLE}
     {linkup_js dir='/ps-content/js-lib' name="MathJax/MathJax.js"}
 {/if}
-
 
 {if $PAGE=='cell'}
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>

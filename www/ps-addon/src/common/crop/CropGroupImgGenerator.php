@@ -13,7 +13,7 @@ class CropGroupImgGenerator {
      * @param bool $forceRebuild - признак ознает, что группа будет перестроена, даже если существует
      */
     public static function makeGroups($forceRebuild = false) {
-        $maxY = CropCellsManager::inst()->getMaxY();
+        $maxY = CropBean::inst()->getMaxY();
         if (PsCheck::isInt($maxY)) {
             for ($y = $maxY; $y >= 1; --$y) {
                 $groupDi = DirManagerCrop::groupFile($y);
@@ -38,7 +38,7 @@ class CropGroupImgGenerator {
      */
     public static function makeGroup($y) {
         //Создаём картинку
-        return self::makeGroupImpl($y, CropBean::inst()->getGroupCells($y));
+        return self::makeGroupImpl($y, CropBean::inst()->getGroupCellIds($y));
     }
 
     /**
