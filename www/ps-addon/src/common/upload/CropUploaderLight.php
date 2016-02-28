@@ -96,7 +96,7 @@ class CropUploaderLight {
             $DM_TEMP_CLEAR = false;
 
             //Бронируем ячейку
-            $cell = CropCellsManager::inst()->bindCell($DM_TEMP->getDirName(), $text);
+            $cell = CropBean::inst()->makeCell($DM_TEMP->getDirName(), $text, $em);
 
             $LOGGER->info('{}', $cell);
 
@@ -117,7 +117,7 @@ class CropUploaderLight {
             }
 
             //Подтверждаем ячейку
-            CropCellsManager::inst()->submitCell($cell->getCellId());
+            CropBean::inst()->submitCell($cell->getCellId());
 
             //Временная директория теперь не нужна
             $DM_TEMP->removeDir();

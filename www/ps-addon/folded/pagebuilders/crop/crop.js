@@ -75,7 +75,7 @@ PsUtil.scheduleDeferred(function() {
             }
             var left = Math.ceil((docWidth - headWidth)/2 + headWidth + (60-32)/2 - scrollLeft);
             $navButtons.css('left', left);
-            consoleLog('docWidth: {}, scrollLeft: {}',docWidth,scrollLeft );
+            //consoleLog('docWidth: {}, scrollLeft: {}',docWidth,scrollLeft );
         }
         
         $(window).resize(onResize).scroll(function() {

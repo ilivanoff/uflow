@@ -4,13 +4,13 @@ header('Content-Type: text/html; charset=utf-8');
 
 require_once 'ps-includes/MainImport.php';
 
+PsDefines::assertProductionOff(__FILE__);
+
 ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
-CropTests::makeCropCells(50);
-
-//echo CropConst::getEmotionName(7);
+CropTests::makeCropCells(5);
 
 die;
 
@@ -46,14 +46,6 @@ $y = 1 + round(($cellsCnt - $x) / CropConst::CROPS_GROUP_CELLS);
 
 echo "$y x $x";
 
-
-die;
-
-
-$idCell = CropBean::inst()->makeCell('xxx', 'my text');
-echo CropBean::inst()->submitCell($idCell);
-
-//echo basename(DirManagerCrop::cropTempDir()->relDirPath());
 
 die;
 

@@ -10,7 +10,11 @@ $(function () {
         //Блок с кнопкой предзагрузки
         $preload: $('.top-container .preload'),
         //Кнопка предзагрузки
-        $preloadBtn: $('.top-container .preload button')
+        $preloadBtn: $('.top-container .preload button'),
+        //Текст кнопки предзагрузки
+        preloadBtnTextOriginal: $('.top-container .preload button').text(),
+        //Текст на кнопке при загрузке данных
+        preloadBtnTextProgress: 'Загружаем...'
     }
 
     // # 1.
@@ -123,22 +127,29 @@ $(function () {
      * Стена
      */
     var Wall = {
-        //Кол-во дозагрузок стены
+        //Счётчик предзагрузок
         preloads: 0,
-        //Максимальное кол-во автоматических предзагрузок
-        PRELOADS_MAX: 3,
+        //Признак выполнения предзагрузки
+        preloading: false,
+        //Признак приостановки загрузки при помощи скрола
+        stopPreloadOnScroll: false,
+        //Время задержки дозагрузки при скроллинге
+        stopPreloadDelay: 1000,
         //Метод вызывается для получения последней загруженной группы
         getLastY: function () {
             var y = CropCore.$wall.children('div.gr:last').data('gr');
             return PsIs.integer(y) && y > 0 ? y : null;
         },
+        //Можно ли вызывать предзагрузку?
+        canPreload: function() {
+            var y = this.getLastY();
+            return PsIs.integer(y) && y>1;
+        },
         //Метод вызывается для инициализации кнопки дозагрузки данных
         init: function () {
 
-            var y = this.getLastY();
-
-            //Нет групп? Удаляем и выходим.
-            if (!y || y <= 1) {
+            //Можно и предзагружать?
+            if (!this.canPreload()) {
                 CropCore.$preload.hide();
                 return;//---
             }
@@ -154,35 +165,83 @@ $(function () {
             }).click(function () {
                 Wall.doPreload();
             });
-
+            
             //Привяжем функцию обновления
-            if (this.PRELOADS_MAX>0) {
-                PsScroll.bindWndScrolledBottom(this.doPreload, this);
+            if (true) {
+                PsScroll.bindWndScrolledBottom(this.doPreloadScroll, this);
             }
+        },
+        //Метод вызывается для загрузки порции данных при скроллинге страницы вниз
+        doPreloadScroll: function() {
+            return this.stopPreloadOnScroll ? false : this.doPreload();
         },
         //Метод вызывается для загрузки порции данных
         doPreload: function () {
-            //Если сделали больше N загрузок - далее пользователь сам должен нажимать кнопки
-            if (++this.preloads >= this.PRELOADS_MAX) {
-                PsScroll.unbindWndScrolledBottom(this.doPreload);
-            }
+            //Если сейчас выполняем предзагрузку - выходим
+            if (this.preloading) return;//---
+            
+            //Можно и предзагружать?
+            if (!this.canPreload()) return;//---
 
-            CropCore.$preloadBtn.uiButtonDisable();
+            //Номер загрузки увеличим до дизейбла кнопок
+            var preload = ++this.preloads;
 
+            //Устанавливаем признак загрузки
+            this.preloading = true;
+            
+            //Приостанавливаем загрузку с помощью скролла
+            this.stopPreloadOnScroll = true;
+
+            //Дизейблим кнопку и устанавливаем текст
+            CropCore.$preloadBtn.uiButtonDisable().uiButtonLabel(CropCore.preloadBtnTextProgress);
+            
+            //Функция будет вызвана при окончании загрузки
+            var preloadingDone = PsUtil.once(function() {
+                //Активируем кнопку предзагрузки (при этом сам блок с кнопкой может быть уже спрятан)
+                CropCore.$preloadBtn.uiButtonEnable().uiButtonLabel(CropCore.preloadBtnTextOriginal);
+                //Снимаем признак загрузки
+                this.preloading = false;
+                //В отложенном режиме активируем загрузку скроллом
+                PsUtil.scheduleDeferred(function() {
+                    //Проверяет, является ли транзакция - текущей
+                    if (this.preloads == preload) {
+                        this.stopPreloadOnScroll = false;
+                    }
+                }, this, this.stopPreloadDelay);
+            }, this);
+            
             AjaxExecutor.execute('CropWallLoad', {
                 ctxt: this,
                 y: this.getLastY()
             },
             function (ok) {
-                CropCore.$wall.append(ok);
-            }, 'Загрузка стены',
-            function () {
-                var y = this.getLastY();
-                if (!y || y <= 1) {
-                    CropCore.$preload.hide();
-                    PsScroll.unbindWndScrolledBottom(this.doPreload, this);
-                } else {
-                    CropCore.$preloadBtn.uiButtonEnable();
+                var $box = $(ok);
+                var $images = $box.find("img[src^='/']");
+                if(!$images.isEmptySet()) {
+                    $box.hide();
+                    
+                    var allImgsLoaded = PsUtil.once(function() {
+                        //Если уже всё загружено - прячем кнопку и отписываемся от скрола
+                        if(!this.canPreload()) {
+                            CropCore.$preload.hide();
+                            PsScroll.unbindWndScrolledBottom(this.doPreloadScroll, this);
+                        }
+                        //Показываем загруженный блок
+                        $box.show();
+                        //Снимаем состояние предзагрузки
+                        preloadingDone();
+                    }, this);
+                    
+                    PsResources.onAllImagesLoaded($images, allImgsLoaded);
+                }
+                
+                CropCore.$wall.append($box);
+                
+                return true;
+            }, 'Загрузка стены', function(ok) {
+                if(!ok) {
+                    //Снимаем состояние предзагрузки
+                    preloadingDone();
                 }
             });
         }

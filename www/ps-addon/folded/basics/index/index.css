@@ -65,6 +65,7 @@
     /*background-color: #368AD2;*/
     background-color: white;
     padding: 10px;
+    display: none;
     /*border-bottom: 4px solid #ccc;*/
     /*height: 31px;*/
 }

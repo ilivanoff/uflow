@@ -10,14 +10,14 @@ class CropBean extends BaseBean {
     /**
      * Метод привязывает ячейку в БД
      * 
-     * @param string $temp - временное хранилище
+     * @param string $temp - название директории временного хранилища, чтобы восстановить привязку в случае ошибки
      * @param string $text - текст ячейки
      * @return CropCell Ячейка
      */
-    public function makeCell($temp, $text) {
+    public function makeCell($temp, $text, $em) {
         PsLock::lockMethod(__CLASS__, __FUNCTION__);
         try {
-            $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, b_ok, v_temp, v_text) VALUES (unix_timestamp(), 0, ?, ?)', array($temp, $text)));
+            $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, n_em, b_ok, v_temp, v_text) VALUES (unix_timestamp(), ?, 0, ?, ?)', array(PsCheck::int($em), $temp, $text)));
 
             $cellNum = PsCheck::notNegativeInt($this->getCnt('select count(1) as cnt from crop_cell') - 1);
 
@@ -40,10 +40,10 @@ class CropBean extends BaseBean {
      * Метод подтверждает ячейку
      * 
      * @param int $cellId - код ячейки
-     * @return type
+     * @return bool - признак, привязана ли ячейка
      */
     public function submitCell($cellId) {
-        return $this->update('UPDATE crop_cell set v_temp=null, b_ok=1 where b_ok=0 and id_cell=?', PsCheck::positiveInt($cellId));
+        return 1 == $this->update('UPDATE crop_cell set v_temp=null, b_ok=1 where b_ok=0 and id_cell=?', PsCheck::positiveInt($cellId));
     }
 
     /**
