@@ -61,6 +61,8 @@
     <img src="/i/emotions/BingBong.png" class="bingbong"/>
     *}
 
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
+
     <div class="figure fig-bottom"></div>
 
 </div>

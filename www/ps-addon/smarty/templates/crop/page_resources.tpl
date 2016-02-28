@@ -127,3 +127,30 @@
 <script type="text/javascript" src="/ps-content/js/common.dev.or.admin.js"></script>
 <link rel="stylesheet" href="/ps-content/css/common.dev.or.admin.css" type="text/css" media="all" />
 {/devmodeOrAdmin}
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+{literal}    
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          title: 'My Daily Activities'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+{/literal}
