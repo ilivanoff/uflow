@@ -250,7 +250,6 @@ input#choose-file {
     padding: 5px;
 }
 
-
 /* Правое меню */
 .crop-menu {
     float: right;
@@ -268,19 +267,22 @@ input#choose-file {
 }
 
 .crop-menu .rotate {
-    margin: 10px 0px;
+    margin: 10px 5px;
 }
 
 #PresetFilters {
     clear: both;
 }
 
-#PresetFilters a {
+/* Блоки кнопок */
+.btn-box a {
     border-radius: 3px;
+    /*
     -webkit-transition: background-color .3s ease-out;
     -moz-transition: background-color .3s ease-out;
     transition: background-color .3s ease-out;
-    background-color: #368ad2;
+    */
+    background-color: #4B9FE7;
     display: block;
     float: left;
     text-align: center;
@@ -294,12 +296,45 @@ input#choose-file {
     text-decoration: none;
 }
 
-#PresetFilters a.active {
-    background-color: #e69751;
+.btn-box a:not(.disabled):hover {
+    background-color: #368ad2;
 }
 
-#PresetFilters a.disabled {
+.btn-box a:not(.disabled):active {
+    background-color: #337AB7;
+}
+
+.btn-box a.active {
+    background-color: #e69751 !important;
+}
+
+.btn-box a.disabled {
     opacity: 0.3;
+    cursor: default;
+}
+
+.btn-group {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.btn-group > a:first-child:not(:last-child) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.btn-group > a:not(:last-child) {
+    border-right: 1px solid #368ad2;
+}
+
+.btn-group > a:last-child:not(:first-child) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.btn-group a {
+    width: 44px;
+    margin: 0px;
 }
 
 /*
@@ -315,3 +350,4 @@ input#choose-file {
     height: 60px;
     margin: 0px 0px 0px 0px;
 }
+

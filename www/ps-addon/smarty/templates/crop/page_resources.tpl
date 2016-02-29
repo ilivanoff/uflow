@@ -7,6 +7,7 @@
 {*hint Css [https://github.com/chinchang/hint.css]*}
 
 <link rel="stylesheet" href="/ps-content/css/hint/hint.min.css" />
+<link rel="stylesheet" href="/ps-addon/css-lib/font-awesome-4.5.0/css/font-awesome.min.css" />
 
 <script type="text/javascript" src="/ps-content/js-lib/jquery-1.8.2.js"></script>
 

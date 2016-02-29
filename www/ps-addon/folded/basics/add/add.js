@@ -37,8 +37,8 @@ $(function () {
         $cropTextArea: $('.container .crop-text textarea'),
         //Холдер для блока редактирования картинки
         $croppHolder: $('.crop-holder'),
-        //Слайдбар переворот
-        $rotateSlidebar: $('.crop-menu .rotate'),
+        //Кнопки переворота
+        $rotateBoxA: $('.crop-menu .rotate>a'),
         //Фильтры
         $presetFilters: $('#PresetFilters'),
         //Кнопки фильтров
@@ -62,21 +62,29 @@ $(function () {
         //Инициализация ядра
         init: function () {
             this.progress = new PsUpdateModel(this, function (action) {
-                if (action !== 'filter') {
+                if (!['filter', 'transform'].contains(action)) {
                     this.$progress.show()
+                }
+                if (action !== 'filter') {
+                    ImageFilters.disable();
                 }
                 this.$fileInputLabel.uiButtonDisable();
                 this.$cropTextArea.disable();
                 this.$buttonSend.uiButtonDisable();
                 CropEditor.setEnabled(false);
+                ImageTransform.disable();
             }, function (action) {
-                if (action !== 'filter') {
+                if (!['filter', 'transform'].contains(action)) {
                     this.$progress.hide()
+                }
+                if (action !== 'filter') {
+                    ImageFilters.enable();
                 }
                 this.$fileInputLabel.uiButtonEnable();
                 this.$cropTextArea.enable();
                 this.$buttonSend.uiButtonEnable();
                 CropEditor.setEnabled(true);
+                ImageTransform.enable();
             });
         },
         //Прогресс
@@ -120,6 +128,8 @@ $(function () {
             CropCore.$cropText.hide();
             //Прячем кнопку публикации
             CropCore.$buttonsBottom.hide();
+            //Дизейблим кнопки модификации
+            ImageTransform.disable();
             //Отключаем фильтры
             ImageFilters.disable();
         }
@@ -138,6 +148,7 @@ $(function () {
         }
 
         this.onCropReady = function () {
+            ImageTransform.enable();
             ImageFilters.enable();
             CropCore.$cropText.show();
             CropCore.$emotions.show();
@@ -149,6 +160,13 @@ $(function () {
             CropEditor.startCrop(img, callback, true);
         }
 
+        this.transformApply = function (ob, callback) {
+            CropEditor.applyTransform(ob);
+            if (callback) {
+                callback();
+            }
+        }
+
         //Сабмит формы
         this.submitLight = function () {
             var text = CropCore.$cropTextArea.val();
@@ -157,18 +175,18 @@ $(function () {
                 return;//---
             }
             if (text.length > CROP.CROP_MSG_MAX_LEN) {
-                CropCore.showError('Максимальная длина текста: '+CROP.CROP_MSG_MAX_LEN+'. Введено: '+text.length+'.');
+                CropCore.showError('Максимальная длина текста: ' + CROP.CROP_MSG_MAX_LEN + '. Введено: ' + text.length + '.');
                 return;//---
             }
-        
+
             var emotionCode = EmotionsManager.activeCode();
-            if(!PsIs.integer(emotionCode)) {
+            if (!PsIs.integer(emotionCode)) {
                 CropCore.showError('Пожалуйста, выберете эмоцию.');
                 return;//---
             }
-            
+
             CropLogger.logInfo("Submitting light {}. Emotion: {}. Text: '{}'", img.toString(), emotionCode, text);
-            
+
             CropCore.progress.start();
 
             var crop = PsCanvas.cloneAndResize(CropEditor.crop.getCropCanvas(), 240, 240);
@@ -178,9 +196,9 @@ $(function () {
                 text: text, //Текст
                 em: emotionCode //Код эмоции
             },
-            CropCore.hideError, CropCore.showError, function () {
-                CropCore.progress.stop();
-            });
+                    CropCore.hideError, CropCore.showError, function () {
+                        CropCore.progress.stop();
+                    });
         }
 
         //Сабмит формы
@@ -211,9 +229,9 @@ $(function () {
             }
 
             AjaxExecutor.executePost('CropUpload', data,
-                CropCore.hideError, CropCore.showError, function () {
-                    CropCore.progress.stop();
-                });
+                    CropCore.hideError, CropCore.showError, function () {
+                        CropCore.progress.stop();
+                    });
         }
     }
 
@@ -254,26 +272,26 @@ $(function () {
                 } else {
                     //Подгоним ширину изображения под редактор
                     FileAPI.Image(file).resize(CropCore.ContainerWidth, 600, 'width')
-                    .get(function (err, canvas) {
-                        if (err) {
-                            CropController.onError('Ошибка обработки изображения: ' + err);
-                        } else {
-                            var img = {
-                                id: id,     //Код загрузки
-                                file: file,   //Загруженный файл
-                                info: info,   //Информация об изображении
-                                canvas: canvas, //Объект HTML, по ширине подогнанный для редактора
-                                canvasClone: function () {
-                                    return PsCanvas.clone(this.canvas);
-                                },
-                                toString: function () {
-                                    return this.id + ".'" + this.file.name + "' [" + this.file.type + "] (" + this.info.width + "x" + this.info.height + ")";
+                            .get(function (err, canvas) {
+                                if (err) {
+                                    CropController.onError('Ошибка обработки изображения: ' + err);
+                                } else {
+                                    var img = {
+                                        id: id,     //Код загрузки
+                                        file: file,   //Загруженный файл
+                                        info: info,   //Информация об изображении
+                                        canvas: canvas, //Объект HTML, по ширине подогнанный для редактора
+                                        canvasClone: function () {
+                                            return PsCanvas.clone(this.canvas);
+                                        },
+                                        toString: function () {
+                                            return this.id + ".'" + this.file.name + "' [" + this.file.type + "] (" + this.info.width + "x" + this.info.height + ")";
+                                        }
+                                    };
+                                    CropCore.progress.stop();
+                                    CropController.onImgSelected(img);
                                 }
-                            };
-                            CropCore.progress.stop();
-                            CropController.onImgSelected(img);
-                        }
-                    });
+                            });
                 }
             });
         },
@@ -315,9 +333,10 @@ $(function () {
             background: true,
             autoCropArea: 1,
             movable: false,
-            zoomable: false,
+            zoomable: true,
+            zoomOnWheel: false,
             viewMode: 1
-        /*
+                    /*
                      ,crop: function(e) {
                      $('.crop-preview').empty().each(function() {
                      $(this).append($(e.target).cropper('getCroppedCanvas'));
@@ -345,7 +364,7 @@ $(function () {
             //Перестраиваем? Тогда сохраним старый crop, с которого скопируем потом настройки
             if (rebuild) {
                 cropOld = this.crop;
-            //cropOld.setEnabled(false);
+                //cropOld.setEnabled(false);
             } else {
                 //Уничтожаем текущий crop
                 this.stopCrop();
@@ -373,6 +392,19 @@ $(function () {
                     if (this.$cropper) {
                         this.$cropper.cropper(enabled ? 'enable' : 'disable');
                     }
+                },
+                applyTransform: function (obj) {
+                    if (!this.$cropper) {
+                        return;//---
+                    }
+                    var disabled = this.$cropper.cropper('getDisabled');
+                    if (disabled) {
+                        this.setEnabled(true);
+                    }
+                    this.$cropper.cropper(obj.m, obj.d);
+                    if (disabled) {
+                        this.setEnabled(false);
+                    }
                 }
             };
 
@@ -388,7 +420,11 @@ $(function () {
                             CropCore.progress.stop();
 
                             if (CropController.isCurrent(img)) {
+                                var oldData = cropOld ? cropOld.getData() : null;
                                 this.stopCrop();
+                                if (oldData && PsIs.integer(oldData.rotate) && (oldData.rotate != 0)) {
+                                    cropNew.$cropper.cropper('rotate', oldData.rotate);
+                                }
                                 this.crop = cropNew;
                                 this.crop.setEnabled(CropEditor.enabled);
                                 this.crop.$holder.show();
@@ -416,6 +452,12 @@ $(function () {
                 });
             } else {
                 onCanvasReady();
+            }
+        },
+        //Метод применяет трансформацию в изображению
+        applyTransform: function (ob) {
+            if (this.crop) {
+                this.crop.applyTransform(ob);
             }
         },
         //Метод закрывает редактор
@@ -469,40 +511,75 @@ $(function () {
 
     ImageFilters.init();
 
+    //Трансформация картинки
+    var ImageTransform = {
+        $buttons: null,
+        init: function () {
+            //Добавить другие кнопки
+            this.$buttons = $('.crop-menu .btn-group>a').clickClbck(function (href, $a) {
+                if (CropCore.progress.isStarted() || $a.is('.disabled')) {
+                    return;//---
+                }
+                CropCore.progress.start('transform');
+
+                //Отключаем фильтры
+                CropController.transformApply(this.registerTransform(href), function () {
+                    CropCore.progress.stop();
+                });
+            }, this);
+        },
+        /*
+         * Задача метода загеристрировать трансформацию в списке всех трансформаций и вернуть объект
+         */
+        registerTransform: function (href) {
+            switch (href) {
+                case 'rotateLeft':
+                    return {
+                        m: 'rotate',
+                        d: '-45'
+                    }
+                case 'rotateRight':
+                    return {
+                        m: 'rotate',
+                        d: '45'
+                    }
+                case 'zoomPlus':
+                    return {
+                        m: 'zoom',
+                        d: 0.1
+                    }
+                case 'zoomMinus':
+                    return {
+                        m: 'zoom',
+                        d: -0.1
+                    }
+            }
+        },
+        disable: function () {
+            this.$buttons.addClass('disabled');
+        },
+        enable: function () {
+            this.$buttons.removeClass('disabled');
+        },
+    }
+
+    ImageTransform.init();
+
 
     //Управление эмоциями
     var EmotionsManager = {
-        init: function() {
-            CropCore.$emotionsSpan.click(function() {
+        init: function () {
+            CropCore.$emotionsSpan.click(function () {
                 CropCore.$emotionsSpan.removeClass('active');
                 $(this).addClass('active');
             });
         },
-        
-        activeCode: function() {
+        activeCode: function () {
             return CropCore.$emotionsSpan.filter('.active').data('code');
         }
     }
-    
-    EmotionsManager.init();
-    //Трансформация картинки
-    /*
-     var ImageTransform = {
-     init: function() {
-     CropCore.$rotateSlidebar.slider({
-     value: 60,
-     orientation: 'horizontal',
-     min: 0,
-     max: 360,
-     range: 'min',
-     animate: true
-     })
-     }
-     }
-     
-     ImageTransform.init();
-     */
 
+    EmotionsManager.init();
 
 
     //Показываем меню справа

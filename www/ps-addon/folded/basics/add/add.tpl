@@ -85,9 +85,17 @@
 
     {* ПРАВАЯ ПАНЕЛЬ *}
     <div class="crop-menu noselect">
-        <div class="rotate"></div>
+        <div class="btn-box btn-group zoom">
+            <a href="#zoomPlus"><i class="fa fa-search-plus"></i></a>
+            <a href="#zoomMinus"><i class="fa fa-search-minus"></i></a>
+        </div>
 
-        <div id="PresetFilters">
+        <div class="btn-box btn-group rotate">
+            <a href="#rotateLeft"><i class="fa fa-rotate-left"></i></a>
+            <a href="#rotateRight"><i class="fa fa-rotate-right"></i></a>
+        </div>
+
+        <div id="PresetFilters" class="btn-box">
             <a href="#vintage">Vintage</a>
             <a href="#lomo">Lomo</a>
             <a href="#clarity">Clarity</a>
