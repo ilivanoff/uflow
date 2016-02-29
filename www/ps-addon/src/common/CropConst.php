@@ -6,10 +6,10 @@
  * @author azazello
  */
 class CropConst extends CropConstJs {
+
     /**
      * Максимальное кол-во ячеек в группе (960/60)
      */
-
     const CROPS_GROUP_CELLS = 16;
 
     /**
@@ -50,12 +50,44 @@ class CropConst extends CropConstJs {
     const EMOTION_BINGABONG = 6;
 
     /**
+     * Метод возвращает коды эмоций
+     * 
+     * @return array - коды эмоции
+     */
+    public static function getEmotionsCodes() {
+        return PsUtil::getClassConsts(__CLASS__, 'EMOTION_');
+    }
+
+    /**
      * Метод возвращает название эмоции по её коду
      * 
      * @param int $code - код эмоции
      */
     public static function getEmotionName($code) {
         return strtolower(cut_string_start(PsUtil::getClassConstByValue(__CLASS__, 'EMOTION_', $code), 'EMOTION_'));
+    }
+
+    /**
+     * Метод возвращает описание эмоции по её коду
+     * 
+     * @param int $code - код эмоции
+     */
+    public static function getEmotionDescr($code) {
+        switch ($code) {
+            case self::EMOTION_JOY:
+                return 'Радость';
+            case self::EMOTION_SADNESS:
+                return 'Печаль';
+            case self::EMOTION_ANGER:
+                return 'Злость';
+            case self::EMOTION_FEAR:
+                return 'Страх';
+            case self::EMOTION_DISGUST:
+                return 'Брезгливость';
+            case self::EMOTION_BINGABONG:
+                return 'Бинго Бонг';
+        }
+        return 'Неизвестный';
     }
 
 }

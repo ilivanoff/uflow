@@ -10,17 +10,28 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
-//CropWallGenerator::buildWall(10);
+CropTests::makeCropCells(50);
+
+die;
+
+foreach (CropBean::inst()->getEmotions() as $emotion) {
+    echo $emotion;
+    br();
+}
+
+die;
+
+foreach (PSDB::getArray('select id_cell as id from crop_cell') as $cell) {
+    $id = $cell['id'];
+    PSDB::update('update crop_cell set n_em=? where id_cell=?', array(CropTests::randomEmotionCode(), $id));
+}
+die;
 
 CropTests::clean();
 CropTests::makeCropCells(350);
 
 //CropTests::clean();
 
-
-die;
-
-echo CropBean::inst()->getCell('a', true);
 
 die;
 

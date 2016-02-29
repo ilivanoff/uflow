@@ -39,6 +39,10 @@
             </p>
 
             <p>
+                <i>Рекламные сообщения не допускаются.</i> Для размещения рекламы на сайте свяжитесь, пожалуйста, с администрацией.
+            </p>
+
+            <p>
                 Давайте уважать друг друга. Записи, не соответствующие правилам, будут удаляться.
             </p>
 
@@ -61,7 +65,9 @@
     <img src="/i/emotions/BingBong.png" class="bingbong"/>
     *}
 
-    <div id="piechart" style="width: 900px; height: 500px;"></div>
+    <div id="em-chart">
+        <img class="em-progress" alt="loading" src="/ps-content/images/icons/page_loading.gif">
+    </div>
 
     <div class="figure fig-bottom"></div>
 

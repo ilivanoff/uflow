@@ -71,11 +71,6 @@
 <script type="text/javascript" src="/ps-content/js-lib/Timepicker/jquery-ui-timepicker-addon.js"></script>
 {*<script type="text/javascript" src="/ps-content/js-lib/Timepicker/jquery-ui-sliderAccess.js"></script>*}
 <script type="text/javascript" src="/ps-content/js-lib/Timepicker/jquery-ui-timepicker-ps-ru.js"></script>
-{if true || isset($UPLOADIFY_ENABE) && $UPLOADIFY_ENABE}
-    <link rel="stylesheet" href="/ps-content/js-lib/uploadify/Uploadify-3.2.1/uploadify.css" type="text/css" media="all" />
-    {*<script type="text/javascript" src="/ps-content/js-lib/uploadify/swfobject.js"></script>*}
-    <script type="text/javascript" src="/ps-content/js-lib/uploadify/Uploadify-3.2.1/jquery.uploadify.min.js"></script>
-{/if}
 
 {if isset($ATOOL_ENABLE) && $ATOOL_ENABLE}
     {*Скрипт для получения выделения на странице*}
@@ -101,42 +96,14 @@
 {/if}
 
 {*Кнопки соц сетей Ya share*}
-<script type="text/javascript" src="https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="https://yastatic.net/share2/share.js" charset="utf-8"></script>
-
-{if $PAGE=='info'}
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    {literal}    
-        <script type="text/javascript">
-          google.charts.load('current', {'packages':['corechart']});
-          google.charts.setOnLoadCallback(drawChart);
-          function drawChart() {
-
-            var data = google.visualization.arrayToDataTable([
-              ['Task', 'Hours per Day'],
-              ['Work',     11],
-              ['Eat',      2],
-              ['Commute',  2],
-              ['Watch TV', 2],
-              ['Sleep',    7]
-            ]);
-
-            var options = {
-              title: 'Распределение эмоций',
-              is3D: true,
-                  legend: {
-                      position: 'top'
-                      }
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-            chart.draw(data, options);
-          }
-        </script>
-    {/literal}
+{if $smarty.const.CROP_YA_SHARE_ENABED}
+    <script type="text/javascript" src="https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://yastatic.net/share2/share.js" charset="utf-8"></script>
 {/if}
 
+{if isset($GOOGLE_CHARTS) && $GOOGLE_CHARTS}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+{/if}
 
 {*
 ========================

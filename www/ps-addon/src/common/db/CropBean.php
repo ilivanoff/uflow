@@ -86,6 +86,20 @@ class CropBean extends BaseBean {
         return PsCheck::isInt($cellId) ? $this->getObject('select * from crop_cell where id_cell=?', array($cellId), CropCell::getClass(), null, $required) : ($required ? raise_error('Не передан код ячейки') : null);
     }
 
+    /**
+     * Метод загружает эмоции
+     * 
+     * @return array массив эмоций
+     */
+    public function getEmotions() {
+        $statistic = $this->getMap('select n_em as id, count(1) as value from crop_cell group by n_em');
+        $emotions = array();
+        foreach (CropConst::getEmotionsCodes() as $code) {
+            $emotions[$code] = new EmotionStatistic($code, array_get_value($code, $statistic, 0));
+        }
+        return $emotions; //---
+    }
+
     /** @return CropBean */
     public static function inst() {
         return parent::inst();
