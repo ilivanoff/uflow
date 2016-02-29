@@ -266,10 +266,6 @@ input#choose-file {
     margin: 15px 0px;
 }
 
-.crop-menu .rotate {
-    margin: 10px 5px;
-}
-
 #PresetFilters {
     clear: both;
 }
@@ -314,6 +310,8 @@ input#choose-file {
 }
 
 .btn-group {
+    margin: 5px;
+    margin-right: 0px;
     display: inline-block;
     vertical-align: middle;
 }
