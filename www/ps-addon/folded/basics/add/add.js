@@ -39,12 +39,16 @@ $(function () {
         $croppHolder: $('.crop-holder'),
         //Кнопки переворота
         $rotateBoxA: $('.crop-menu .rotate>a'),
+        //Кнопки трансформации
+        $transformA: $('.transform a'),
         //Фильтры
         $presetFilters: $('#PresetFilters'),
         //Кнопки фильтров
         $presetFiltersA: $('#PresetFilters>a'),
         //Меню редактора
         $cropMenu: $('.crop-menu'),
+        //Блоки предпросмотра
+        $cropPreview: $('.crop-preview'),
         //Метод вычисляет высоту холдера для картинки
         calcHolderHeight: function (img) {
             var ratio = this.ContainerWidth / img.info.width;
@@ -130,6 +134,8 @@ $(function () {
             CropCore.$buttonsBottom.hide();
             //Дизейблим кнопки модификации
             ImageTransform.disable();
+            //Сбросим настройки трансформации
+            ImageTransform.reset();
             //Отключаем фильтры
             ImageFilters.disable();
         }
@@ -160,11 +166,8 @@ $(function () {
             CropEditor.startCrop(img, callback, true);
         }
 
-        this.transformApply = function (ob, callback) {
-            CropEditor.applyTransform(ob);
-            if (callback) {
-                callback();
-            }
+        this.applyTransformDelta = function (transformer) {
+            CropEditor.applyTransformDelta(transformer);
         }
 
         //Сабмит формы
@@ -196,9 +199,9 @@ $(function () {
                 text: text, //Текст
                 em: emotionCode //Код эмоции
             },
-            CropCore.hideError, CropCore.showError, function () {
-                CropCore.progress.stop();
-            });
+                    CropCore.hideError, CropCore.showError, function () {
+                        CropCore.progress.stop();
+                    });
         }
 
         //Сабмит формы
@@ -229,9 +232,9 @@ $(function () {
             }
 
             AjaxExecutor.executePost('CropUpload', data,
-                CropCore.hideError, CropCore.showError, function () {
-                    CropCore.progress.stop();
-                });
+                    CropCore.hideError, CropCore.showError, function () {
+                        CropCore.progress.stop();
+                    });
         }
     }
 
@@ -272,26 +275,26 @@ $(function () {
                 } else {
                     //Подгоним ширину изображения под редактор
                     FileAPI.Image(file).resize(CropCore.ContainerWidth, 600, 'width')
-                    .get(function (err, canvas) {
-                        if (err) {
-                            CropController.onError('Ошибка обработки изображения: ' + err);
-                        } else {
-                            var img = {
-                                id: id,     //Код загрузки
-                                file: file,   //Загруженный файл
-                                info: info,   //Информация об изображении
-                                canvas: canvas, //Объект HTML, по ширине подогнанный для редактора
-                                canvasClone: function () {
-                                    return PsCanvas.clone(this.canvas);
-                                },
-                                toString: function () {
-                                    return this.id + ".'" + this.file.name + "' [" + this.file.type + "] (" + this.info.width + "x" + this.info.height + ")";
+                            .get(function (err, canvas) {
+                                if (err) {
+                                    CropController.onError('Ошибка обработки изображения: ' + err);
+                                } else {
+                                    var img = {
+                                        id: id,     //Код загрузки
+                                        file: file,   //Загруженный файл
+                                        info: info,   //Информация об изображении
+                                        canvas: canvas, //Объект HTML, по ширине подогнанный для редактора
+                                        canvasClone: function () {
+                                            return PsCanvas.clone(this.canvas);
+                                        },
+                                        toString: function () {
+                                            return this.id + ".'" + this.file.name + "' [" + this.file.type + "] (" + this.info.width + "x" + this.info.height + ")";
+                                        }
+                                    };
+                                    CropCore.progress.stop();
+                                    CropController.onImgSelected(img);
                                 }
-                            };
-                            CropCore.progress.stop();
-                            CropController.onImgSelected(img);
-                        }
-                    });
+                            });
                 }
             });
         },
@@ -332,11 +335,11 @@ $(function () {
             responsive: false,
             background: true,
             autoCropArea: 1,
-            movable: false,
+            movable: true,
             zoomable: true,
             zoomOnWheel: false,
             viewMode: 1
-        /*
+                    /*
                      ,crop: function(e) {
                      $('.crop-preview').empty().each(function() {
                      $(this).append($(e.target).cropper('getCroppedCanvas'));
@@ -349,14 +352,14 @@ $(function () {
             //Запускаем прогресс
             CropCore.progress.start();
 
+            //Обезопасим функцию обратного вызова
+            onDone = PsUtil.safeCall(onDone);
+
             //Клонируем canvas
             var canvas = img.canvasClone();
 
             //Если есть фильтр - применим его
             var filter = ImageFilters.filter();
-
-            //Обезопасим функцию обратного вызова
-            onDone = PsUtil.safeCall(onDone);
 
             //У нас может быть старый crop, с которого копируются настройки
             var cropOld = null;
@@ -364,7 +367,7 @@ $(function () {
             //Перестраиваем? Тогда сохраним старый crop, с которого скопируем потом настройки
             if (rebuild) {
                 cropOld = this.crop;
-            //cropOld.setEnabled(false);
+                //cropOld.setEnabled(false);
             } else {
                 //Уничтожаем текущий crop
                 this.stopCrop();
@@ -393,7 +396,7 @@ $(function () {
                         this.$cropper.cropper(enabled ? 'enable' : 'disable');
                     }
                 },
-                applyTransform: function (obj) {
+                applyTransformDelta: function (transformer) {
                     if (!this.$cropper) {
                         return;//---
                     }
@@ -401,7 +404,7 @@ $(function () {
                     if (disabled) {
                         this.setEnabled(true);
                     }
-                    this.$cropper.cropper(obj.m, obj.d);
+                    transformer(this.$cropper);
                     if (disabled) {
                         this.setEnabled(false);
                     }
@@ -420,14 +423,13 @@ $(function () {
                             CropCore.progress.stop();
 
                             if (CropController.isCurrent(img)) {
-                                var oldData = cropOld ? cropOld.getData() : null;
                                 this.stopCrop();
-                                if (oldData && PsIs.integer(oldData.rotate) && (oldData.rotate != 0)) {
-                                    cropNew.$cropper.cropper('rotate', oldData.rotate);
-                                }
                                 this.crop = cropNew;
+                                CropCore.$cropPreview.setVisibility(false);
+                                ImageTransform.applyAll(cropNew.$cropper);
                                 this.crop.setEnabled(CropEditor.enabled);
                                 this.crop.$holder.show();
+                                CropCore.$cropPreview.setVisibility(true);
                                 onDone();
                                 CropController.onCropReady();
                             } else {
@@ -454,10 +456,10 @@ $(function () {
                 onCanvasReady();
             }
         },
-        //Метод применяет трансформацию в изображению
-        applyTransform: function (ob) {
+        //Метод применяет трансформацию к изображению
+        applyTransformDelta: function (transformer) {
             if (this.crop) {
-                this.crop.applyTransform(ob);
+                this.crop.applyTransformDelta(transformer);
             }
         },
         //Метод закрывает редактор
@@ -513,53 +515,105 @@ $(function () {
 
     //Трансформация картинки
     var ImageTransform = {
-        $buttons: null,
         init: function () {
             //Добавить другие кнопки
-            this.$buttons = $('.crop-menu .btn-group>a').clickClbck(function (href, $a) {
+            CropCore.$transformA.clickClbck(function (href, $a) {
                 if (CropCore.progress.isStarted() || $a.is('.disabled')) {
                     return;//---
                 }
-                CropCore.progress.start('transform');
 
-                //Отключаем фильтры
-                CropController.transformApply(this.registerTransform(href), function () {
-                    CropCore.progress.stop();
-                });
+                var transformer = this.transformer[href];
+                if (PsIs.func(transformer)) {
+                    CropLogger.logInfo('Применяем трансформацию {}', href);
+                    CropController.applyTransformDelta(transformer);
+                } else {
+                    CropLogger.logWarn('Трансформация {} не найдена', href);
+                }
             }, this);
         },
-        /*
-         * Задача метода загеристрировать трансформацию в списке всех трансформаций и вернуть объект
-         */
-        registerTransform: function (href) {
-            switch (href) {
-                case 'rotateLeft':
-                    return {
-                        m: 'rotate',
-                        d: '-45'
-                    }
-                case 'rotateRight':
-                    return {
-                        m: 'rotate',
-                        d: '45'
-                    }
-                case 'zoomPlus':
-                    return {
-                        m: 'zoom',
-                        d: 0.1
-                    }
-                case 'zoomMinus':
-                    return {
-                        m: 'zoom',
-                        d: -0.1
-                    }
+        //Трансформер
+        transformer: new function () {
+            var stepMove = 10;
+            var stepZoom = 0.1;
+            var stepRotate = 45;
+
+            //TODO - добавить цепочки действий
+
+            var reflX = false, reflY = false, steps = [];
+            var reset = function () {
+                reflX = false, reflY = false, steps = [];
+            }
+
+            //Метод сбрасывает трансформации
+            this.reset = reset;
+            //Метод применяет все трансформации сразу
+            this.applyAll = function ($cropper) {
+                steps.walk(function (arr) {
+                    arr = PsArrays.clone(arr);
+                    var method = arr.shift()
+                    $cropper.cropper(method, arr.length > 0 ? arr[0] : null, arr.length > 1 ? arr[1] : null);
+                });
+            }
+            //Дельты трансформаций
+            this.moveL = function ($cropper) {
+                $cropper.cropper('move', -stepMove, 0);
+                steps.push(['move', -stepMove, 0]);
+            }
+            this.moveR = function ($cropper) {
+                $cropper.cropper('move', stepMove, 0);
+                steps.push(['move', stepMove, 0]);
+            }
+            this.moveU = function ($cropper) {
+                $cropper.cropper('move', 0, -stepMove);
+                steps.push(['move', 0, -stepMove]);
+            }
+            this.moveD = function ($cropper) {
+                $cropper.cropper('move', 0, stepMove);
+                steps.push(['move', 0, stepMove]);
+            }
+            this.reflectX = function ($cropper) {
+                $cropper.cropper('scaleX', reflX ? 1 : -1);
+                steps.push(['scaleX', reflX ? 1 : -1]);
+                reflX = !reflX;
+            }
+            this.reflectY = function ($cropper) {
+                $cropper.cropper('scaleY', reflY ? 1 : -1);
+                steps.push(['scaleY', reflY ? 1 : -1]);
+                reflY = !reflY;
+            }
+            this.zoomIn = function ($cropper) {
+                $cropper.cropper('zoom', stepZoom);
+                steps.push(['zoom', stepZoom]);
+            }
+            this.zoomOut = function ($cropper) {
+                //zoom = PsMath.sum(zoom, -stepZoom);
+                $cropper.cropper('zoom', -stepZoom);
+                steps.push(['zoom', -stepZoom]);
+            }
+            this.rotateL = function ($cropper) {
+                $cropper.cropper('rotate', -stepRotate);
+                steps.push(['rotate', -stepRotate]);
+            }
+            this.rotateR = function ($cropper) {
+                $cropper.cropper('rotate', stepRotate);
+                steps.push(['rotate', stepRotate]);
+            }
+            this.refresh = function ($cropper) {
+                reset();
+                $cropper.cropper('reset');
             }
         },
+        reset: function () {
+            this.transformer.reset();
+        },
+        applyAll: function ($cropper) {
+            this.transformer.applyAll($cropper);
+        },
         disable: function () {
-            this.$buttons.addClass('disabled');
+            CropCore.$transformA.addClass('disabled');
         },
         enable: function () {
-            this.$buttons.removeClass('disabled');
+            CropCore.$transformA.removeClass('disabled');
         },
     }
 

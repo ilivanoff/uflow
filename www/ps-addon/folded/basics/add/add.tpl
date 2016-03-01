@@ -21,40 +21,32 @@
             {*<div class="crop-holder"></div>*}
         </div>
 
-        <div class="btn-box">
-            <div class="btn-group">
-                <a href="#zoomPlus"><i class="fa fa-search-plus"></i></a>
-                <a href="#zoomMinus"><i class="fa fa-search-minus"></i></a>
-            </div>
-
-            <div class="btn-group">
-                <a href="#rotateLeft"><i class="fa fa-rotate-left"></i></a>
-                <a href="#rotateRight"><i class="fa fa-rotate-right"></i></a>
-            </div>
-
-            <div class="btn-group">
-                <a href="#zoomPlus"><i class="fa fa fa-arrow-left"></i></a>
-                <a href="#zoomMinus"><i class="fa fa fa-arrow-right"></i></a>
-            </div>
-
-            <div class="btn-group">
-                <a href="#rotateLeft"><i class="fa fa-arrow-up"></i></a>
-                <a href="#rotateRight"><i class="fa fa-arrow-down"></i></a>
-            </div>
-
-            <div class="btn-group">
-                <a href="#rotateLeft"><i class="fa fa-arrows-h"></i></a>
-                <a href="#rotateRight"><i class="fa fa-arrows-v"></i></a>
-            </div>
-        </div>
         {*
-        <div class="emotions noselect">
-        <img src="/i/emotions/Joy-nc.png" class="joy"/>
-        <img src="/i/emotions/Sadness.png" class="sadness"/>
-        <img src="/i/emotions/Anger-nc.png" class="anger"/>
-        <img src="/i/emotions/Fear-nc.png" class="fear"/>
-        <img src="/i/emotions/Disgust-nc.png" class="disgust"/>
-        <img src="/i/emotions/BingBong-nc.png" class="bingbong"/>
+        <div class="btn-box transform">
+        <div class="btn-group">
+        <a href="#zoomPlus"><i class="fa fa-search-plus"></i></a>
+        <a href="#zoomMinus"><i class="fa fa-search-minus"></i></a>
+        </div>
+
+        <div class="btn-group">
+        <a href="#rotateLeft"><i class="fa fa-rotate-left"></i></a>
+        <a href="#rotateRight"><i class="fa fa-rotate-right"></i></a>
+        </div>
+
+        <div class="btn-group">
+        <a href="#moveL"><i class="fa fa fa-arrow-left"></i></a>
+        <a href="#moveR"><i class="fa fa fa-arrow-right"></i></a>
+        </div>
+
+        <div class="btn-group">
+        <a href="#rotateLeft"><i class="fa fa-arrow-up"></i></a>
+        <a href="#rotateRight"><i class="fa fa-arrow-down"></i></a>
+        </div>
+
+        <div class="btn-group">
+        <a href="#rotateLeft"><i class="fa fa-arrows-h"></i></a>
+        <a href="#rotateRight"><i class="fa fa-arrows-v"></i></a>
+        </div>
         </div>
         *}
 
@@ -112,30 +104,35 @@
 
     {* ПРАВАЯ ПАНЕЛЬ *}
     <div class="crop-menu noselect">
-        <div class="btn-box">
+        <div class="btn-box transform">
             <div class="btn-group">
-                <a href="#zoomPlus"><i class="fa fa-search-plus"></i></a>
-                <a href="#zoomMinus"><i class="fa fa-search-minus"></i></a>
+                <a href="#zoomIn"><i class="fa fa-search-plus"></i></a>
+                <a href="#zoomOut"><i class="fa fa-search-minus"></i></a>
             </div>
 
             <div class="btn-group">
-                <a href="#rotateLeft"><i class="fa fa-rotate-left"></i></a>
-                <a href="#rotateRight"><i class="fa fa-rotate-right"></i></a>
+                <a href="#rotateL"><i class="fa fa-rotate-left"></i></a>
+                <a href="#rotateR"><i class="fa fa-rotate-right"></i></a>
             </div>
 
             <div class="btn-group">
-                <a href="#zoomPlus"><i class="fa fa fa-arrow-left"></i></a>
-                <a href="#zoomMinus"><i class="fa fa fa-arrow-right"></i></a>
+                <a href="#moveL"><i class="fa fa fa-arrow-left"></i></a>
+                <a href="#moveR"><i class="fa fa fa-arrow-right"></i></a>
             </div>
 
             <div class="btn-group">
-                <a href="#rotateLeft"><i class="fa fa-arrow-up"></i></a>
-                <a href="#rotateRight"><i class="fa fa-arrow-down"></i></a>
+                <a href="#moveU"><i class="fa fa-arrow-up"></i></a>
+                <a href="#moveD"><i class="fa fa-arrow-down"></i></a>
             </div>
 
             <div class="btn-group">
-                <a href="#rotateLeft"><i class="fa fa-arrows-h"></i></a>
-                <a href="#rotateRight"><i class="fa fa-arrows-v"></i></a>
+                <a href="#reflectX" data-o1="-1"><i class="fa fa-arrows-h"></i></a>
+                <a href="#reflectY" data-o1="-1"><i class="fa fa-arrows-v"></i></a>
+            </div>
+
+            <div class="btn-group">
+                <a href="#refresh" data-o1="-1"><i class="fa fa-refresh"></i></a>
+                <a href="#reflectY" data-o1="-1"><i class="fa fa-refresh"></i></a>
             </div>
         </div>
 
