@@ -371,7 +371,8 @@ $(function () {
                     onDone: null, //Фнукция обратного вызова
                     reapplyFilter: true, //Признак повторного применения фильтра
                     takeCropBoxData: true //Признак того, что нужно взять прежние настроки crop
-                }, options);
+                },
+                        options);
             }
 
             //Обезопасим функцию обратного вызова
@@ -451,6 +452,10 @@ $(function () {
                 //Инициализируем панель
                 var cropSettings = $.extend({}, CropEditor.cropSettings, {
                     cropBoxData: cropBoxData,
+                    build: function () {
+                        //Спрячем предпросмотр
+                        CropCore.$cropPreview.setVisibility(false);
+                    },
                     built: function () {
                         PsUtil.scheduleDeferred(function () {
                             CropCore.progress.stop();
@@ -458,7 +463,6 @@ $(function () {
                             if (CropController.isCurrent(img)) {
                                 this.stopCrop();
                                 this.crop = cropNew;
-                                CropCore.$cropPreview.setVisibility(false);
                                 ImageTransform.applyAll(cropNew.$cropper);
                                 this.crop.setEnabled(CropEditor.enabled);
                                 this.crop.$holder.show();
