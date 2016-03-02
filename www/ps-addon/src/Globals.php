@@ -28,7 +28,7 @@ define('CROP_PAGE_INFO', 1002);
 /*
  * Настройки для блока <a href="https://tech.yandex.ru/share/" target="_blank">YA SHARE</a>.
  */
-define('CROP_YA_SHARE_ENABED', true);
+define('CROP_YA_SHARE_ENABED', false);
 
 /*
  * URL для соцсетей
