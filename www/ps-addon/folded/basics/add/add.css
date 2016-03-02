@@ -38,7 +38,7 @@ input#choose-file {
 }
 
 .container .crop-editor {
-    margin: 10px 0px;
+    margin: 15px 0px;
     display: none;
     min-height: 100px;
 }
@@ -232,6 +232,7 @@ input#choose-file {
 
 .crop-text {
     margin: 10px 0px;
+    display: none;
 }
 
 .crop-text .crop-preview {

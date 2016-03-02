@@ -25,6 +25,8 @@ class CropUploaderLight {
     public static function upload($dataUrl, $text, $em) {
         $LOGGER = PsLogger::inst(__CLASS__);
 
+        $em = CropConst::USE_EMOTIONS ? $em : CropConst::EMOTIONS_DISABLED;
+
         $emName = CropConst::getEmotionName($em);
 
         $LOGGER->info();

@@ -1,7 +1,12 @@
 var CropUtils = {
     //Переводит utc в локальное время
     utc2date: function(utc) {
-        return PsIs.integer(utc) ? PsTimeHelper.utc2localDateTime(utc) : '';
+        if (!PsIs.integer(utc)) return '';
+        var timeLeft = '';
+        if (false) {
+            timeLeft = PsTimeHelper.formatDHMS(new Date().getTime()/1000 - utc);
+        }
+        return PsTimeHelper.utc2localDateTime(utc) + (timeLeft ? ' ('+ timeLeft + ' назад)' : '');
     },
     
     //Метод подготавливает отображение ячейки

@@ -6,10 +6,10 @@
  * @author azazello
  */
 class CropConst extends CropConstJs {
-
     /**
      * Максимальное кол-во ячеек в группе (960/60)
      */
+
     const CROPS_GROUP_CELLS = 16;
 
     /**
@@ -42,6 +42,7 @@ class CropConst extends CropConstJs {
     /**
      * Эмоции
      */
+    const EMOTIONS_DISABLED = 0;
     const EMOTION_JOY = 1;
     const EMOTION_SADNESS = 2;
     const EMOTION_ANGER = 3;
@@ -64,7 +65,7 @@ class CropConst extends CropConstJs {
      * @param int $code - код эмоции
      */
     public static function getEmotionName($code) {
-        return strtolower(cut_string_start(PsUtil::getClassConstByValue(__CLASS__, 'EMOTION_', $code), 'EMOTION_'));
+        return $code == self::EMOTIONS_DISABLED ? 'disabled' : strtolower(cut_string_start(PsUtil::getClassConstByValue(__CLASS__, 'EMOTION_', $code), 'EMOTION_'));
     }
 
     /**
@@ -74,6 +75,8 @@ class CropConst extends CropConstJs {
      */
     public static function getEmotionDescr($code) {
         switch ($code) {
+            case self::EMOTIONS_DISABLED:
+                return 'Отключено';
             case self::EMOTION_JOY:
                 return 'Радость';
             case self::EMOTION_SADNESS:

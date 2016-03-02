@@ -28,6 +28,16 @@ class CropConstJs {
     const CROP_YA_SHARE_SERVICES = CROP_YA_SHARE_SERVICES;
     const CROP_YA_SHARE_SERVICES_LIMIT = CROP_YA_SHARE_SERVICES_LIMIT;
 
+    /**
+     * Работаем ли с эмоциями
+     */
+    const USE_EMOTIONS = CROP_USE_EMOTIONS;
+
+    /**
+     * Включена ли возможность добавления новых ячеек
+     */
+    const ADD_CELL_ENABLED = CROP_ADD_CELL_ENABLED;
+
 }
 
 ?>

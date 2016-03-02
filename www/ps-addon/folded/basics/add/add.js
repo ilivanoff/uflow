@@ -670,7 +670,7 @@ $(function () {
         },
         enable: function () {
             CropCore.$transformA.removeClass('disabled');
-        },
+        }
     }
 
     ImageTransform.init();
@@ -685,7 +685,7 @@ $(function () {
             });
         },
         activeCode: function () {
-            return CropCore.$emotionsSpan.filter('.active').data('code');
+            return CROP.USE_EMOTIONS ? CropCore.$emotionsSpan.filter('.active').data('code') : 0;
         }
     }
 
@@ -695,6 +695,15 @@ $(function () {
     //Показываем меню справа
     CropCore.$cropMenu.setVisibility(true);
 
+    //Закрываем
+    CropController.close();
+
+    //Если закрыта возможность добавления изображений - выходим
+    if(!CROP.ADD_CELL_ENABLED) {
+        CropCore.showError('Извините, возможность добавления новых ячеек временно закрыта.<br>Ведутся технические работы на сайте.');
+        return;//---
+    }
+    
     //Стилизуем label
     CropCore.$fileInputLabel.button({
         icons: {
@@ -704,9 +713,6 @@ $(function () {
 
     //Слушатель выбора файла
     CropCore.$fileInput.change(PsUtil.safeCall(FileInput.processSelection, FileInput));
-
-    //Закрываем
-    CropController.close();
 
     //Покажем кнопку загрузки файла
     CropCore.$buttonsTop.show();

@@ -65,4 +65,14 @@ define('CROP_YA_SHARE_SERVICES_LIMIT', 8);
  * Показывать ли статистику распределения эмоций
  */
 define('CROP_EM_STATISTIC_PIE', true);
+
+/*
+ * Включена ли работа с эмоциями (выбор эмоции для сообщения, подсчёт статистики)
+ */
+define('CROP_USE_EMOTIONS', false);
+
+/*
+ * Включена ли возможность добавления новых сообщений
+ */
+define('CROP_ADD_CELL_ENABLED', true);
 ?>

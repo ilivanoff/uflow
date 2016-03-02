@@ -21,6 +21,10 @@ class CropUploadLight extends AbstractAjaxAction {
 
     protected function executeImpl(ArrayAdapter $params) {
 
+        if (!CropConst::ADD_CELL_ENABLED) {
+            return 'Возможность добавления ячеек временно закрыта, приносим свои извинения.';
+        }
+
         $text = $params->str('text');
         //Валидируем комментарий
         if (!$text) {

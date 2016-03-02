@@ -9,7 +9,7 @@ class BP_info extends BasicPage {
     }
 
     public function doProcess(RequestArrayAdapter $params) {
-        if (CROP_EM_STATISTIC_PIE) {
+        if (CropConst::USE_EMOTIONS && CROP_EM_STATISTIC_PIE) {
             $this->emotions = array();
             foreach (CropBean::inst()->getEmotions() as $em) {
                 $this->emotions[] = array($em->getDescr(), $em->getCnt());
