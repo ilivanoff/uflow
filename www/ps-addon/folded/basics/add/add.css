@@ -2,7 +2,7 @@
 #carrier {
     text-align: justify;
     background-color: white;
-    background: white url("/ps-content/images/background-right.gif") right top repeat-y scroll;
+    background: white url("/ps-addon/images/background-right.png") right top repeat-y scroll;
 }
 
 /* Crop */
@@ -333,6 +333,10 @@ input#choose-file {
 .btn-group a {
     width: 44px;
     margin: 0px;
+}
+
+.btn-box.transform {
+    margin-bottom: 10px;
 }
 
 /*

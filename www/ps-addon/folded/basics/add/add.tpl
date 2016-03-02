@@ -131,8 +131,8 @@
             </div>
 
             <div class="btn-group">
-                <a href="#refresh" data-o1="-1"><i class="fa fa-refresh"></i></a>
-                <a href="#reflectY" data-o1="-1"><i class="fa fa-refresh"></i></a>
+                <a href="#reset" data-o1="-1"><i class="fa fa-refresh"></i></a>
+                <a href="#close" data-o1="-1"><i class="fa fa-remove"></i></a>
             </div>
         </div>
 

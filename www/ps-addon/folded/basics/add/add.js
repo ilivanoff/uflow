@@ -405,6 +405,8 @@ $(function () {
 
                 //Копируем canvas
                 canvas = img.canvasClone();
+                //Получаем фильтр
+                filter = ImageFilters.filter();
             }
 
             //Инициализируем новый
@@ -560,18 +562,24 @@ $(function () {
                     return;//---
                 }
 
+                if (href == 'close') {
+                    PsDialogs.confirm('Закрыть текущее изображение?', CropController.close, CropController);
+                    //CropController.close();
+                    return;//---
+                }
+
                 CropCore.progress.start('transform');
 
                 var onDone = function () {
                     CropCore.progress.stop();
                 }
 
-                if (href == 'refresh') {
+                if (href == 'reset') {
                     this.reset();
                     CropController.cropClear(onDone);
                     return;//---
                 }
-
+                
                 var transformer = this.transformer[href];
                 if (PsIs.func(transformer)) {
                     CropLogger.logInfo('Применяем трансформацию {}', href);
@@ -649,10 +657,6 @@ $(function () {
             this.rotateR = function ($cropper) {
                 $cropper.cropper('rotate', stepRotate);
                 steps.push(['rotate', stepRotate]);
-            }
-            this.refresh = function ($cropper) {
-                reset();
-                $cropper.cropper('reset');
             }
         },
         reset: function () {
