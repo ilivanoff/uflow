@@ -163,7 +163,20 @@ $(function () {
 
         //Применение фильтров
         this.filterApply = function (callback) {
-            CropEditor.startCrop(img, callback, true);
+            CropEditor.startCrop(img, {
+                onDone: callback, //Фнукция обратного вызова
+                reapplyFilter: true, //Признак повторного применения фильтра
+                takeCropBoxData: true //Признак того, что нужно взять прежние настроки crop
+            });
+        }
+
+        //Сброс crop
+        this.cropClear = function (callback) {
+            CropEditor.startCrop(img, {
+                onDone: callback, //Фнукция обратного вызова
+                reapplyFilter: false, //Признак повторного применения фильтра
+                takeCropBoxData: false //Признак того, что нужно взять прежние настроки crop
+            });
         }
 
         this.applyTransformDelta = function (transformer) {
@@ -347,30 +360,50 @@ $(function () {
                      }*/
         },
         //Метод начинает редактирование картинки в crop
-        startCrop: function (img, onDone, rebuild) {
+        startCrop: function (img, options) {
 
             //Запускаем прогресс
             CropCore.progress.start();
 
-            //Обезопасим функцию обратного вызова
-            onDone = PsUtil.safeCall(onDone);
+            //Опции перестроения
+            if (options) {
+                options = $.extend({
+                    onDone: null, //Фнукция обратного вызова
+                    reapplyFilter: true, //Признак повторного применения фильтра
+                    takeCropBoxData: true //Признак того, что нужно взять прежние настроки crop
+                }, options);
+            }
 
-            //Клонируем canvas
-            var canvas = img.canvasClone();
+            //Обезопасим функцию обратного вызова
+            var onDone = PsUtil.safeCall(options ? options.onDone : null);
+
+            //Канвас с изображением, который будет радактироваться
+            var canvas = null;
 
             //Если есть фильтр - применим его
-            var filter = ImageFilters.filter();
+            var filter = null;
 
-            //У нас может быть старый crop, с которого копируются настройки
-            var cropOld = null;
+            //Инициализационные настройки блока
+            var cropBoxData = null;
 
             //Перестраиваем? Тогда сохраним старый crop, с которого скопируем потом настройки
-            if (rebuild) {
-                cropOld = this.crop;
-                //cropOld.setEnabled(false);
+            if (options) {
+                //Берём ли предыдущие настройки?
+                cropBoxData = options.takeCropBoxData ? this.crop.$cropper.cropper('getCropBoxData') : null;
+
+                //Применяем фильтры заново?
+                if (options.reapplyFilter) {
+                    canvas = img.canvasClone();
+                    filter = ImageFilters.filter();
+                } else {
+                    canvas = PsCanvas.clone(this.crop.canvas);
+                }
             } else {
                 //Уничтожаем текущий crop
                 this.stopCrop();
+
+                //Копируем canvas
+                canvas = img.canvasClone();
             }
 
             //Инициализируем новый
@@ -417,7 +450,7 @@ $(function () {
             var onCanvasReady = function () {
                 //Инициализируем панель
                 var cropSettings = $.extend({}, CropEditor.cropSettings, {
-                    cropBoxData: cropOld ? cropOld.$cropper.cropper('getCropBoxData') : null,
+                    cropBoxData: cropBoxData,
                     built: function () {
                         PsUtil.scheduleDeferred(function () {
                             CropCore.progress.stop();
@@ -522,6 +555,18 @@ $(function () {
                     return;//---
                 }
 
+                CropCore.progress.start('transform');
+
+                var onDone = function () {
+                    CropCore.progress.stop();
+                }
+
+                if (href == 'refresh') {
+                    this.reset();
+                    CropController.cropClear(onDone);
+                    return;//---
+                }
+
                 var transformer = this.transformer[href];
                 if (PsIs.func(transformer)) {
                     CropLogger.logInfo('Применяем трансформацию {}', href);
@@ -529,6 +574,9 @@ $(function () {
                 } else {
                     CropLogger.logWarn('Трансформация {} не найдена', href);
                 }
+
+                onDone();
+
             }, this);
         },
         //Трансформер
@@ -540,12 +588,11 @@ $(function () {
             //TODO - добавить цепочки действий
 
             var reflX = false, reflY = false, steps = [];
-            var reset = function () {
-                reflX = false, reflY = false, steps = [];
-            }
 
             //Метод сбрасывает трансформации
-            this.reset = reset;
+            this.reset = function () {
+                reflX = false, reflY = false, steps = [];
+            };
             //Метод применяет все трансформации сразу
             this.applyAll = function ($cropper) {
                 steps.walk(function (arr) {
