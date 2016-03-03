@@ -730,6 +730,8 @@ $(function () {
         },
         //Метод рендерит капчу - вызывается уже после подключения reCAPTURE api
         render: function () {
+            //Очищаем placeholder
+            CropCore.$reCAPTCHA.empty()
             //Инициализируем рекапчу
             grecaptcha.render('google-recaptcha', {
                 sitekey: CROP.CAPTCHA_SITEKEY,

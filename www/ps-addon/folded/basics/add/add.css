@@ -227,8 +227,9 @@ input#choose-file {
 }
 
 .container #google-recaptcha {
-    margin: 20px 0px;
     display: none;
+    margin: 20px 0px;
+    text-align: center;
 }
 
 .container #google-recaptcha>div>div {

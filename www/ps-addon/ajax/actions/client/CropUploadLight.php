@@ -12,7 +12,7 @@ class CropUploadLight extends AbstractAjaxAction {
     }
 
     protected function isCheckActivity() {
-        return true;
+        return false; //TODO
     }
 
     protected function getRequiredParamKeys() {
@@ -26,8 +26,7 @@ class CropUploadLight extends AbstractAjaxAction {
         }
 
         //Проверим капчу
-        $cap = $params->str('cap');
-        if (!PSreCAPTCHA::isValid($cap)) {
+        if (!PSreCAPTCHA::isValid($params->str('cap'))) {
             return 'Введённая капча невалидна';
         }
 

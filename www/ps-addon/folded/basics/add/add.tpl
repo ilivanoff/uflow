@@ -67,7 +67,9 @@
             </div>
         </div>
 
-        <div id="google-recaptcha"></div>
+        <div id="google-recaptcha">
+            <img src="/ps-content/images/icons/page_loading.gif" alt="loading">
+        </div>
 
         <div class="bottom-buttons">
             <button>Опубликовать</button>
