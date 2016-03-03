@@ -6,10 +6,10 @@
  * @author azaz
  */
 class CropUploaderLight {
+
     /**
      * Префикс данных изображения
      */
-
     const DATA_IMG_PREFIX = 'data:image/png;base64,';
 
     /**
@@ -101,7 +101,6 @@ class CropUploaderLight {
             $cell = CropBean::inst()->makeCell($DM_TEMP->getDirName(), $text, $em);
 
             $LOGGER->info('{}', $cell);
-
             //Копируем файлы в директорию
             $DM_DEST = DirManagerCrop::cropAuto($cell->getCellId());
             $LOGGER->info('Dest dir: {}', $DM_DEST->relDirPath());
@@ -155,15 +154,26 @@ class CropUploaderLight {
             if ($DM_TEMP_CLEAR && $DM_TEMP) {
                 $DM_TEMP_CLEAR = false;
                 $DM_TEMP->removeDir();
+                $DM_TEMP = null;
             }
             /*
              * Логируем ошибку
              */
             $LOGGER->info('Crop processing error: {}', $ex->getMessage());
             /*
-             * Снимаем дамп
+             * Если временная директория осталась - сохраним в неё дамп
              */
-            ExceptionHandler::dumpError($ex);
+            if ($DM_TEMP && $DM_TEMP->isDir()) {
+                /*
+                 * Снятый дамп сохраняем во временную директорию
+                 */
+                $DM_TEMP->getDirItem(null, 'exception', PsConst::EXT_ERR)->putToFile(ExceptionHandler::collectDumpInfo($ex));
+            } else {
+                /*
+                 * Снимаем дамп стандартными средствами
+                 */
+                ExceptionHandler::dumpError($ex);
+            }
             /*
              * Пробрасываем
              */
