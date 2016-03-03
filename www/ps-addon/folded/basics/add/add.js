@@ -56,6 +56,8 @@ $(function () {
             var ratio = this.ContainerWidth / img.info.width;
             var height = ratio > 1 ? img.info.height : img.info.height * ratio;
             var width = ratio > 1 ? img.info.width : img.info.width * ratio;
+            //TODO - вычислить
+            //consoleLog('cw: {}, {}x{}, ratio: {}, ch: {}', this.ContainerWidth, img.info.width, img.info.height, ratio, Math.max(height, width));
             return Math.max(height, width);
         },
         //Методы работы с ошибкой
