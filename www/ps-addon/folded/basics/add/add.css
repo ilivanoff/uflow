@@ -221,9 +221,18 @@ input#choose-file {
 }
 
 .container .bottom-buttons {
-    margin: 10px 0px;
+    margin: 20px 0px;
     font-size: 14px;
     display: none;
+}
+
+.container #google-recaptcha {
+    margin: 20px 0px;
+    display: none;
+}
+
+.container #google-recaptcha>div>div {
+    margin: 0px auto;
 }
 
 .crop-preview {

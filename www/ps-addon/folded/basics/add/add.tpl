@@ -32,8 +32,6 @@
             </div>
         {/if}
 
-        <div id="google-recaptcha" data-sitekey="6LcOV7sSAAAAAH2aeJQF2FzYWRzfeNvOsKfkDqiS"></div>
-
         {*
         <div class="emotions noselect">
         <div class="joy">
@@ -69,7 +67,7 @@
             </div>
         </div>
 
-        {*PsHtmlForm::capture()*}
+        <div id="google-recaptcha"></div>
 
         <div class="bottom-buttons">
             <button>Опубликовать</button>

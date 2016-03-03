@@ -27,6 +27,9 @@ class CropUploadLight extends AbstractAjaxAction {
 
         //Проверим капчу
         $cap = $params->str('cap');
+        if (!PSreCAPTCHA::isValid($cap)) {
+            return 'Введённая капча невалидна';
+        }
 
         $text = $params->str('text');
         //Валидируем комментарий

@@ -10,7 +10,23 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
-CropTests::makeCropCells(50);
+//require_once 'ps-addon/lib/recaptcha-master/src/ReCaptcha/ReCaptcha.php';
+require_once 'ps-addon/lib/recaptcha-master/src/autoload.php';
+
+$gRec = '03AHJ_VuuxVrlfOD_EOiXL8whsjw5tadqy6mFFIgTALFLjGe0wZRcLXnzK8VLkxgpfCNas6QDRP6kAgv0ARTBPQIwJeHq9KtmYCg_H0Xf5ks9QJTEi95Y0BhWDWyCQu78qUK3td0T6N0XboqwE0Shdyf1Kp8rlh3Aw8lrvY9vLIF-_Wj2O7aZWpiDpVsC14dv1px55MXfbfrngvysswrYpUCrI7opcPVRwYEqeuzqPefK_HDJ_gEsP1F2Pn0KDTiZAt7NRn50BuejsPqUw7lZWtZFAaqxBCWqh1cRZywz-poNaklxWCY2fOSUtlEjJL5nvY9F3VCPRe0COselnVWA5tE0gd6KzuE43kOKNCk4A4ILY9SFj9ikmf2QdqCeqIYKRDJpkIxxCrTftwJPA446nSSFUhnfvw7ncsNV0ZpiKNSDB-EMaLCEp_7nK13DUcBGZvu_gaxCVMtcErSFQRa6yqexIE4Vl8LtTZFTMWM9epE2GykrgJFc0VrAHu0Yi-7IepmIR9kbbo-Pr6VrVt3CNlBbTtr1Fr-Bc6AKgBwxE6kJQ70GX8NsCprcBYG2u0vSIRUQKVYUTXvu1Tqmq2wSGfZgmKMKZx2Mck7c4aw3Bje7lq6l5NWqW18qvJbTmrcOXUv6UtPDXLx9-noTY9wJfuwFvgfO3tNdbwzO1ZOwgXgs56EUTX9e6ov_CakFQanyoQjcyNBZ4O3S61RtWNtVqbGaP_EvCoUQXsBgoP65ozSgdNTPjf-qJvxFfW1y2ALmN1ekWvNsbv7YIZX31Lq2qO3CFFXr4wFnxdSR53nrX1LkuI88WEi4ootVAnU45CxBQT4WkC1204abP9azyA0FWB2A90FxuyOWZEMpNocRsKQsWYTAze0SdO7p3CQuOLLFphacDFtnUskWybnTpmRHg5zN7oIzKodN009NtYZQLt8Gw_jzMmOIa9ynRsn2WDcEmo8lPGTD7QVClc--aLN91dSwVbYLiE-AgacWsvCyXWZNumViPvVR1NB0';
+//echo PSreCAPTCHA::isValid($gRec);
+
+$recaptcha = new \ReCaptcha\ReCaptcha(CROP_CAPTCHA_PRIVATE);
+$resp = $recaptcha->verify($gRec, $_SERVER['REMOTE_ADDR']);
+if ($resp->isSuccess()) {
+    echo 'verified!';
+} else {
+    $errors = $resp->getErrorCodes();
+    print_r($errors);
+}
+
+
+//CropTests::makeCropCells(50);
 
 die;
 
