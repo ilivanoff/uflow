@@ -66,6 +66,8 @@ class CropGroupImgGenerator {
                   @imagedestroy($group_image);
                   return PsUtil::raise('Cannot build group. Cannot find image for cell {}.', $cellId);
                  */
+                //Увеличиваем счётчик
+                ++$cellNum;
                 //Просто пропускаем в мозайке
                 continue; //----
             }

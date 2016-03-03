@@ -52,7 +52,7 @@ class CropBean extends BaseBean {
      * @param int $y - номер группы
      */
     public function getGroupCellIds($y) {
-        return $this->getIds('select id_cell as id as value from crop_cell where y=? order by x desc', PsCheck::positiveInt($y));
+        return $this->getIds('select id_cell as id from crop_cell where y=? order by x desc', PsCheck::positiveInt($y));
     }
 
     /**
