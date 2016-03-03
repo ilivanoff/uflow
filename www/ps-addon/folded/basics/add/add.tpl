@@ -21,35 +21,6 @@
             {*<div class="crop-holder"></div>*}
         </div>
 
-        {*
-        <div class="btn-box transform">
-        <div class="btn-group">
-        <a href="#zoomPlus"><i class="fa fa-search-plus"></i></a>
-        <a href="#zoomMinus"><i class="fa fa-search-minus"></i></a>
-        </div>
-
-        <div class="btn-group">
-        <a href="#rotateLeft"><i class="fa fa-rotate-left"></i></a>
-        <a href="#rotateRight"><i class="fa fa-rotate-right"></i></a>
-        </div>
-
-        <div class="btn-group">
-        <a href="#moveL"><i class="fa fa fa-arrow-left"></i></a>
-        <a href="#moveR"><i class="fa fa fa-arrow-right"></i></a>
-        </div>
-
-        <div class="btn-group">
-        <a href="#rotateLeft"><i class="fa fa-arrow-up"></i></a>
-        <a href="#rotateRight"><i class="fa fa-arrow-down"></i></a>
-        </div>
-
-        <div class="btn-group">
-        <a href="#rotateLeft"><i class="fa fa-arrows-h"></i></a>
-        <a href="#rotateRight"><i class="fa fa-arrows-v"></i></a>
-        </div>
-        </div>
-        *}
-
         {if $smarty.const.CROP_USE_EMOTIONS}
             <div class="emotions noselect">
                 <span class="joy hint--top hint--rounded hint--joy active" data-hint="Радость" data-code="{CropConst::EMOTION_JOY}"></span>
@@ -60,6 +31,8 @@
                 <span class="bingbong hint--top hint--rounded" data-hint="Бинго Бонг" data-code="{CropConst::EMOTION_BINGABONG}"></span>
             </div>
         {/if}
+
+        <div id="google-recaptcha" data-sitekey="6LcOV7sSAAAAAH2aeJQF2FzYWRzfeNvOsKfkDqiS"></div>
 
         {*
         <div class="emotions noselect">

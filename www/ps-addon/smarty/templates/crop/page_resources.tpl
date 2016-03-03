@@ -86,12 +86,20 @@
 
 {if $PAGE=='add'}
     {literal}
-        <script>window.FileAPI = {debug: true,
+        <script>window.FileAPI = {
+                debug: true,
                 media: true,
-                staticPath: '/ps-content/js-lib/FileAPI/FileAPI 2.0.18/dist/'};</script>
-        {/literal}
+                staticPath: '/ps-content/js-lib/FileAPI/FileAPI 2.0.18/dist/'};
+            window.gRecaptchaLoaded = false;
+            window.ongRecaptchaLoaded = function () {
+                window.gRecaptchaLoaded = true;
+            };
+        </script>
+    {/literal}
     <script src="/ps-content/js-lib/FileAPI/FileAPI 2.0.18/dist/FileAPI.js"></script>
     <script src="/ps-content/js-lib/FileAPI/FileAPI 2.0.18/plugins/caman.full.js"></script>
+
+    <script src='https://www.google.com/recaptcha/api.js?onload=ongRecaptchaLoaded&render=explicit' async defer></script>
 {/if}
 
 {if $PAGE=='cell'}

@@ -75,4 +75,14 @@ define('CROP_USE_EMOTIONS', false);
  * Включена ли возможность добавления новых сообщений
  */
 define('CROP_ADD_CELL_ENABLED', true);
+
+/*
+ * Публичный ключ для рекапчи
+ */
+define('CROP_CAPTCHA_PUBLIC', '6LcOV7sSAAAAAH2aeJQF2FzYWRzfeNvOsKfkDqiS');
+
+/*
+ * Привытный ключ для рекапчи
+ */
+define('CROP_CAPTCHA_PRIVATE', '6LcOV7sSAAAAAC3cuTNS55MAbjpO8uioFZF8p-u2');
 ?>

@@ -91,7 +91,7 @@ $(function () {
              }
              */
             $div.append($('<div>').addClass('clearall'));
-            $div = CropUtils.prepareCellView($div);
+            $div = CropUtils.prepareCellView(cellId, $div);
             $div.appendTo('body');//.width($div.width());
 
             onUpdate(e);

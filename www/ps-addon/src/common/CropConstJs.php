@@ -6,10 +6,10 @@
  * @author azazello
  */
 class CropConstJs {
+
     /**
      * Максимальная длина сообщения
      */
-
     const CROP_MSG_MAX_LEN = CROP_MSG_MAX_LEN;
 
     /**
@@ -37,6 +37,11 @@ class CropConstJs {
      * Включена ли возможность добавления новых ячеек
      */
     const ADD_CELL_ENABLED = CROP_ADD_CELL_ENABLED;
+
+    /**
+     * Публичный ключ для google recapture
+     */
+    const CAPTCHA_SITEKEY = CROP_CAPTCHA_PUBLIC;
 
 }
 

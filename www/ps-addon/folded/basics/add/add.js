@@ -53,7 +53,7 @@ $(function () {
         calcHolderHeight: function (img) {
             var ratio = this.ContainerWidth / img.info.width;
             var height = ratio > 1 ? img.info.height : img.info.height * ratio;
-            var width  = ratio > 1 ? img.info.width : img.info.width * ratio;
+            var width = ratio > 1 ? img.info.width : img.info.width * ratio;
             return Math.max(height, width);
         },
         //Методы работы с ошибкой
@@ -108,6 +108,12 @@ $(function () {
 
         //Текущая картинка
         var img = null;
+        //Пройдена ли капча
+        var capturePassed = false;
+
+        var buttonsBottomVisibilityRecal = function () {
+            CropCore.$buttonsBottom.setVisible(capturePassed && !!img);
+        }
 
         //Проверка, является ли картинка текущей
         this.isCurrent = function (id) {
@@ -158,7 +164,7 @@ $(function () {
             ImageFilters.enable();
             CropCore.$cropText.show();
             CropCore.$emotions.show();
-            CropCore.$buttonsBottom.show();
+            buttonsBottomVisibilityRecal();
         }
 
         //Применение фильтров
@@ -183,6 +189,12 @@ $(function () {
             CropEditor.applyTransformDelta(transformer);
         }
 
+        //Метод вызывается, когда пользователь проходит капчу
+        this.capturePassed = function () {
+            capturePassed = true;
+            buttonsBottomVisibilityRecal();
+        }
+
         //Сабмит формы
         this.submitLight = function () {
             var text = CropCore.$cropTextArea.val();
@@ -201,6 +213,11 @@ $(function () {
                 return;//---
             }
 
+            if (!RecaptureManager.passed) {
+                CropCore.showError('Не пройдена верификация с помощью капчи.');
+                return;//---
+            }
+
             CropLogger.logInfo("Submitting light {}. Emotion: {}. Text: '{}'", img.toString(), emotionCode, text);
 
             CropCore.progress.start();
@@ -210,11 +227,12 @@ $(function () {
             AjaxExecutor.executePost('CropUploadLight', {
                 crop: crop.toDataURL(),
                 text: text, //Текст
-                em: emotionCode //Код эмоции
+                em: emotionCode, //Код эмоции
+                cap: RecaptureManager.response
             },
-            CropCore.hideError, CropCore.showError, function () {
-                CropCore.progress.stop();
-            });
+                    CropCore.hideError, CropCore.showError, function () {
+                        CropCore.progress.stop();
+                    });
         }
 
         //Сабмит формы
@@ -245,9 +263,9 @@ $(function () {
             }
 
             AjaxExecutor.executePost('CropUpload', data,
-                CropCore.hideError, CropCore.showError, function () {
-                    CropCore.progress.stop();
-                });
+                    CropCore.hideError, CropCore.showError, function () {
+                        CropCore.progress.stop();
+                    });
         }
     }
 
@@ -288,26 +306,26 @@ $(function () {
                 } else {
                     //Подгоним ширину изображения под редактор
                     FileAPI.Image(file).resize(CropCore.ContainerWidth, 600, 'width')
-                    .get(function (err, canvas) {
-                        if (err) {
-                            CropController.onError('Ошибка обработки изображения: ' + err);
-                        } else {
-                            var img = {
-                                id: id,     //Код загрузки
-                                file: file,   //Загруженный файл
-                                info: info,   //Информация об изображении
-                                canvas: canvas, //Объект HTML, по ширине подогнанный для редактора
-                                canvasClone: function () {
-                                    return PsCanvas.clone(this.canvas);
-                                },
-                                toString: function () {
-                                    return this.id + ".'" + this.file.name + "' [" + this.file.type + "] (" + this.info.width + "x" + this.info.height + ")";
+                            .get(function (err, canvas) {
+                                if (err) {
+                                    CropController.onError('Ошибка обработки изображения: ' + err);
+                                } else {
+                                    var img = {
+                                        id: id,     //Код загрузки
+                                        file: file,   //Загруженный файл
+                                        info: info,   //Информация об изображении
+                                        canvas: canvas, //Объект HTML, по ширине подогнанный для редактора
+                                        canvasClone: function () {
+                                            return PsCanvas.clone(this.canvas);
+                                        },
+                                        toString: function () {
+                                            return this.id + ".'" + this.file.name + "' [" + this.file.type + "] (" + this.info.width + "x" + this.info.height + ")";
+                                        }
+                                    };
+                                    CropCore.progress.stop();
+                                    CropController.onImgSelected(img);
                                 }
-                            };
-                            CropCore.progress.stop();
-                            CropController.onImgSelected(img);
-                        }
-                    });
+                            });
                 }
             });
         },
@@ -352,7 +370,7 @@ $(function () {
             zoomable: true,
             zoomOnWheel: false,
             viewMode: 1
-        /*
+                    /*
                      ,crop: function(e) {
                      $('.crop-preview').empty().each(function() {
                      $(this).append($(e.target).cropper('getCroppedCanvas'));
@@ -372,7 +390,7 @@ $(function () {
                     reapplyFilter: true, //Признак повторного применения фильтра
                     takeCropBoxData: true //Признак того, что нужно взять прежние настроки crop
                 },
-                options);
+                        options);
             }
 
             //Обезопасим функцию обратного вызова
@@ -579,7 +597,7 @@ $(function () {
                     CropController.cropClear(onDone);
                     return;//---
                 }
-                
+
                 var transformer = this.transformer[href];
                 if (PsIs.func(transformer)) {
                     CropLogger.logInfo('Применяем трансформацию {}', href);
@@ -691,6 +709,34 @@ $(function () {
 
     EmotionsManager.init();
 
+    //Управление рекапчей
+    var RecaptureManager = {
+        //Ответ
+        response: null,
+        //Признак, пройдена ли капча
+        passed: false,
+        //Инициализация
+        init: function () {
+            if (window.gRecaptchaLoaded) {
+                this.render();
+            } else {
+                window.ongRecaptchaLoaded = PsUtil.once(this.render, this);
+            }
+        },
+        //Метод рендерит капчу - вызывается уже после подключения reCAPTURE api
+        render: function () {
+            //Инициализируем рекапчу
+            grecaptcha.render('google-recaptcha', {
+                sitekey: CROP.CAPTCHA_SITEKEY,
+                callback: PsUtil.safeCall(function (response) {
+                    this.passed = PsIs.string(response) && response.length > 0;
+                    this.response = response;
+                    CropController.capturePassed();
+                }, this)/*,
+                 theme: 'dark'*/
+            });
+        }
+    }
 
     //Показываем меню справа
     CropCore.$cropMenu.setVisibility(true);
@@ -699,11 +745,14 @@ $(function () {
     CropController.close();
 
     //Если закрыта возможность добавления изображений - выходим
-    if(!CROP.ADD_CELL_ENABLED) {
+    if (!CROP.ADD_CELL_ENABLED) {
         CropCore.showError('Извините, возможность добавления новых ячеек временно закрыта.<br>Ведутся технические работы на сайте.');
         return;//---
     }
-    
+
+    //Инициализируем капчу
+    RecaptureManager.init();
+
     //Стилизуем label
     CropCore.$fileInputLabel.button({
         icons: {
@@ -725,3 +774,15 @@ $(function () {
     }).click(CropController.submitLight);
 
 });
+
+//PsUtil.scheduleDeferred(function () {
+//    //Инициализируем рекапчу
+//    grecaptcha.render('google-recaptcha', {
+//        sitekey: CROP.CAPTCHA_SITEKEY,
+//        callback: function (str) {
+//            alert(str);
+//        }/*,
+//         theme: 'dark'*/
+//    });
+//}, null, 2000);
+

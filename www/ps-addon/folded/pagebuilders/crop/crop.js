@@ -10,8 +10,10 @@ var CropUtils = {
     },
     
     //Метод подготавливает отображение ячейки
-    prepareCellView: function($div) {
-        var $date = $div.find('.content .date'); 
+    prepareCellView: function(cellId, $div) {
+        var $content = $div.find('.content');
+        $content.append($('<div>').text('#'+cellId).addClass('num'));
+        var $date = $content.find('.date'); 
         var utc = $date.text();
         if (PsIs.integer(utc)) {
             $date.text(CropUtils.utc2date(utc));

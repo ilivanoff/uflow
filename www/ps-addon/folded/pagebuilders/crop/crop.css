@@ -83,6 +83,7 @@ h1.head a {
     margin: 0px;
     margin-left: 250px;
     text-align: left;
+    position: relative;
     /*word-break: break-all;*/
 }
 
@@ -90,6 +91,14 @@ h1.head a {
     color: #444;
     font-weight: bold;
     padding-bottom: 2px;
+}
+
+.cell-view .content .num {
+    position: absolute;
+    right: 1px;
+    top: 0px;
+    color: #bbb;
+    font-weight: bold;
 }
 
 
