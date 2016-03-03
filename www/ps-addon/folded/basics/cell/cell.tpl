@@ -1,6 +1,10 @@
 <div class="cell">
     <div class="cell-view">
-        <img src="/c/{$cell->getCellId()}/big.png"/>
+        {if $cell->existsImgBig()}
+            <img src="/c/{$cell->getCellId()}/big.png"/>
+        {else}
+            <img src="/i/blank.png"/>
+        {/if}
         <div class="content">
             <div class="date">
                 {$cell->getDtEvent()}

@@ -35,6 +35,14 @@ class CropCell extends BaseDataStore {
         return $this->v_text;
     }
 
+    public function existsImgBig() {
+        return DirManagerCrop::imgExists($this->id_cell, CropConst::TMP_FILE_BIG);
+    }
+
+    public function existsImgSmall() {
+        return DirManagerCrop::imgExists($this->id_cell, CropConst::TMP_FILE_SMALL);
+    }
+
 }
 
 ?>

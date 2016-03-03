@@ -23,33 +23,33 @@ $(function () {
     // # 1.
     function MosaicMapController() {
         var $div = null;
-        
-        var extractCellId = function($item) {
+
+        var extractCellId = function ($item) {
             var cellId = $item.data('c');
             if (!PsIs.integer(cellId)) {
                 var src = $item.attr('src');
                 var srcT = src ? src.split('/', 3) : null;
                 cellId = PsIs.array(srcT) && srcT.length >= 3 ? srcT[2] : null;
             }
-            return PsIs.integer(cellId) ? 1*cellId : null;//---
+            return PsIs.integer(cellId) ? 1 * cellId : null;//---
         }
-        
-        var onClick = function(e, $item) {
+
+        var onClick = function (e, $item) {
             var cellId = extractCellId($item);
-            if(!PsIs.integer(cellId)) {
+            if (!PsIs.integer(cellId)) {
                 return;//---
             }
             //Положим признак того, что окно может быть закрыто
             CropUtils.setCanClose(cellId);
             //Откроем окно просмотра обсуждения ячейки
-            try{
-                window.open('/cell.php?id='+cellId, '_blank');
-            } catch(e) {
+            try {
+                window.open('/cell.php?id=' + cellId, '_blank');
+            } catch (e) {
                 CropUtils.isCanClose(cellId);
                 throw e;
             }
         }
-        
+
         var onHide = function () {
             if ($div) {
                 $div.remove();
@@ -59,13 +59,15 @@ $(function () {
 
         var onShow = function (e, $item) {
             onHide();
-            
+
             var cellId = extractCellId($item);
-            if (!PsIs.integer(cellId)) return;//---
-            
+            if (!PsIs.integer(cellId))
+                return;//---
+
             var obj = cells[cellId];
-            if(!obj) return;//---
-            
+            if (!obj)
+                return;//---
+
             /*
              <div class="mosaic-popup">
              <img class="avatar" src="mmedia/avatars/u/u1/22_42x.jpg"/>
@@ -94,17 +96,17 @@ $(function () {
 
             onUpdate(e);
 
-            PsResources.getImgSize(src, function () {
-                $img.attr('src', src).removeClass('progress');
+            PsResources.getImgSize(src, function (wh) {
+                $img.attr('src', wh ? src : '/i/blank.png').removeClass('progress');
             });
         }
-        
+
         var onUpdate = function (e) {
             if ($div) {
                 $div.calculatePosition(e, 3, 3);
             }
         }
-        
+
         var production = true;
         if (production) {
             PsJquery.on({
@@ -119,7 +121,8 @@ $(function () {
             onShow({
                 pageX: $('.wall')[0].offsetLeft,
                 pageY: 150
-            }, $('.wall img:first'));
+            },
+                    $('.wall img:first'));
         }
     }
     // # 1.
@@ -144,9 +147,9 @@ $(function () {
             return PsIs.integer(y) && y > 0 ? y : null;
         },
         //Можно ли вызывать предзагрузку?
-        canPreload: function() {
+        canPreload: function () {
             var y = this.getLastY();
-            return PsIs.integer(y) && y>1;
+            return PsIs.integer(y) && y > 1;
         },
         //Метод вызывается для инициализации кнопки дозагрузки данных
         init: function () {
@@ -168,81 +171,83 @@ $(function () {
             }).click(function () {
                 Wall.doPreload();
             });
-            
+
             //Привяжем функцию обновления
             if (true) {
                 PsScroll.bindWndScrolledBottom(this.doPreloadScroll, this);
             }
         },
         //Метод вызывается для загрузки порции данных при скроллинге страницы вниз
-        doPreloadScroll: function() {
+        doPreloadScroll: function () {
             return this.stopPreloadOnScroll ? false : this.doPreload();
         },
         //Метод вызывается для загрузки порции данных
         doPreload: function () {
             //Если сейчас выполняем предзагрузку - выходим
-            if (this.preloading) return;//---
-            
+            if (this.preloading)
+                return;//---
+
             //Можно и предзагружать?
-            if (!this.canPreload()) return;//---
+            if (!this.canPreload())
+                return;//---
 
             //Номер загрузки увеличим до дизейбла кнопок
             var preload = ++this.preloads;
 
             //Устанавливаем признак загрузки
             this.preloading = true;
-            
+
             //Приостанавливаем загрузку с помощью скролла
             this.stopPreloadOnScroll = true;
 
             //Дизейблим кнопку и устанавливаем текст
             CropCore.$preloadBtn.uiButtonDisable().uiButtonLabel(CropCore.preloadBtnTextProgress);
-            
+
             //Функция будет вызвана при окончании загрузки
-            var preloadingDone = PsUtil.once(function() {
+            var preloadingDone = PsUtil.once(function () {
                 //Активируем кнопку предзагрузки (при этом сам блок с кнопкой может быть уже спрятан)
                 CropCore.$preloadBtn.uiButtonEnable().uiButtonLabel(CropCore.preloadBtnTextOriginal);
                 //Снимаем признак загрузки
                 this.preloading = false;
                 //В отложенном режиме активируем загрузку скроллом
-                PsUtil.scheduleDeferred(function() {
+                PsUtil.scheduleDeferred(function () {
                     //Проверяет, является ли транзакция - текущей
                     if (this.preloads == preload) {
                         this.stopPreloadOnScroll = false;
                     }
                 }, this, this.stopPreloadDelay);
             }, this);
-            
+
             AjaxExecutor.execute('CropWallLoad', {
                 ctxt: this,
                 y: this.getLastY()
             },
-            function (ok) {
-                var $box = $(ok);
-                var $images = $box.find("img[src^='/']");
-                if(!$images.isEmptySet()) {
-                    $box.hide();
-                    
-                    var allImgsLoaded = PsUtil.once(function() {
-                        //Если уже всё загружено - прячем кнопку и отписываемся от скрола
-                        if(!this.canPreload()) {
-                            CropCore.$preload.hide();
-                            PsScroll.unbindWndScrolledBottom(this.doPreloadScroll, this);
+                    function (ok) {
+                        var $box = $(ok);
+                        var $images = $box.find("img[src^='/']");
+                        if (!$images.isEmptySet()) {
+                            $box.hide();
+
+                            var allImgsLoaded = PsUtil.once(function () {
+                                //Если уже всё загружено - прячем кнопку и отписываемся от скрола
+                                if (!this.canPreload()) {
+                                    CropCore.$preload.hide();
+                                    PsScroll.unbindWndScrolledBottom(this.doPreloadScroll, this);
+                                }
+                                //Показываем загруженный блок
+                                $box.show();
+                                //Снимаем состояние предзагрузки
+                                preloadingDone();
+                            }, this);
+
+                            PsResources.onAllImagesLoaded($images, allImgsLoaded);
                         }
-                        //Показываем загруженный блок
-                        $box.show();
-                        //Снимаем состояние предзагрузки
-                        preloadingDone();
-                    }, this);
-                    
-                    PsResources.onAllImagesLoaded($images, allImgsLoaded);
-                }
-                
-                CropCore.$wall.append($box);
-                
-                return true;
-            }, 'Загрузка стены', function(ok) {
-                if(!ok) {
+
+                        CropCore.$wall.append($box);
+
+                        return true;
+                    }, 'Загрузка стены', function (ok) {
+                if (!ok) {
                     //Снимаем состояние предзагрузки
                     preloadingDone();
                 }

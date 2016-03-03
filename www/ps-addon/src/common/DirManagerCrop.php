@@ -71,6 +71,16 @@ class DirManagerCrop {
     }
 
     /**
+     * Метод проверяет существование изображения ячейки
+     * 
+     * @param int $cellId - код ячейки
+     * @return bool
+     */
+    public static function imgExists($cellId, $img = CropConst::TMP_FILE_BIG) {
+        return PsImg::isImg(PATH_BASE_DIR . self::DIR_CROP . DIR_SEPARATOR . $cellId . DIR_SEPARATOR . $img . '.' . CropConst::CROP_EXT);
+    }
+
+    /**
      * Метод возвращает временную директорию для работы и сохранения изображений
      * 
      * @return DirManager

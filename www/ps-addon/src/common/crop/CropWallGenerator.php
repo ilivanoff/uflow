@@ -24,7 +24,6 @@ class CropWallGenerator {
     /**
      * Версия кеширования
      */
-
     const CACHE_VERSION = '1a';
 
     /**
