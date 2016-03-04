@@ -792,7 +792,7 @@ $(function () {
     CropController.close();
 
     //Если закрыта возможность добавления изображений - выходим
-    if (!CROP.ADD_CELL_ENABLED) {
+    if (!CROP.ADD_CELL_ENABLED || defs.isIpBanned) {
         CropCore.showError('Извините, возможность добавления новых ячеек временно закрыта.<br>Ведутся технические работы на сайте.');
         return;//---
     }
