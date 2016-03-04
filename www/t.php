@@ -10,6 +10,26 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
+
+/*
+  echo PsIp::ban('1.2.3.1');
+  echo PsIp::ban('1.2.3.2');
+  echo PsIp::ban('1.2.3.3');
+  echo PsIp::ban('1.2.3.4');
+  echo PsIp::ban('1.2.3.5');
+ */
+
+for ($i = 0; $i < 10; $i++) {
+    PsIp::ban(PsRand::ip());
+}
+
+//echo IpBanBean::inst()->unbanIp('1.2.3.9');
+print_r(PsIp::listBanned());
+die;
+echo PsCheck::ip('1.2.3.4');
+
+die;
+
 //require_once 'ps-addon/lib/recaptcha-master/src/ReCaptcha/ReCaptcha.php';
 require_once 'ps-addon/lib/recaptcha-master/src/autoload.php';
 
