@@ -16,7 +16,7 @@ grant all on crop.* to 'crop'@'localhost' identified by 'crop';
  */
 /*
 Created: 14.08.2010
-Modified: 19.01.2016
+Modified: 04.03.2016
 Model: MySQL 5.1
 Database: MySQL 5.1
 */
@@ -277,6 +277,20 @@ CREATE TABLE  IF NOT EXISTS ps_inflects
 ;
 
 ALTER TABLE ps_inflects ADD UNIQUE v_word (v_word)
+;
+
+-- Table ps_banned_ip
+
+CREATE TABLE ps_banned_ip
+(
+  v_ip Varchar(23) NOT NULL
+  COMMENT 'Забаненные ip адреса'
+)
+  DEFAULT CHARACTER SET utf8
+  COLLATE utf8_general_ci
+;
+
+CREATE UNIQUE INDEX uq_ps_banned_ip ON ps_banned_ip (v_ip)
 ;
 
 -- Create relationships section ------------------------------------------------- 
