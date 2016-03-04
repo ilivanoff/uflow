@@ -10,9 +10,8 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
-
-for ($i = 0; $i < 1000; $i++) {
-    //PsIp::ban(PsRand::ip());
+for ($i = 0; $i < 10; $i++) {
+    PsIp::ban(PsRand::ip());
 }
 
 //PsIp::unbanAll();
