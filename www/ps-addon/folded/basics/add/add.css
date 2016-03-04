@@ -11,6 +11,7 @@
     width: 640px;
     text-align: center;
     padding-left: 36px;
+    padding-bottom: 30px;
 }
 
 .container .top-buttons {
@@ -224,6 +225,11 @@ input#choose-file {
     margin: 20px 0px;
     font-size: 14px;
     display: none;
+    height: 78px;
+}
+
+.container .bottom-buttons button {
+    margin-top: 24px;
 }
 
 .container #google-recaptcha {
@@ -260,6 +266,12 @@ input#choose-file {
     font-size: 14px;
     padding: 5px;
 }
+
+/*
+.crop-text textarea.required {
+    border-color: red;
+}
+*/
 
 /* Правое меню */
 .crop-menu {

@@ -132,10 +132,12 @@ $(function () {
             CropCore.$cropEditor.hide();
             //Скроем эмоции
             CropCore.$emotions.hide();
-            //Тукст для ввода сообщения
+            //Текст для ввода сообщения
             CropCore.$cropText.hide();
             //Прячем капчу
             CropCore.$reCAPTCHA.hide();
+            //Сбрасываем рекапчу
+            RecaptureManager.reset();
             //Прячем кнопку публикации
             CropCore.$buttonsBottom.hide();
             //Дизейблим кнопки модификации
@@ -234,10 +236,18 @@ $(function () {
                         return false;//---
                     },
                     function (isOk) {
-                        if (!isOk) {
-                            RecaptureManager.reset();
-                        }
+                        //Останавливаем прогресс
                         CropCore.progress.stop();
+                        //Сбрасываем рекапчу
+                        RecaptureManager.reset();
+                        if (isOk) {
+                            //Очищаем текст сообщения
+                            CropCore.$cropTextArea.empty();
+                            //Сбросим фильтры
+                            ImageFilters.reset();
+                            //Закроем редактор
+                            CropController.close();
+                        }
                     });
         }
 
@@ -560,6 +570,10 @@ $(function () {
                 });
 
             });
+        },
+        //Функция сбрасывает текущий фильтр
+        reset: function () {
+            CropCore.$presetFiltersA.removeClass('active');
         },
         disable: function () {
             CropCore.$presetFiltersA.addClass('disabled');
