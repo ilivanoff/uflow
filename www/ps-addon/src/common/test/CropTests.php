@@ -67,7 +67,7 @@ class CropTests {
      * Метод генерирует ячейку
      */
     public static function makeCropCell() {
-        return CropUploaderLight::upload(self::randomCropBigImgBase64(), getRandomString(CropConst::CROP_MSG_MAX_LEN, true, 10), CropTests::randomEmotionCode());
+        return CropUploaderLight::upload(self::randomCropBigImgBase64(), PsRand::mail(), getRandomString(CropConst::CROP_MSG_MAX_LEN, true, 10), CropTests::randomEmotionCode());
     }
 
     /**

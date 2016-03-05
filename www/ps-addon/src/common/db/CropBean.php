@@ -11,13 +11,15 @@ class CropBean extends BaseBean {
      * Метод привязывает ячейку в БД
      * 
      * @param string $temp - название директории временного хранилища, чтобы восстановить привязку в случае ошибки
+     * @param string $email - электронный адрес
      * @param string $text - текст ячейки
+     * @param int $em - код эмоции
      * @return CropCell Ячейка
      */
-    public function makeCell($temp, $text, $em) {
+    public function makeCell($temp, $email, $text, $em) {
         PsLock::lockMethod(__CLASS__, __FUNCTION__);
         try {
-            $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, n_em, b_ok, v_temp, v_text) VALUES (unix_timestamp(), ?, 0, ?, ?)', array(PsCheck::int($em), $temp, $text)));
+            $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, n_em, b_ok, v_temp, v_mail, v_text) VALUES (unix_timestamp(), ?, 0, ?, ?, ?)', array(PsCheck::int($em), $temp, PsCheck::email($email), PsCheck::notEmptyString($text))));
 
             $cellNum = PsCheck::notNegativeInt($this->getCnt('select count(1) as cnt from crop_cell') - 1);
 

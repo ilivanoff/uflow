@@ -246,8 +246,22 @@ input#choose-file {
     overflow:hidden;
 }
 
+.crop-email {
+    text-align: left;
+    margin: 15px 0px;
+}
+
+.crop-email input {
+    width: 40%;
+}
+
+.crop-email span.hint {
+    cursor: help;
+    margin-left: 5px;
+}
+
 .crop-text {
-    margin: 10px 0px;
+    margin: 15px 0px;
     display: none;
 }
 

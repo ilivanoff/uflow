@@ -16,7 +16,7 @@ class CropUploadLight extends AbstractAjaxAction {
     }
 
     protected function getRequiredParamKeys() {
-        return array('crop', 'text', 'em', 'cap');
+        return array('crop', 'email', 'text', 'em', 'cap');
     }
 
     protected function executeImpl(ArrayAdapter $params) {
@@ -25,11 +25,28 @@ class CropUploadLight extends AbstractAjaxAction {
             return 'Возможность добавления ячеек временно закрыта, приносим свои извинения.';
         }
 
-        //Проверим капчу
+        /*
+         * КАПЧА
+         */
         if (!PSreCAPTCHA::isValid($params->str('cap'))) {
             return 'Введённая капча невалидна';
         }
 
+        /*
+         * EMAIL
+         */
+        $email = $params->str('email');
+        if (!PsCheck::isEmail($email)) {
+            return 'Введён некорректный email';
+        }
+        //TODO - вынести на настройки
+        if (ps_strlen($email) > 255) {
+            return 'Введён некорректный email';
+        }
+
+        /*
+         * ТЕКСТ
+         */
         $text = normalize_string($params->str('text'));
         //Валидируем комментарий
         if (!$text) {
@@ -45,7 +62,7 @@ class CropUploadLight extends AbstractAjaxAction {
         }
         //$text = UserInputTools::safeLongText($text);
 
-        CropUploaderLight::upload($params->str('crop'), $text, $params->int('em'));
+        CropUploaderLight::upload($params->str('crop'), $email, $text, $params->int('em'));
 
         return new AjaxSuccess();
     }

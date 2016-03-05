@@ -61,9 +61,14 @@
         </div>
         *}
 
+        <div class="crop-email">
+            <input type="text" placeholder="email" />
+            <span class="hint hint--right hint--rounded hint--error" data-hint="email нигде не публикуется и нужен для управления ячейкой"><span class="fa fa-at"></span></span>
+        </div>
+
         <div class="crop-text">
             <div class="crop-textarea-holder">
-                <textarea data-manual="1" data-ml="{$smarty.const.CROP_MSG_MAX_LEN}"></textarea>
+                <textarea data-manual="1" data-ml="{$smarty.const.CROP_MSG_MAX_LEN}" placeholder="мысли..."></textarea>
             </div>
         </div>
 

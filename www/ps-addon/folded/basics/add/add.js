@@ -34,6 +34,9 @@ $(function () {
         $emotions: $('.container .emotions'),
         //Выбор эмоции
         $emotionsSpan: $('.container .emotions>span'),
+        //email
+        $cropEmail: $('.container .crop-email'),
+        $cropEmailInput: $('.container .crop-email input'),
         //Текст
         $cropText: $('.container .crop-text'),
         $cropTextArea: $('.container .crop-text textarea'),
@@ -85,6 +88,7 @@ $(function () {
                     ImageFilters.disable();
                 }
                 this.$fileInputLabel.uiButtonDisable();
+                this.$cropEmailInput.disable();
                 this.$cropTextArea.disable();
                 this.$buttonSend.uiButtonDisable();
                 CropEditor.setEnabled(false);
@@ -97,6 +101,7 @@ $(function () {
                     ImageFilters.enable();
                 }
                 this.$fileInputLabel.uiButtonEnable();
+                this.$cropEmailInput.enable();
                 this.$cropTextArea.enable();
                 this.$buttonSend.uiButtonEnable();
                 CropEditor.setEnabled(true);
@@ -140,6 +145,8 @@ $(function () {
             CropCore.$cropEditor.hide();
             //Скроем эмоции
             CropCore.$emotions.hide();
+            //Поле для ввода email
+            CropCore.$cropEmail.hide();
             //Текст для ввода сообщения
             CropCore.$cropText.hide();
             //Прячем капчу
@@ -172,6 +179,7 @@ $(function () {
         this.onCropReady = function () {
             ImageTransform.enable();
             ImageFilters.enable();
+            CropCore.$cropEmail.show();
             CropCore.$cropText.show();
             CropCore.$emotions.show();
             CropCore.$buttonsBottom.show();
@@ -201,6 +209,18 @@ $(function () {
 
         //Сабмит формы
         this.submitLight = function () {
+            //email
+            var email = $.trim(CropCore.$cropEmailInput.val());
+            if (PsIs.empty(email)) {
+                CropCore.$cropEmailInput.focus();
+                return;//---
+            }
+            if(!PsIs.email(email) || email.length > 255) {
+                CropCore.$cropEmailInput.focus().select();
+                return;//---
+            }
+
+            //Текст
             var text = CropCore.prepareText(CropCore.$cropTextArea.val());
             if (PsIs.empty(text)) {
                 CropCore.$cropTextArea.focus();
@@ -210,7 +230,7 @@ $(function () {
                 CropCore.showError('Максимальная длина текста: ' + CROP.CROP_MSG_MAX_LEN + '. Введено: ' + text.length + '.');
                 return;//---
             }
-
+            
             var emotionCode = EmotionsManager.activeCode();
             if (!PsIs.integer(emotionCode)) {
                 CropCore.showError('Пожалуйста, выберете эмоцию.');
@@ -231,6 +251,7 @@ $(function () {
 
             AjaxExecutor.executePost('CropUploadLight', {
                 crop: crop.toDataURL(),
+                email: email, //Email
                 text: text, //Текст
                 em: emotionCode, //Код эмоции
                 cap: RecaptureManager.response
@@ -249,6 +270,8 @@ $(function () {
                 //Сбрасываем рекапчу
                 RecaptureManager.reset();
                 if (isOk) {
+                    //Очищаем email
+                    //CropCore.$cropEmailInput.val('');
                     //Очищаем текст сообщения
                     CropCore.$cropTextArea.val('').change();
                     //Сбросим фильтры
@@ -839,8 +862,7 @@ $(function () {
             updateLeftSymbols(value.length);
         }
     
-        $ta.keyup(stateChanged).change(stateChanged).focus(stateChanged).blur(stateChanged);
-        stateChanged();
+        $ta.keyup(stateChanged).change(stateChanged).focus(stateChanged).blur(stateChanged).change();
     }
 
     //Показываем меню справа
