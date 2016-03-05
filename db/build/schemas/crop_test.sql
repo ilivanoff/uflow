@@ -253,6 +253,10 @@ CREATE TABLE ps_audit
   COMMENT 'Дата создания записи',
   n_action Tinyint UNSIGNED NOT NULL
   COMMENT 'Код действия',
+  id_inst Int UNSIGNED
+  COMMENT 'Код экземпляра - для каждой подсистемы свой',
+  id_type Int UNSIGNED
+  COMMENT 'Код типа - для каждой подсистемы свой',
   v_data Text
   COMMENT 'Данные аудита',
   b_encoded Bool NOT NULL DEFAULT 0
