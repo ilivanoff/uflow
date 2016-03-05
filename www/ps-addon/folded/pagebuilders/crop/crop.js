@@ -12,7 +12,7 @@ var CropUtils = {
     //Метод подготавливает отображение ячейки
     prepareCellView: function(cellId, $div) {
         var $content = $div.find('.content');
-        $content.append($('<div>').text('#'+cellId).addClass('num'));
+        $content.append($('<div>').text('#'+cellId).addClass('num').attr('title', 'Номер ячейки'));
         var $date = $content.find('.date'); 
         var utc = $date.text();
         if (PsIs.integer(utc)) {

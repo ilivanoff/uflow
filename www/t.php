@@ -10,6 +10,10 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
+CropAudit::cellAdded(1);
+
+die;
+
 for ($i = 0; $i < 10; $i++) {
     PsIp::ban(PsRand::ip());
 }
