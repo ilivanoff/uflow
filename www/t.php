@@ -14,11 +14,11 @@ for ($i = 0; $i < 10; $i++) {
     PsIp::ban(PsRand::ip());
 }
 
-//PsIp::unbanAll();
+PsIp::unbanAll();
 
 PsIp::ban(PsRand::ip());
 
-PsIp::unban('92.155.86.110');
+PsIp::unban('197.111.221.29');
 
 die;
 echo PsCheck::ip('1.2.3.4');
