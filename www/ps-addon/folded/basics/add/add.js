@@ -258,18 +258,19 @@ $(function () {
             },
             function (ok) {
                 CropCore.hideError();
-                return true;//---
+                return ok;//---
             },
             function (err) {
                 CropCore.showError(err);
                 return false;//---
             },
-            function (isOk) {
+            function (ok) {
                 //Останавливаем прогресс
                 CropCore.progress.stop();
                 //Сбрасываем рекапчу
                 RecaptureManager.reset();
-                if (isOk) {
+                //Всё ок? Закрываем и показываем текст
+                if (ok) {
                     //Очищаем email
                     //CropCore.$cropEmailInput.val('');
                     //Очищаем текст сообщения
@@ -278,41 +279,11 @@ $(function () {
                     ImageFilters.reset();
                     //Закроем редактор
                     CropController.close();
+                    
+                    //Прячем кнопку загрузки
+                    $('<div>').addClass('cell-added').hide().append(ok.page).insertAfter(CropCore.$buttonsTop.hide()).fadeIn(1000);
                 }
             });
-        }
-
-        //Сабмит формы
-        this.submit = function (text) {
-            CropLogger.logInfo("Submitting {} with text: '{}'", img.toString(), text);
-
-            var crop = CropEditor.crop;
-
-            CropCore.progress.start();
-
-            var data = {
-                file: {
-                    name: img.file.name,
-                    type: img.file.type,
-                    size: img.file.size,
-                    filter: crop.filter
-                },
-                imgo: img.canvas.toDataURL(), //Оригинальная картинка
-                imgf: crop.canvas.toDataURL(), //Изменённая картинка
-                imgc: crop.getCropCanvas().toDataURL(), //Обрезанная картинка
-                text: text, //Текст
-                cropped: crop.getData() //Данные выделения
-            }
-
-            //Если оригинальная и изменённая картинка совпадают - не передаём на сервер
-            if (data.imgo == data.imgf) {
-                delete data['imgf'];
-            }
-
-            AjaxExecutor.executePost('CropUpload', data,
-                CropCore.hideError, CropCore.showError, function () {
-                    CropCore.progress.stop();
-                });
         }
     }
 

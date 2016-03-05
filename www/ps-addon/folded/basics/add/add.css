@@ -242,11 +242,17 @@ input#choose-file {
     margin: 0px auto;
 }
 
+.container .cell-added {
+    display: none;
+    text-align: left;
+}
+
 .crop-preview {
     overflow:hidden;
 }
 
 .crop-email {
+    display: none;
     text-align: left;
     margin: 15px 0px;
 }

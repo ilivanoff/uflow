@@ -62,9 +62,20 @@ class CropUploadLight extends AbstractAjaxAction {
         }
         //$text = UserInputTools::safeLongText($text);
 
-        CropUploaderLight::upload($params->str('crop'), $email, $text, $params->int('em'));
+        /*
+         * Загружаем ячейку
+         */
+        $cell = CropUploaderLight::upload($params->str('crop'), $email, $text, $params->int('em'));
 
-        return new AjaxSuccess();
+        /*
+         * Строим страницу с ответом
+         */
+        $added = PSSmarty::template('crop/added.tpl', array('cell' => $cell))->fetch();
+
+        /*
+         * Возвращаем ответ
+         */
+        return new AjaxSuccess(array('page' => $added));
     }
 
 }
