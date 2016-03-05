@@ -16,7 +16,7 @@ grant all on crop.* to 'crop'@'localhost' identified by 'crop';
  */
 /*
 Created: 14.08.2010
-Modified: 04.03.2016
+Modified: 05.03.2016
 Model: MySQL 5.1
 Database: MySQL 5.1
 */
@@ -243,14 +243,24 @@ ALTER TABLE ps_folded_codes ADD UNIQUE v_unique (v_unique)
 CREATE TABLE ps_audit
 (
   id_rec Int UNSIGNED NOT NULL AUTO_INCREMENT,
-  id_rec_parent Int UNSIGNED,
-  id_user Int UNSIGNED,
-  id_user_authed Int UNSIGNED,
-  id_process Int UNSIGNED NOT NULL,
-  dt_event Int UNSIGNED NOT NULL,
-  n_action Tinyint UNSIGNED NOT NULL,
-  v_data Text,
-  b_encoded Bool NOT NULL DEFAULT 0,
+  id_process Int UNSIGNED NOT NULL
+  COMMENT 'Код процесса',
+  id_user Int UNSIGNED
+  COMMENT 'Код пользователя, к которому относится запись',
+  id_user_authed Int UNSIGNED
+  COMMENT 'Код авторизованного пользователя',
+  dt_event Int UNSIGNED NOT NULL
+  COMMENT 'Дата создания записи',
+  n_action Tinyint UNSIGNED NOT NULL
+  COMMENT 'Код действия',
+  v_data Text
+  COMMENT 'Данные аудита',
+  b_encoded Bool NOT NULL DEFAULT 0
+  COMMENT 'Признак, были ли кодированы данные',
+  v_remote_addr Varchar(23)
+  COMMENT 'Адрес, с которого пришёл запрос',
+  v_user_agent Varchar(255)
+  COMMENT 'Данные о браузере пользователя',
  PRIMARY KEY (id_rec)
 )
   DEFAULT CHARACTER SET utf8
