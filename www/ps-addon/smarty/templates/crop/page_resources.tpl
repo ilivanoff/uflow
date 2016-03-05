@@ -60,10 +60,11 @@
 <script type="text/javascript" src="/ps-content/js-lib/codemirror-2.36/mode/scheme/scheme.js"></script>
 
 {*TIME PICKER*}
+{*
 <link rel="stylesheet" href="/ps-content/js-lib/Timepicker/jquery-ui-timepicker-addon.css" type="text/css" />
 <script type="text/javascript" src="/ps-content/js-lib/Timepicker/jquery-ui-timepicker-addon.js"></script>
-{*<script type="text/javascript" src="/ps-content/js-lib/Timepicker/jquery-ui-sliderAccess.js"></script>*}
 <script type="text/javascript" src="/ps-content/js-lib/Timepicker/jquery-ui-timepicker-ps-ru.js"></script>
+*}
 
 {if isset($ATOOL_ENABLE) && $ATOOL_ENABLE}
     {*Скрипт для получения выделения на странице*}
@@ -128,12 +129,12 @@
 <script type="text/javascript" src="/ps-content/js/common.js"></script>
 <script type="text/javascript" src="/ps-content/js/common.math.js"></script>
 <script type="text/javascript" src="/ps-content/js/common.ajax.js"></script>
-<script type="text/javascript" src="/ps-content/js/common.forms.js"></script>
-<script type="text/javascript" src="/ps-content/js/common.localbus.js"></script>
+{*<script type="text/javascript" src="/ps-content/js/common.forms.js"></script>*}
+{*<script type="text/javascript" src="/ps-content/js/common.localbus.js"></script>*}
 <script type="text/javascript" src="/ps-content/js/common.dialog.js"></script>
 <script type="text/javascript" src="/ps-content/js/common.managers.js"></script>
-<script type="text/javascript" src="/ps-content/js/common.bubbles.js"></script>
-<script type="text/javascript" src="/ps-content/js/common.widgets.js"></script>
+{*<script type="text/javascript" src="/ps-content/js/common.bubbles.js"></script>*}
+{*<script type="text/javascript" src="/ps-content/js/common.widgets.js"></script>*}
 
 {devmodeOrAdmin}
 <script type="text/javascript" src="/ps-content/js/common.dev.or.admin.js"></script>

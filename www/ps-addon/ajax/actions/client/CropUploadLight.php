@@ -30,14 +30,14 @@ class CropUploadLight extends AbstractAjaxAction {
             return 'Введённая капча невалидна';
         }
 
-        $text = $params->str('text');
+        $text = normalize_string($params->str('text'));
         //Валидируем комментарий
         if (!$text) {
             return 'Вы не ввели текст';
         }
-        $error = UserInputValidator::validateLongText($text);
-        if ($error) {
-            return $error;
+        $censure = PsCensure::parse($text);
+        if ($censure) {
+            return "Текст содержит нецензурную лексику: $censure";
         }
         $textLen = ps_strlen($text);
         if ($textLen > CropConst::CROP_MSG_MAX_LEN) {

@@ -67,6 +67,14 @@ $(function () {
         hideError: function () {
             CropCore.$error.hide();
         },
+        //Метод подготавливает текст, выкидывая лишние символы
+        prepareText: function(text) {
+            text = $.trim(text).replace(/\n/g, ' ').replace('  ', ' ');
+            while (text.contains('  ')) {
+                text = text.replace('  ', ' ');
+            }
+            return text;
+        },
         //Инициализация ядра
         init: function () {
             this.progress = new PsUpdateModel(this, function (action) {
@@ -193,7 +201,7 @@ $(function () {
 
         //Сабмит формы
         this.submitLight = function () {
-            var text = CropCore.$cropTextArea.val();
+            var text = CropCore.prepareText(CropCore.$cropTextArea.val());
             if (PsIs.empty(text)) {
                 CropCore.$cropTextArea.focus();
                 return;//---
@@ -227,28 +235,28 @@ $(function () {
                 em: emotionCode, //Код эмоции
                 cap: RecaptureManager.response
             },
-                    function (ok) {
-                        CropCore.hideError();
-                        return true;//---
-                    },
-                    function (err) {
-                        CropCore.showError(err);
-                        return false;//---
-                    },
-                    function (isOk) {
-                        //Останавливаем прогресс
-                        CropCore.progress.stop();
-                        //Сбрасываем рекапчу
-                        RecaptureManager.reset();
-                        if (isOk) {
-                            //Очищаем текст сообщения
-                            CropCore.$cropTextArea.empty();
-                            //Сбросим фильтры
-                            ImageFilters.reset();
-                            //Закроем редактор
-                            CropController.close();
-                        }
-                    });
+            function (ok) {
+                CropCore.hideError();
+                return true;//---
+            },
+            function (err) {
+                CropCore.showError(err);
+                return false;//---
+            },
+            function (isOk) {
+                //Останавливаем прогресс
+                CropCore.progress.stop();
+                //Сбрасываем рекапчу
+                RecaptureManager.reset();
+                if (isOk) {
+                    //Очищаем текст сообщения
+                    CropCore.$cropTextArea.val('').change();
+                    //Сбросим фильтры
+                    ImageFilters.reset();
+                    //Закроем редактор
+                    CropController.close();
+                }
+            });
         }
 
         //Сабмит формы
@@ -279,9 +287,9 @@ $(function () {
             }
 
             AjaxExecutor.executePost('CropUpload', data,
-                    CropCore.hideError, CropCore.showError, function () {
-                        CropCore.progress.stop();
-                    });
+                CropCore.hideError, CropCore.showError, function () {
+                    CropCore.progress.stop();
+                });
         }
     }
 
@@ -322,26 +330,26 @@ $(function () {
                 } else {
                     //Подгоним ширину изображения под редактор
                     FileAPI.Image(file).resize(CropCore.ContainerWidth, 600, 'width')
-                            .get(function (err, canvas) {
-                                if (err) {
-                                    CropController.onError('Ошибка обработки изображения: ' + err);
-                                } else {
-                                    var img = {
-                                        id: id,     //Код загрузки
-                                        file: file,   //Загруженный файл
-                                        info: info,   //Информация об изображении
-                                        canvas: canvas, //Объект HTML, по ширине подогнанный для редактора
-                                        canvasClone: function () {
-                                            return PsCanvas.clone(this.canvas);
-                                        },
-                                        toString: function () {
-                                            return this.id + ".'" + this.file.name + "' [" + this.file.type + "] (" + this.info.width + "x" + this.info.height + ")";
-                                        }
-                                    };
-                                    CropCore.progress.stop();
-                                    CropController.onImgSelected(img);
+                    .get(function (err, canvas) {
+                        if (err) {
+                            CropController.onError('Ошибка обработки изображения: ' + err);
+                        } else {
+                            var img = {
+                                id: id,     //Код загрузки
+                                file: file,   //Загруженный файл
+                                info: info,   //Информация об изображении
+                                canvas: canvas, //Объект HTML, по ширине подогнанный для редактора
+                                canvasClone: function () {
+                                    return PsCanvas.clone(this.canvas);
+                                },
+                                toString: function () {
+                                    return this.id + ".'" + this.file.name + "' [" + this.file.type + "] (" + this.info.width + "x" + this.info.height + ")";
                                 }
-                            });
+                            };
+                            CropCore.progress.stop();
+                            CropController.onImgSelected(img);
+                        }
+                    });
                 }
             });
         },
@@ -386,7 +394,7 @@ $(function () {
             zoomable: true,
             zoomOnWheel: false,
             viewMode: 1
-                    /*
+        /*
                      ,crop: function(e) {
                      $('.crop-preview').empty().each(function() {
                      $(this).append($(e.target).cropper('getCroppedCanvas'));
@@ -406,7 +414,7 @@ $(function () {
                     reapplyFilter: true, //Признак повторного применения фильтра
                     takeCropBoxData: true //Признак того, что нужно взять прежние настроки crop
                 },
-                        options);
+                options);
             }
 
             //Обезопасим функцию обратного вызова
@@ -785,6 +793,56 @@ $(function () {
         }
     }
 
+    /*
+     * TEXTAREA
+     */
+    function PsTextareaManager($ta){
+        var ta = $ta[0];
+    
+        //MAXLEN
+        var maxLen = strToInt($ta.data('ml'));
+    
+        var $preview = $('<div>').addClass('ps-textarea-preview').hide().insertAfter($ta);
+        var $maxlen = maxLen ? $('<div>').addClass('ps-textarea-maxlen').insertAfter($preview) : null;
+    
+        function updateLeftSymbols(filled) {
+            if ($maxlen) {
+                var left = maxLen - filled;
+                var text = 'Символов осталось: ' + PsHtml.num2str(left);
+                $maxlen.html(PsHtml.span(text, 'info '+(left < 0 ? 'err' : '')));
+            }
+        }
+    
+        //Модификация размеров текстового поля. Основано на использовании свойства textarea.scrollHeight - высота скролла.
+        //Навеяно jquery.textarea-expander.js
+        var minHeight = 40;
+        var maxHeight = 100;
+    
+        function stateChanged() {
+            //РАЗМЕРЫ ПОЛЯ ВВОДА
+            var scrollHeight = ta.scrollHeight;
+            if (scrollHeight > minHeight) {
+                $ta.height(minHeight); //Сбрасываем размер поля, чтобы вычислить величину скролла, так как мы могли и стереть текст
+                scrollHeight = ta.scrollHeight;
+            }
+            var height = Math.max(minHeight, Math.min(scrollHeight, maxHeight));
+            var showScroll = scrollHeight > height;
+            $ta.css('overflow', showScroll ? 'auto' : 'hidden'); //Если максимальная высота поля превышена - ставим auto
+            $ta.height(height);
+            //Если мы показали скролл, то пролистаем в самый низ
+            //http://stackoverflow.com/questions/9170670/how-do-i-set-textarea-scroll-bar-to-bottom-as-a-default
+            if (showScroll) ta.scrollTop = scrollHeight;
+        
+            //ПРЕДПРОСМОТР
+            var value = CropCore.prepareText($ta.val());
+            $preview.html(value.htmlEntities()).setVisible(value.length > 0);
+            updateLeftSymbols(value.length);
+        }
+    
+        $ta.keyup(stateChanged).change(stateChanged).focus(stateChanged).blur(stateChanged);
+        stateChanged();
+    }
+
     //Показываем меню справа
     CropCore.$cropMenu.setVisibility(true);
 
@@ -796,10 +854,13 @@ $(function () {
         CropCore.showError('Извините, возможность добавления новых ячеек временно закрыта.<br>Ведутся технические работы на сайте.');
         return;//---
     }
-
+    
     //Инициализируем капчу
     RecaptureManager.init();
-
+    
+    //Подготавливаем менеджер управления текстовым полем
+    new PsTextareaManager(CropCore.$cropTextArea);
+    
     //Стилизуем label
     CropCore.$fileInputLabel.button({
         icons: {

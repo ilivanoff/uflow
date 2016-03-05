@@ -10,6 +10,13 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
+
+$str = "  a    \n     b\n     c   ";
+$str = normalize_string($str);
+echo $str;
+
+die;
+
 CropAudit::cellAdded(1);
 
 die;
