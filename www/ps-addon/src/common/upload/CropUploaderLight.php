@@ -6,10 +6,10 @@
  * @author azaz
  */
 class CropUploaderLight {
-
     /**
      * Префикс данных изображения
      */
+
     const DATA_IMG_PREFIX = 'data:image/png;base64,';
 
     /**
@@ -133,6 +133,9 @@ class CropUploaderLight {
                     $LOGGER->info('Group №{} rebuilding error: {}', $cell->getY(), $e->getTraceAsString());
                 }
             }
+
+            //Вызовем аудит
+            CropAudit::cellAdded($cell);
 
             //Возвращаем ячейку
             return $cell; //---

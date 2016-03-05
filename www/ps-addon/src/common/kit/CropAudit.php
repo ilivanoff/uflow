@@ -15,8 +15,8 @@ final class CropAudit extends PsAuditAbstract {
     /**
      * Аудит регистрации пользователя
      */
-    public static function cellAdded($cellId) {
-        parent::newRec(self::ACTION_ADDED)->setInstId($cellId)->submit();
+    public static function cellAdded(CropCell $cell) {
+        parent::newRec(self::ACTION_ADDED)->setInstId($cell->getCellId())->submit();
     }
 
 }
