@@ -10,11 +10,13 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
+print_r(ConfigIni::devClasses());
+
+die;
 
 CropTests::makeCropCells(150);
 
 //CropTests::clean();
-
 //CropTests::clean();
 
 

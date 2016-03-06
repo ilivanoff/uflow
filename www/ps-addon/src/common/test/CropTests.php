@@ -66,14 +66,14 @@ class CropTests {
     /**
      * Метод генерирует ячейку
      */
-    public static function makeCropCell() {
+    public static final function makeCropCell() {
         return CropUploaderLight::upload(self::randomCropBigImgBase64(), PsRand::mail(), getRandomString(CropConst::CROP_MSG_MAX_LEN, true, 10), CropTests::randomEmotionCode());
     }
 
     /**
      * Метод создаёт сразу несколько ячеек
      */
-    public static function makeCropCells($count) {
+    public static final function makeCropCells($count) {
         for ($i = 0; $i < PsCheck::int($count); $i++) {
             self::makeCropCell();
         }
@@ -82,7 +82,7 @@ class CropTests {
     /**
      * Метод удаляет всё - все ячейки, всю историю
      */
-    public static function clean() {
+    public static final function clean() {
         CropCache::GROUPS()->clean();
         DirManagerCrop::cropsDir()->removeDir();
         DirManagerCrop::tempsDir()->removeDir();
