@@ -39,6 +39,10 @@ class CropCell extends BaseDataStore {
         return $this->v_text;
     }
 
+    public function isBanned() {
+        return 1 == $this->b_ban;
+    }
+
     public function existsImgBig() {
         return DirManagerCrop::imgExists($this->id_cell, CropConst::TMP_FILE_BIG);
     }

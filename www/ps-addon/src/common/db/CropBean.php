@@ -19,7 +19,7 @@ class CropBean extends BaseBean {
     public function makeCell($temp, $email, $text, $em) {
         PsLock::lockMethod(__CLASS__, __FUNCTION__);
         try {
-            $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, n_em, b_ok, v_temp, v_mail, v_text) VALUES (unix_timestamp(), ?, 0, ?, ?, ?)', array(PsCheck::int($em), $temp, PsCheck::email($email), PsCheck::notEmptyString($text))));
+            $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, n_em, b_ok, b_ban, v_temp, v_mail, v_text) VALUES (unix_timestamp(), ?, 0, 0, ?, ?, ?)', array(PsCheck::int($em), $temp, PsCheck::email($email), PsCheck::notEmptyString($text))));
 
             $cellNum = PsCheck::notNegativeInt($this->getCnt('select count(1) as cnt from crop_cell') - 1);
 
@@ -49,6 +49,26 @@ class CropBean extends BaseBean {
     }
 
     /**
+     * Метод банит ячейку
+     * 
+     * @param int $cellId - код ячейки
+     * @return bool - признак, забанена ли ячейка
+     */
+    public function banCell($cellId) {
+        return 1 == $this->update('UPDATE crop_cell set b_ban=1 where b_ban=0 and id_cell=?', PsCheck::positiveInt($cellId));
+    }
+
+    /**
+     * Метод разбанит ячейку
+     * 
+     * @param int $cellId - код ячейки
+     * @return bool - признак, разбанена ли ячейка
+     */
+    public function unbanCell($cellId) {
+        return 1 == $this->update('UPDATE crop_cell set b_ban=0 where b_ban=1 and id_cell=?', PsCheck::positiveInt($cellId));
+    }
+
+    /**
      * Метод загружает коды ячеек группы от левого края к правому
      * 
      * @param int $y - номер группы
@@ -63,7 +83,16 @@ class CropBean extends BaseBean {
      * @param int $y - номер группы
      */
     public function getGroupCells($y) {
-        return $this->getArray('select id_cell, x, y, v_text, dt_event from crop_cell where y=? order by x desc', PsCheck::positiveInt($y));
+        return $this->getArray('select id_cell, x, y, v_text, dt_event, b_ban from crop_cell where y=? order by x desc', PsCheck::positiveInt($y));
+    }
+
+    /**
+     * Метод загружает ячейки группы от левого края к правому
+     * 
+     * @param int $y - номер группы
+     */
+    public function getGroupCellsShort($y) {
+        return $this->getArray('select id_cell, b_ban from crop_cell where y=? order by x desc', PsCheck::positiveInt($y));
     }
 
     /**
@@ -83,6 +112,7 @@ class CropBean extends BaseBean {
 
     /**
      * Метод получает ячейку по её коду
+     * @return CropCell ячейка
      */
     public function getCell($cellId, $required = true) {
         return PsCheck::isInt($cellId) ? $this->getObject('select * from crop_cell where id_cell=?', array($cellId), CropCell::getClass(), null, $required) : ($required ? raise_error('Не передан код ячейки') : null);

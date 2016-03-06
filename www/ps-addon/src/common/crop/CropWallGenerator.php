@@ -24,6 +24,7 @@ class CropWallGenerator {
     /**
      * Версия кеширования
      */
+
     const CACHE_VERSION = '1a';
 
     /**
@@ -32,10 +33,8 @@ class CropWallGenerator {
      * @param int|null $topY - номер последней группы
      */
     public static function build($topY = null) {
-        /*
-          self::generate();
-          return;
-         */
+        //self::generate();
+        //return;
         $useCache = true;
         PsProfiler::inst(__CLASS__)->start('Build ' . ($useCache ? 'cached' : 'direct'));
         if ($useCache) {
@@ -100,10 +99,7 @@ class CropWallGenerator {
                 }
                 echo '</map>';
             } else {
-                foreach ($cells as $cell) {
-                    //Не передаём данные, так как код картинки возмём из пути к ней
-                    echo PsHtml::img(array(/* 'data' => array('c' => $cell['id_cell']), */'src' => '/' . DirManagerCrop::DIR_CROP . '/' . $cell['id_cell'] . '/' . CropConst::TMP_FILE_SMALL . '.' . CropConst::CROP_EXT));
-                }
+                echo self::makeGroupImages($y, $cells);
             }
 
             echo '<script>';
@@ -151,7 +147,11 @@ class CropWallGenerator {
     private static function makeGroupScript(array $cells) {
         $content = '';
         foreach ($cells as $cell) {
-            $content .= 'cells[' . $cell['id_cell'] . ']=' . json_encode(array(/* 'x' => $cell['x'], 'y' => $cell['y'], */'t' => $cell['v_text'], 'd' => $cell['dt_event'])) . ';';
+            $content .= 'cells[' . $cell['id_cell'] . ']=' . json_encode(array(
+                        'b' => $cell['b_ban'],
+                        'd' => $cell['dt_event'],
+                        't' => $cell['b_ban'] == 1 ? '' : $cell['v_text']
+                    )) . ';';
         }
         return PsHtml::linkJs(null, $content);
     }
@@ -184,7 +184,16 @@ class CropWallGenerator {
     private static function makeGroupImages($y, array $cells) {
         $content = '';
         foreach ($cells as $cell) {
-            $content .= PsHtml::img(array(/* 'data' => array('c' => $cell['id_cell']), */'src' => '/' . DirManagerCrop::DIR_CROP . '/' . $cell['id_cell'] . '/' . CropConst::TMP_FILE_SMALL . '.' . CropConst::CROP_EXT));
+            $banned = 1 == $cell['b_ban'];
+            $imgParams = array();
+            if ($banned) {
+                //Если ячейка забанена - положем в данные ещё код ячейки, чтобы можно было его определить в js
+                $imgParams['src'] = DirManagerCrop::banDiSmall()->getRelPath();
+                $imgParams['data'] = array('c' => $cell['id_cell']);
+            } else {
+                $imgParams['src'] = DirManagerCrop::cropRelSmall($cell['id_cell']);
+            }
+            $content .= PsHtml::img($imgParams);
         }
         return $content;
     }

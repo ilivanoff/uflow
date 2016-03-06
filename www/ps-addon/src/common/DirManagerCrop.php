@@ -10,6 +10,7 @@ class DirManagerCrop {
     const DIR_CROP = 'c';
     const DIR_TEMP = 'd';
     const DIR_GROUP = 'g';
+    const DIR_IMGS = 'i';
     const DIR_CROP_TEST = 'testcrops';
 
     /**
@@ -23,7 +24,7 @@ class DirManagerCrop {
      * Директория, в которой хранятся временные файлы загружаемых изображений
      */
     public static function tempsDir() {
-        return DirManager::inst(self::DIR_CROP);
+        return DirManager::inst(self::DIR_TEMP);
     }
 
     /**
@@ -34,7 +35,7 @@ class DirManagerCrop {
     }
 
     /**
-     * Директория, в которой хранятся сгруппированные изображения
+     * Элемент группы - изображение, хранящее сгруппированные изображения группы
      */
     public static function groupFile($y) {
         return self::groupsDir()->getDirItem(null, PsCheck::int($y), CropConst::CROP_EXT);
@@ -87,6 +88,41 @@ class DirManagerCrop {
      */
     public static function cropTempAuto() {
         return DirManager::inst(null, self::DIR_TEMP . DIR_SEPARATOR . PsUtil::fileUniqueTime());
+    }
+
+    /**
+     * Относительный путь к ячейке
+     */
+    private static function cropRel($cellId, $img = CropConst::TMP_FILE_BIG) {
+        return '/' . self::DIR_CROP . '/' . $cellId . '/' . $img . '.' . CropConst::CROP_EXT;
+    }
+
+    /**
+     * Относительный путь к big ячейке
+     */
+    public static function cropRelBig($cellId) {
+        return self::cropRel($cellId, CropConst::TMP_FILE_BIG);
+    }
+
+    /**
+     * Относительный путь к small ячейке
+     */
+    public static function cropRelSmall($cellId) {
+        return self::cropRel($cellId, CropConst::TMP_FILE_SMALL);
+    }
+
+    /**
+     * Big ячейка бана
+     */
+    public static function banDiBig() {
+        return DirItem::inst(self::DIR_IMGS, 'bb', CropConst::CROP_EXT);
+    }
+
+    /**
+     * Small ячейка бана
+     */
+    public static function banDiSmall() {
+        return DirItem::inst(self::DIR_IMGS, 'bs', CropConst::CROP_EXT);
     }
 
 }

@@ -38,7 +38,7 @@ class CropGroupImgGenerator {
      */
     public static function makeGroup($y) {
         //Создаём картинку
-        return self::makeGroupImpl($y, CropBean::inst()->getGroupCellIds($y));
+        return self::makeGroupImpl($y, CropBean::inst()->getGroupCellsShort($y));
     }
 
     /**
@@ -59,8 +59,11 @@ class CropGroupImgGenerator {
         imagefill($group_image, 0, 0, imagecolorallocate($group_image, 255, 255, 255));
         //Копируем ячейки
         $cellNum = 0;
-        foreach ($cells as $cellId) {
-            $cellImgAbs = DirManagerCrop::cropsDir()->absFilePath($cellId, CropConst::TMP_FILE_SMALL, CropConst::CROP_EXT);
+        foreach ($cells as $cell) {
+            $cellId = $cell['id_cell'];
+            $banned = $cell['b_ban'] == 1;
+
+            $cellImgAbs = $banned ? DirManagerCrop::banDiSmall()->getAbsPath() : DirManagerCrop::cropsDir()->absFilePath($cellId, CropConst::TMP_FILE_SMALL, CropConst::CROP_EXT);
             if (!PsImg::isImg($cellImgAbs)) {
                 /*
                   @imagedestroy($group_image);
@@ -92,7 +95,7 @@ class CropGroupImgGenerator {
         }
 
         //Сохраним полученное с клиента изображение
-        $success = imagepng($group_image, DirManager::inst(null, DirManagerCrop::DIR_GROUP)->absFilePath(null, $groupNum, CropConst::CROP_EXT));
+        $success = imagepng($group_image, DirManagerCrop::groupsDir()->absFilePath(null, $groupNum, CropConst::CROP_EXT));
         check_condition($success, 'Cannot save cropped group');
 
         //Уничтожаем картинку
