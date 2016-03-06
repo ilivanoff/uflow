@@ -28,7 +28,7 @@ define('CROP_PAGE_INFO', 1002);
 /*
  * Настройки для блока <a href="https://tech.yandex.ru/share/" target="_blank">YA SHARE</a>.
  */
-define('CROP_YA_SHARE_ENABED', false);
+define('CROP_YA_SHARE_ENABED', true);
 
 /*
  * URL для соцсетей
@@ -51,8 +51,12 @@ define('CROP_YA_SHARE_DESCRIPTION', 'Поделись своими эмоция�
 define('CROP_YA_SHARE_IMAGE', 'http://uflow.ru/i/socshare.png');
 
 /*
- * Сервисы, подключаемые в Ya share: 
- * vkontakte, facebook, odnoklassniki, moimir, gplus, twitter, linkedin, lj, viber, whatsapp, blogger, pocket, qzone, reddit, evernote, renren, sinaWeibo, surfingbird, tencentWeibo, tumblr, digg
+ * Почтовый адрес техподдержки
+ */
+define('CROP_SUPPORT_MAIL', 'support@uflow.ru');
+
+/*
+ * Сервисы, подключаемые в Ya share: vkontakte, facebook, odnoklassniki, moimir, gplus, twitter, linkedin, lj, viber, whatsapp, blogger, pocket, qzone, reddit, evernote, renren, sinaWeibo, surfingbird, tencentWeibo, tumblr, digg
  */
 define('CROP_YA_SHARE_SERVICES', 'vkontakte, facebook, odnoklassniki, moimir, gplus, twitter, linkedin, lj, viber, whatsapp, evernote, blogger, pocket, qzone, reddit');
 
@@ -85,4 +89,5 @@ define('CROP_CAPTCHA_PUBLIC', '6LcOV7sSAAAAAH2aeJQF2FzYWRzfeNvOsKfkDqiS');
  * Привытный ключ для рекапчи
  */
 define('CROP_CAPTCHA_PRIVATE', '6LcOV7sSAAAAAC3cuTNS55MAbjpO8uioFZF8p-u2');
+
 ?>

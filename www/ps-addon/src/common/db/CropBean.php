@@ -31,7 +31,7 @@ class CropBean extends BaseBean {
 
             PsLock::unlock();
 
-            return CropCell::instShort($cellId, $x, $y, $n); //---
+            return CropCell::instShort($cellId, $x, $y, $n, $email); //---
         } catch (Exception $e) {
             PsLock::unlock();
             throw $e; //---

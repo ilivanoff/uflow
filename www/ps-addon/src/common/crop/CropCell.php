@@ -7,8 +7,8 @@
  */
 class CropCell extends BaseDataStore {
 
-    public static function instShort($cellId, $x, $y, $n) {
-        return new CropCell(array('id_cell' => $cellId, 'x' => $x, 'y' => $y, 'n' => $n));
+    public static function instShort($cellId, $x, $y, $n, $email) {
+        return new CropCell(array('id_cell' => $cellId, 'x' => $x, 'y' => $y, 'n' => $n, 'v_mail' => $email));
     }
 
     public function getCellId() {
@@ -29,6 +29,10 @@ class CropCell extends BaseDataStore {
 
     public function getDtEvent() {
         return PsCheck::int($this->dt_event);
+    }
+
+    public function getMail() {
+        return $this->v_mail;
     }
 
     public function getText() {

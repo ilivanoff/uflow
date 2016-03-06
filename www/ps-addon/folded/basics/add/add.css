@@ -247,6 +247,34 @@ input#choose-file {
     text-align: left;
 }
 
+.container .cell-added h3 {
+    text-align: center;
+}
+
+.container .cell-added p {
+    text-align: justify;
+}
+
+.container .cell-added a.goto-wall {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    color: #444;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #eee;
+    margin: 20px;
+}
+
+.container .cell-added a.goto-wall:hover {
+    color: black;
+}
+
+.container .cell-added a.goto-wall:active {
+    position: relative;
+    top: 1px;
+}
+
 .crop-preview {
     overflow:hidden;
 }

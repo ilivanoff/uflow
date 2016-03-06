@@ -281,7 +281,8 @@ $(function () {
                     CropController.close();
                     
                     //Прячем кнопку загрузки
-                    $('<div>').addClass('cell-added').hide().append(ok.page).insertAfter(CropCore.$buttonsTop.hide()).fadeIn(1000);
+                    //$('<div>').addClass('cell-added').hide().append(ok.page).insertAfter(CropCore.$buttonsTop.hide()).fadeIn(1000);
+                    $(ok.page).hide().insertAfter(CropCore.$buttonsTop.hide()).fadeIn(1000);
                 }
             });
         }
@@ -866,6 +867,7 @@ $(function () {
 
     //Покажем кнопку загрузки файла
     CropCore.$buttonsTop.show();
+    //$('.cell-added').show();
 
     //Кнопка отправки сообщения
     CropCore.$buttonSend.button({
