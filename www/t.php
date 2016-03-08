@@ -10,7 +10,37 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
-print_r(ConfigIni::devClasses());
+//echo CropController::banCell(755);
+//echo CropController::unbanCell(755);
+//echo CropController::banCell(749);
+
+
+echo CropController::banCell(744);
+echo CropController::unbanCell(744);
+echo CropController::unbanCell(744);
+echo CropController::unbanCell(744);
+echo CropController::banCell(744);
+echo CropController::banCell(744);
+echo CropController::banCell(744);
+echo CropController::banCell(744);
+echo CropController::unbanCell(744);
+echo CropController::unbanCell(744);
+echo CropController::unbanCell(744);
+echo CropController::unbanCell(744);
+echo CropController::banCell(744);
+echo CropController::banCell(744);
+echo CropController::banCell(744);
+echo CropController::unbanCell(744);
+echo CropController::banCell(744);
+echo CropController::unbanCell(744);
+echo CropController::banCell(744);
+
+//CropController::resetGroup(47);
+
+die;
+
+
+echo PsHtml::img(array('src' => DirManagerCrop::banDiSmall()));
 
 die;
 
@@ -33,13 +63,6 @@ foreach (ConfigIni::jsBrigeClasses() as $prefix => $class) {
     print_r($class);
 }
 
-
-die;
-
-
-PsUtil::startUnlimitedMode();
-
-print_r(CropCellsManager::inst()->loadCells4Show());
 
 die;
 

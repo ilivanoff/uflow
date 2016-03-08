@@ -65,8 +65,7 @@ $(function () {
                 return;//---
 
             var obj = cells[cellId];
-            if (!obj)
-                return;//---
+            if (!obj) return;//---
 
             /*
              <div class="mosaic-popup">
@@ -122,7 +121,7 @@ $(function () {
                 pageX: $('.wall')[0].offsetLeft,
                 pageY: 150
             },
-                    $('.wall img:first'));
+            $('.wall img:first'));
         }
     }
     // # 1.
@@ -222,31 +221,31 @@ $(function () {
                 ctxt: this,
                 y: this.getLastY()
             },
-                    function (ok) {
-                        var $box = $(ok);
-                        var $images = $box.find("img[src^='/']");
-                        if (!$images.isEmptySet()) {
-                            $box.hide();
+            function (ok) {
+                var $box = $(ok);
+                var $images = $box.find("img[src^='/']");
+                if (!$images.isEmptySet()) {
+                    $box.hide();
 
-                            var allImgsLoaded = PsUtil.once(function () {
-                                //Если уже всё загружено - прячем кнопку и отписываемся от скрола
-                                if (!this.canPreload()) {
-                                    CropCore.$preload.hide();
-                                    PsScroll.unbindWndScrolledBottom(this.doPreloadScroll, this);
-                                }
-                                //Показываем загруженный блок
-                                $box.show();
-                                //Снимаем состояние предзагрузки
-                                preloadingDone();
-                            }, this);
-
-                            PsResources.onAllImagesLoaded($images, allImgsLoaded);
+                    var allImgsLoaded = PsUtil.once(function () {
+                        //Если уже всё загружено - прячем кнопку и отписываемся от скрола
+                        if (!this.canPreload()) {
+                            CropCore.$preload.hide();
+                            PsScroll.unbindWndScrolledBottom(this.doPreloadScroll, this);
                         }
+                        //Показываем загруженный блок
+                        $box.show();
+                        //Снимаем состояние предзагрузки
+                        preloadingDone();
+                    }, this);
 
-                        CropCore.$wall.append($box);
+                    PsResources.onAllImagesLoaded($images, allImgsLoaded);
+                }
 
-                        return true;
-                    }, 'Загрузка стены', function (ok) {
+                CropCore.$wall.append($box);
+
+                return true;
+            }, 'Загрузка стены', function (ok) {
                 if (!ok) {
                     //Снимаем состояние предзагрузки
                     preloadingDone();
