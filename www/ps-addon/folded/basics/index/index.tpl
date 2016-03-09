@@ -1,4 +1,4 @@
-<div class="wall">
+<div class="wall noselect">
     {CropWallGenerator::build()}
 </div>
 

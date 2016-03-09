@@ -39,6 +39,12 @@ $(function () {
             if (!PsIs.integer(cellId)) {
                 return;//---
             }
+            //Нет данных или ячейка забанена - пропускаем
+            var obj = cells[cellId];
+            if (!obj || obj.b) {
+                return;//---
+            }
+
             //Положим признак того, что окно может быть закрыто
             CropUtils.setCanClose(cellId);
             //Откроем окно просмотра обсуждения ячейки
@@ -65,39 +71,32 @@ $(function () {
                 return;//---
 
             var obj = cells[cellId];
-            if (!obj) return;//---
-
-            /*
-             <div class="mosaic-popup">
-             <img class="avatar" src="mmedia/avatars/u/u1/22_42x.jpg"/>
-             <div class="content">
-             <h5>Имя Пользователя</h5>
-             <div class="message">Сообщение</div>
-             </div>
-             <div class="clearall"></div>
-             </div>
-             */
-            var src = '/c/' + cellId + '/big.png';
-            var $img = $('<img>').addClass('progress').attr('src', CONST.IMG_LOADING_PROGRESS);
+            //Нет данных или ячейка забанена - пропускаем
+            if (!obj) {
+                return;//---
+            }
 
             $div = $('<div>').addClass('cell-view popup');
-            //$div.append($('<img>').attr('src', $item.attr('src')));
-            $div.append($img).data('cell', cellId);
-            $div.append($('<div>').addClass('content').append($('<div>').addClass('date').text(obj.d)).append($('<div>').html(obj.t.htmlEntities())));
-            /*
-             if (ob.msg) {
-             $content.append($('<div>').addClass('message').html(ob.msg));
-             }
-             */
+
+            if (obj.b) {
+                $div.append($('<div>').addClass('banned').append(crIMG('/i/gun/barrel.png')).append('&nbsp;Ячейка #' + cellId + ' забанена'));
+            } else {
+                var src = '/c/' + cellId + '/big.png';
+                var $img = $('<img>').addClass('progress').attr('src', CONST.IMG_LOADING_PROGRESS);
+                $div.append($img).data('cell', cellId);
+                var $content = $('<div>').addClass('content').append($('<div>').addClass('date').text(obj.d)).appendTo($div);
+                $content.append($('<div>').html(obj.t.htmlEntities()));
+
+                PsResources.getImgSize(src, function (wh) {
+                    $img.attr('src', wh ? src : '/i/blank.png').removeClass('progress');
+                });
+            }
+
             $div.append($('<div>').addClass('clearall'));
             $div = CropUtils.prepareCellView(cellId, $div);
             $div.appendTo('body');//.width($div.width());
 
             onUpdate(e);
-
-            PsResources.getImgSize(src, function (wh) {
-                $img.attr('src', wh ? src : '/i/blank.png').removeClass('progress');
-            });
         }
 
         var onUpdate = function (e) {
@@ -121,7 +120,7 @@ $(function () {
                 pageX: $('.wall')[0].offsetLeft,
                 pageY: 150
             },
-            $('.wall img:first'));
+                    $('.wall img:first'));
         }
     }
     // # 1.
@@ -221,31 +220,31 @@ $(function () {
                 ctxt: this,
                 y: this.getLastY()
             },
-            function (ok) {
-                var $box = $(ok);
-                var $images = $box.find("img[src^='/']");
-                if (!$images.isEmptySet()) {
-                    $box.hide();
+                    function (ok) {
+                        var $box = $(ok);
+                        var $images = $box.find("img[src^='/']");
+                        if (!$images.isEmptySet()) {
+                            $box.hide();
 
-                    var allImgsLoaded = PsUtil.once(function () {
-                        //Если уже всё загружено - прячем кнопку и отписываемся от скрола
-                        if (!this.canPreload()) {
-                            CropCore.$preload.hide();
-                            PsScroll.unbindWndScrolledBottom(this.doPreloadScroll, this);
+                            var allImgsLoaded = PsUtil.once(function () {
+                                //Если уже всё загружено - прячем кнопку и отписываемся от скрола
+                                if (!this.canPreload()) {
+                                    CropCore.$preload.hide();
+                                    PsScroll.unbindWndScrolledBottom(this.doPreloadScroll, this);
+                                }
+                                //Показываем загруженный блок
+                                $box.show();
+                                //Снимаем состояние предзагрузки
+                                preloadingDone();
+                            }, this);
+
+                            PsResources.onAllImagesLoaded($images, allImgsLoaded);
                         }
-                        //Показываем загруженный блок
-                        $box.show();
-                        //Снимаем состояние предзагрузки
-                        preloadingDone();
-                    }, this);
 
-                    PsResources.onAllImagesLoaded($images, allImgsLoaded);
-                }
+                        CropCore.$wall.append($box);
 
-                CropCore.$wall.append($box);
-
-                return true;
-            }, 'Загрузка стены', function (ok) {
+                        return true;
+                    }, 'Загрузка стены', function (ok) {
                 if (!ok) {
                     //Снимаем состояние предзагрузки
                     preloadingDone();

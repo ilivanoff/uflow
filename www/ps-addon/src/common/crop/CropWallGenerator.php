@@ -24,7 +24,6 @@ class CropWallGenerator {
     /**
      * Версия кеширования
      */
-
     const CACHE_VERSION = '1a';
 
     /**
@@ -147,10 +146,12 @@ class CropWallGenerator {
     private static function makeGroupScript(array $cells) {
         $content = '';
         foreach ($cells as $cell) {
+            $banned = 1 == $cell['b_ban'];
+
             $content .= 'cells[' . $cell['id_cell'] . ']=' . json_encode(array(
-                        'b' => $cell['b_ban'],
+                        'b' => $banned,
                         'd' => $cell['dt_event'],
-                        't' => $cell['b_ban'] == 1 ? '' : $cell['v_text']
+                        't' => $banned ? '' : $cell['v_text']
                     )) . ';';
         }
         return PsHtml::linkJs(null, $content);
@@ -188,7 +189,7 @@ class CropWallGenerator {
             $imgParams = array();
             if ($banned) {
                 //Если ячейка забанена - положем в данные ещё код ячейки, чтобы можно было его определить в js
-                $imgParams['src'] = DirManagerCrop::banDiSmall()->getRelPath();
+                $imgParams['src'] = DirManagerCrop::banDiSmall($cell['id_cell'])->getRelPath();
                 $imgParams['data'] = array('c' => $cell['id_cell']);
             } else {
                 $imgParams['src'] = DirManagerCrop::cropRelSmall($cell['id_cell']);

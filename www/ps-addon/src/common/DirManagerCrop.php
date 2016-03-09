@@ -11,6 +11,7 @@ class DirManagerCrop {
     const DIR_TEMP = 'd';
     const DIR_GROUP = 'g';
     const DIR_IMGS = 'i';
+    const DIR_BULLETS = 'i/bullet';
     const DIR_CROP_TEST = 'testcrops';
 
     /**
@@ -119,10 +120,16 @@ class DirManagerCrop {
     }
 
     /**
+     * Последний номер пулевого отверстия
+     */
+    const MAX_BULLET_NUM = 5;
+
+    /**
      * Small ячейка бана
      */
-    public static function banDiSmall() {
-        return DirItem::inst(self::DIR_IMGS, 'bs', CropConst::CROP_EXT);
+    public static function banDiSmall($cellId) {
+        $num = 1 + (PsCheck::int($cellId) % self::MAX_BULLET_NUM);
+        return DirItem::inst(self::DIR_BULLETS, $num, CropConst::CROP_EXT);
     }
 
 }

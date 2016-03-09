@@ -5,10 +5,18 @@
     background-color: white;
     line-height: 0px;
     text-align: right;
+
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
 }
 
 .wall .gr {
     position: relative;
+
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
 }
 
 .wall .gr .crn {
@@ -57,6 +65,11 @@
 .cell-view.popup .content {
     width: 350px;
     width: 270px;
+}
+
+.cell-view.popup .banned {
+    color: red;
+    font-weight: bold;
 }
 
 /* Кнопка дозагрузки стены */

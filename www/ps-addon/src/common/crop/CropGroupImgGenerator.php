@@ -63,7 +63,7 @@ class CropGroupImgGenerator {
             $cellId = $cell['id_cell'];
             $banned = $cell['b_ban'] == 1;
 
-            $cellImgAbs = $banned ? DirManagerCrop::banDiSmall()->getAbsPath() : DirManagerCrop::cropsDir()->absFilePath($cellId, CropConst::TMP_FILE_SMALL, CropConst::CROP_EXT);
+            $cellImgAbs = $banned ? DirManagerCrop::banDiSmall($cellId)->getAbsPath() : DirManagerCrop::cropsDir()->absFilePath($cellId, CropConst::TMP_FILE_SMALL, CropConst::CROP_EXT);
             if (!PsImg::isImg($cellImgAbs)) {
                 /*
                   @imagedestroy($group_image);
