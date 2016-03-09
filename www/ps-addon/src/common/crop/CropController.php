@@ -30,7 +30,7 @@ class CropController {
      * 
      * @param int $cellId - код ячейки
      */
-    public static function banCell($cellId) {
+    public static final function banCell($cellId) {
         //Инициализируем переменную
         $banned = false;
 
@@ -61,7 +61,7 @@ class CropController {
      * 
      * @param int $cellId - код ячейки
      */
-    public static function unbanCell($cellId) {
+    public static final function unbanCell($cellId) {
         //Инициализируем переменную
         $unbanned = false;
 
