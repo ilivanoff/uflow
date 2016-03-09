@@ -14,7 +14,7 @@ class CropController {
      * 
      * @param int $y - код группы
      */
-    public static function resetGroup($y) {
+    public static final function resetGroup($y) {
         //Проверим код группы
         $y = PsCheck::positiveInt($y);
         //Чистим кеш по группе
@@ -23,6 +23,20 @@ class CropController {
         DirManagerCrop::groupFile($y)->remove();
         //Создаём группу изображений
         CropGroupImgGenerator::makeGroup($y);
+    }
+
+    /**
+     * Метод сбрасывает все группы изображений
+     * 1. Удаляет изображение группы
+     * 2. Чистит кеш карты по группе
+     */
+    public static final function resetAllGroups() {
+        $maxY = CropBean::inst()->getMaxY();
+        if (PsCheck::isInt($maxY)) {
+            for ($y = $maxY; $y >= 1; --$y) {
+                self::resetGroup($y);
+            }
+        }
     }
 
     /**
