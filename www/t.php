@@ -10,39 +10,24 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
-//echo CropController::banCell(755);
-//echo CropController::unbanCell(755);
+echo CropController::banCell(11256);
+//echo CropController::unbanCell(11256);
 //echo CropController::banCell(749);
 
+//CropController::resetGroup(704);
 
-echo CropController::banCell(744);
-echo CropController::unbanCell(744);
-echo CropController::unbanCell(744);
-echo CropController::unbanCell(744);
-echo CropController::banCell(744);
-echo CropController::banCell(744);
-echo CropController::banCell(744);
-echo CropController::banCell(744);
-echo CropController::unbanCell(744);
-echo CropController::unbanCell(744);
-echo CropController::unbanCell(744);
-echo CropController::unbanCell(744);
-echo CropController::banCell(744);
-echo CropController::banCell(744);
-echo CropController::banCell(744);
-echo CropController::unbanCell(744);
-echo CropController::banCell(744);
-echo CropController::unbanCell(744);
-echo CropController::banCell(744);
 
+for ($i = 0; $i < 10; $i++) {
+    echo PsHtml::img(array('src' => DirManagerCrop::banDiSmall($i)));
+}
+
+
+// echo CropController::banCell(11269);
+//echo CropController::unbanCell(11269);
 //CropController::resetGroup(47);
 
 die;
 
-
-echo PsHtml::img(array('src' => DirManagerCrop::banDiSmall()));
-
-die;
 
 CropTests::makeCropCells(150);
 
