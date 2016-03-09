@@ -13,9 +13,18 @@ PsUtil::startUnlimitedMode();
 echo CropController::banCell(11256);
 //echo CropController::unbanCell(11256);
 //echo CropController::banCell(749);
-
 //CropController::resetGroup(704);
 
+print_r(PsReflect::describeMethod('CropController', 'resetGroup'));
+
+die;
+
+$r = new ReflectionMethod('CropController', 'resetGroup');
+$doc = $r->getDocComment();
+preg_match_all('#@(.*?)\n#s', $doc, $annotations);
+print_r($annotations[1]);
+
+die;
 
 for ($i = 0; $i < 10; $i++) {
     echo PsHtml::img(array('src' => DirManagerCrop::banDiSmall($i)));
