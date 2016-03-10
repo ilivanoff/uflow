@@ -6,10 +6,15 @@
  * @author azazello
  */
 class CropConst extends CropConstJs {
+
+    /**
+     * Код аудита
+     */
+    const AUDIT_PROCESS_CODE = 100;
+
     /**
      * Максимальное кол-во ячеек в группе (960/60)
      */
-
     const CROPS_GROUP_CELLS = 16;
 
     /**

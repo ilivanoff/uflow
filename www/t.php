@@ -2,13 +2,37 @@
 
 header('Content-Type: text/html; charset=utf-8');
 
-require_once 'ps-includes/MainImport.php';
+require_once 'ps-includes/MainImportAdmin.php';
 
 PsDefines::assertProductionOff(__FILE__);
 
 ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
+
+//echo DatesTools::inst()->uts2dateInCurTZ(time(), DF_PS_HM);
+
+CropController::sendTotalDbDump('azazello85@mail.ru');
+
+//CropController::makeGroupDump(706);
+//CropController::makeTotalDbDump();
+
+die;
+
+$zip = DirManager::inst()->getDirItem(null, 'xxx', 'zip')->getZipWriteFileAdapter();
+$zip->addItem(DirItem::inst('/c/9243/big.png'));
+$zip->addItem(DirItem::inst('/c/9244'));
+$zip->addFromString('ps_audit.sql', PsTable::inst('ps_audit')->exportAsSqlString());
+$zip->close();
+
+die;
+
+
+//Query::select($what, $table, $where, $group, $order, $limit);
+//print_r(PsTable::inst('ps_audit')->exportAsSqlString(PS_ACTION_CREATE, Query::select('*', 'ps_audit', array('id_process' => 100), null, 'dt_event asc, id_rec asc', null)));
+print_r();
+
+die;
 
 echo CropController::banCell(11256);
 //echo CropController::unbanCell(11256);

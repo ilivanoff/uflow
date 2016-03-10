@@ -101,6 +101,85 @@ class CropController {
         return $unbanned;
     }
 
+    /**
+     * Метод снимает дамп группы
+     */
+    public static function makeGroupDump($y) {
+        $cells = CropBean::inst()->getGroupCellsObj($y);
+        //Нет ячеек? Выходим!
+        if (empty($cells)) {
+            return null; //---
+        }
+
+        //Подготовим zip
+        $zip = DirManager::autoNoDel('crop-dumps')->getDirItem(null, "$y", PsConst::EXT_ZIP)->getZipWriteFileAdapter();
+
+        //В комментарий добавим метку времени
+        $zip->setComment('Dumped at: ' . time());
+
+        //Добавим изображения
+        /* @var $cell CropCell */
+        foreach ($cells as $cell) {
+            $cellId = $cell->getCellId();
+            foreach (array(CropConst::TMP_FILE_BIG, CropConst::TMP_FILE_SMALL) as $type) {
+                $di = DirManagerCrop::cropDi($cellId, $type);
+                if ($di->isImg()) {
+                    $zip->addItem($di);
+                }
+            }
+        }
+
+        //Добавим дамп аудита по этой группе
+        $zip->addTableDump(Query::select('*', 'ps_audit', array('id_process' => CropConst::AUDIT_PROCESS_CODE, 'id_type' => $y), null, 'dt_event asc, id_rec asc'));
+
+        //Добавим дамп ячеек по этой группе
+        $zip->addTableDump(Query::select('*', 'crop_cell', array('y' => $y), null, 'n asc'));
+
+        //Зыкрываем массив и возвращаем его
+        return $zip->close();
+    }
+
+    /**
+     * Метод снимает полный дамп БД
+     */
+    public static final function makeTotalDbDump() {
+        //Подготовим zip
+        $zip = DirManager::autoNoDel('crop-dumps')->getDirItem(null, 'db', PsConst::EXT_ZIP)->getZipWriteFileAdapter();
+
+        //В комментарий добавим метку времени
+        $zip->setComment('Dumped at: ' . time());
+
+        //Добавим дамп полного аудита
+        $zip->addTableDump(Query::select('*', 'ps_audit', array('id_process' => CropConst::AUDIT_PROCESS_CODE), null, 'dt_event asc, id_rec asc'));
+
+        //Добавим дамп всех ячеек
+        $zip->addTableDump(Query::select('*', 'crop_cell', null, null, 'n asc'));
+
+        //Зыкрываем массив и возвращаем его
+        return $zip->close();
+    }
+
+    /**
+     * Метод снимает полный дамп БД
+     */
+    public static final function sendTotalDbDump($email) {
+        //Проверим почту
+        $email = PsCheck::email($email);
+        //Дамп ячеек
+        $di = self::makeTotalDbDump();
+        //Отправляем mail
+        $proj = ConfigIni::projectName();
+        $time = time();
+        $date = DatesTools::inst()->uts2dateInCurTZ($time, DF_PS);
+        //Формируем и отправляем письмо
+        $mail = PsMailSender::inst();
+        $mail->SetSubject("Dump of $proj on $date");
+        $mail->SetBody("Dump of $proj on $date ($time)");
+        $mail->AddAttachment($di->getAbsPath(), $di->getName());
+        $mail->AddAddress($email);
+        $mail->Send();
+    }
+
 }
 
 ?>

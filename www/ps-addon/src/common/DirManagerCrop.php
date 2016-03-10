@@ -92,6 +92,27 @@ class DirManagerCrop {
     }
 
     /**
+     * @return DirItem ячейки
+     */
+    public static function cropDi($cellId, $img = CropConst::TMP_FILE_BIG) {
+        return DirItem::inst(self::DIR_CROP . '/' . $cellId, $img, CropConst::CROP_EXT);
+    }
+
+    /**
+     * @return DirItem большой ячейки
+     */
+    public static function cropDiBig($cellId) {
+        return self::cropDi($cellId, CropConst::TMP_FILE_BIG);
+    }
+
+    /**
+     * @return DirItem маленькой ячейки
+     */
+    public static function cropDiSmall($cellId) {
+        return self::cropDi($cellId, CropConst::TMP_FILE_SMALL);
+    }
+
+    /**
      * Относительный путь к ячейке
      */
     private static function cropRel($cellId, $img = CropConst::TMP_FILE_BIG) {

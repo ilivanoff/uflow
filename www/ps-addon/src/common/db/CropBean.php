@@ -87,6 +87,15 @@ class CropBean extends BaseBean {
     }
 
     /**
+     * Метод загружает объекты ячеек групп от левого края к правому
+     * 
+     * @param int $y - номер группы
+     */
+    public function getGroupCellsObj($y) {
+        return $this->getObjects('select * from crop_cell where y=? order by x desc', PsCheck::positiveInt($y), CropCell::getClass());
+    }
+
+    /**
      * Метод загружает ячейки группы от левого края к правому
      * 
      * @param int $y - номер группы
