@@ -9,7 +9,7 @@
     font-size: 30px;
     font-weight: normal;
     line-height: 1.2em;
-    margin: 20px 0;
+    margin: 24px 0 10px;
     text-align: center;
 }
 
@@ -36,26 +36,28 @@
     text-align: center;
     text-indent: 0em;
     font-weight: bold;
-    margin-bottom: 0px;
+    /*margin-bottom: 0px;*/
 }
 
-.figure.fig1 {
-}
-
-.figure.fig1 h2,
-.figure.fig1 p {
+/* fig.left */
+.figure.left h2,
+.figure.left p {
     margin: 10px 0px;
 }
 
-.figure.fig1 img.f1 {
+.figure.left img.f {
     float: left;
     width: 300px;
     padding-top: 10px;
 }
 
-.figure.fig1 .info {
+.figure.left .info {
     margin-left: 350px;
     text-align: justify;
+}
+
+/* f1 */
+.figure.fig1 {
 }
 
 .figure.fig1 .info p.ps {
@@ -67,9 +69,12 @@
 }
 
 
+/* f2 */
 .figure.fig2 img.f2 {
     width: 520px;
     float: right;
+    position: relative;
+    left: 10px;
 }
 
 .figure.fig2 .info {
@@ -86,6 +91,29 @@
     padding-left: 38px;
 }
 
+/* f3 */
+.figure.fig3 {
+}
+
+.figure.fig3 img.f {
+    padding-top: 20px;
+}
+
+.figure.fig3 p a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.figure.fig3 p a span {
+    color: gray;
+}
+
+.figure.fig3 p a:hover span {
+    color: black;
+}
+
+/* bottom */
 .figure.fig-bottom {
     text-align: center;
     margin-bottom: 0px;
@@ -93,7 +121,7 @@
     height: 333px;
     background: url('/i/info-img1.jpg') center center no-repeat transparent;
     padding: 0px;
-    margin: 0px auto;
+    margin: 70px auto 0px;
 }
 
 #em-chart {

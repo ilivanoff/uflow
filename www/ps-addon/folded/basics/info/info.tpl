@@ -1,8 +1,8 @@
 <div class="about">
     <h1 class="info-text">Поделитесь своими эмоциями со всем миром!</h1>
 
-    <div class="figure fig1">
-        <img src="/i/wall-example.png" class="f1"/>
+    <div class="figure fig1 left">
+        <img src="/i/wall-example.png" class="f"/>
         <div class="info">
             <h2>Как это работает</h2>
             <p>
@@ -29,8 +29,8 @@
         <div class="info">
             <h2>Как добавить запись</h2>
             <p>
-                Для добавления новой записи нажмите кнопку добавления в правом верхнем углу экрана:
-                <a href="/add.php"><img src="/i/png/32x32/add.png"></a>
+                Для добавления новой записи нажмите кнопку добавления в правом верхнем углу экрана.
+                {*:<a href="/add.php"><img src="/i/png/32x32/add.png"></a>*}
             </p>
 
             <p>
@@ -51,8 +51,31 @@
             </p>
 
         </div>
-        <img src="/i/add-example.png" class="f2"/>
+        <img src="/i/addcell.png" class="f2"/>
         <div class="clearall"></div>
+    </div>
+
+    <div class="figure fig3 left">
+        <img src="/i/feedback.png" class="f"/>
+        <div class="info">
+            <h2>Обратная связь</h2>
+            <p>
+                По вопросам изменения Вашей ячейки просьба писать на адрес технической поддержки
+                <a href="mailto:{$smarty.const.CROP_SUPPORT_MAIL}"><span class="fa fa-envelope"></span> {$smarty.const.CROP_SUPPORT_MAIL}</a>
+            </p>
+
+            <p>
+                В письме просьба указать оставленный Вами email и номер ячейки.
+                Просьба указывать тему сообщения: <b>Модификация ячейки</b>.
+            </p>
+
+            <p>
+                Вы дизайнер или просто хотите помочь сделать проект лучше? Очень будем рады!
+                Пишите свои вопросы/пожелания/предложения на тот-же адрес.
+                При этом просьба указывать соответствующую тему письма, например:
+                <b>Предложения по дизайну</b>.
+            </p>
+        </div>
     </div>
 
 
