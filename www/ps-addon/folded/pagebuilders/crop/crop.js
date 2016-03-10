@@ -59,9 +59,11 @@ PsUtil.scheduleDeferred(function() {
         navButtonsAdd('globe', 'Главная', '/');
         navButtonsAdd('add', 'Добавить запись', '/add.php');
         navButtonsAdd('info', 'Информация', '/info.php');
+        /*
         navButtonsAdd('refresh', 'Обновить страницу', function() {
             location.reload();
         });
+        */
         
         /*
         ['puzzle', 'delete'].walk(function(item) {
