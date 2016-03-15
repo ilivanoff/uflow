@@ -18,21 +18,21 @@ class DirManagerCrop {
      * Директория, в которой хранятся изображения
      */
     public static function cropsDir() {
-        return DirManager::inst(self::DIR_CROP);
+        return DirManager::inst(null, self::DIR_CROP);
     }
 
     /**
      * Директория, в которой хранятся временные файлы загружаемых изображений
      */
     public static function tempsDir() {
-        return DirManager::inst(self::DIR_TEMP);
+        return DirManager::inst(null, self::DIR_TEMP);
     }
 
     /**
      * Директория, в которой хранятся сгруппированные изображения
      */
     public static function groupsDir() {
-        return DirManager::inst(self::DIR_GROUP);
+        return DirManager::inst(null, self::DIR_GROUP);
     }
 
     /**

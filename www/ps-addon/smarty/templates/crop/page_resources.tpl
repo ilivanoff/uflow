@@ -13,9 +13,6 @@
 
 <script type="text/javascript" src="/ps-content/js-lib/jquery.livequery.js"></script>
 
-<script type="text/javascript" src="/ps-content/js-lib/jquery.form.js"></script>
-<script type="text/javascript" src="/ps-content/js-lib/jquery-validation-1.10.0/dist/jquery.validate.min.js"></script>
-{*<script type="text/javascript" src="/ps-content/js-lib/jquery-validation-1.10.0/dist/additional-methods.min.js"></script>*}
 <script type="text/javascript" src="/ps-content/js-lib/jquery.scrollTo.1.4.7/jquery.scrollTo.min.js"></script>
 
 <script type="text/javascript" src="/ps-content/js-lib/shortcut.js"></script>
