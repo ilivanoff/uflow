@@ -41,42 +41,9 @@
 <link rel="stylesheet" href="/ps-content/js-lib/color-picker/colorPicker.css" type="text/css" media="all" />
 <script type="text/javascript" src="/ps-content/js-lib/color-picker/jquery.colorPicker.min.js"></script>
 
-{*http://jsdraw2dx.jsfiction.com/*}
-<script type="text/javascript" src="/ps-content/js-lib/jsDraw2D/jsDraw2D.js"></script>
-
-{*CODEMIRROR*}
-<link rel="stylesheet" href="/ps-content/js-lib/codemirror-2.36/lib/codemirror.css" type="text/css" />
-<script type="text/javascript" src="/ps-content/js-lib/codemirror-2.36/lib/codemirror.js"></script>
-<script type="text/javascript" src="/ps-content/js-lib/codemirror-2.36/lib/util/formatting.js"></script>
-
-<script type="text/javascript" src="/ps-content/js-lib/codemirror-2.36/mode/xml/xml.js"></script>
-<script type="text/javascript" src="/ps-content/js-lib/codemirror-2.36/mode/css/css.js"></script>
-<script type="text/javascript" src="/ps-content/js-lib/codemirror-2.36/mode/javascript/javascript.js"></script>
-<script type="text/javascript" src="/ps-content/js-lib/codemirror-2.36/mode/htmlmixed/htmlmixed.js"></script>
-<script type="text/javascript" src="/ps-content/js-lib/codemirror-2.36/mode/clike/clike.js"></script>
-<script type="text/javascript" src="/ps-content/js-lib/codemirror-2.36/mode/php/php.js"></script>
-<script type="text/javascript" src="/ps-content/js-lib/codemirror-2.36/mode/scheme/scheme.js"></script>
-
-{*TIME PICKER*}
-{*
-<link rel="stylesheet" href="/ps-content/js-lib/Timepicker/jquery-ui-timepicker-addon.css" type="text/css" />
-<script type="text/javascript" src="/ps-content/js-lib/Timepicker/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" src="/ps-content/js-lib/Timepicker/jquery-ui-timepicker-ps-ru.js"></script>
-*}
-
 {if isset($ATOOL_ENABLE) && $ATOOL_ENABLE}
     {*Скрипт для получения выделения на странице*}
     <script type="text/javascript" src="/ps-content/js-lib/jquery.a-tools-1.5.2.min.js"></script>
-{/if}
-
-{if isset($TIMELINE_ENABE) && $TIMELINE_ENABE}
-    <script type="text/javascript">
-        Timeline_ajax_url = "/ps-content/js-lib/timeline_2.3.0/timeline_ajax/simile-ajax-api.js";
-        Timeline_urlPrefix = "/ps-content/js-lib/timeline_2.3.0/timeline_js/";
-        Timeline_parameters = "bundle=true&defaultLocale=ru&forceLocale=ru";
-    </script>
-    <script type="text/javascript" src="/ps-content/js-lib/timeline_2.3.0/timeline_js/timeline-api.js"></script>
-    <link rel="stylesheet" href="/ps-content/css/timeline-bundle.css" type="text/css" media="all" />
 {/if}
 
 {if !isset($MATHJAX_DISABLE) || !$MATHJAX_DISABLE}

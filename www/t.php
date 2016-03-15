@@ -12,8 +12,15 @@ PsUtil::startUnlimitedMode();
 
 //echo DatesTools::inst()->uts2dateInCurTZ(time(), DF_PS_HM);
 
-CropController::sendTotalDbDump('azazello85@mail.ru');
+$command = '"C:\Program Files (x86)\Java\jdk1.7.0_79\bin\java" -jar "C:\Users\azaz\Downloads\compiler-latest\yuicompressor-2.4.8.jar" --type js  --charset UTF-8 -o "C:\Users\azaz\Downloads\compiler-latest\core.yu.min.js" "C:\Users\azaz\Downloads\compiler-latest\core.js"';
+shell_exec($command);
 
+$command = '"C:\Program Files (x86)\Java\jdk1.7.0_79\bin\java" -jar "C:\Users\azaz\Downloads\compiler-latest\compiler.jar" --js "C:\Users\azaz\Downloads\compiler-latest\core.js" --js_output_file "C:\Users\azaz\Downloads\compiler-latest\core.cl.min.js"';
+//shell_exec($command);
+
+$command = '"C:\Program Files (x86)\Java\jdk1.7.0_79\bin\java" -jar "C:\Users\azaz\Downloads\compiler-latest\compiler.jar" --css "C:\Users\azaz\Downloads\compiler-latest\client.css" --css_output_file "C:\Users\azaz\Downloads\compiler-latest\client.cl.min.css"';
+//shell_exec($command);
+//CropController::sendTotalDbDump('azazello85@mail.ru');
 //CropController::makeGroupDump(706);
 //CropController::makeTotalDbDump();
 
