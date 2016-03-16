@@ -93,7 +93,7 @@ class CropConst extends CropConstJs {
             case self::EMOTION_DISGUST:
                 return 'Брезгливость';
             case self::EMOTION_BINGABONG:
-                return 'Бинго Бонг';
+                return 'Пофигизм';
         }
         return 'Неизвестный';
     }
