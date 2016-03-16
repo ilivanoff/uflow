@@ -33,7 +33,7 @@ define('CROP_YA_SHARE_ENABED', true);
 /*
  * URL для соцсетей
  */
-define('CROP_YA_SHARE_URL', 'http://uflow.ru');
+define('CROP_YA_SHARE_URL', 'http://thflow.com');
 
 /*
  * Заголовок для соцсетей
@@ -48,12 +48,12 @@ define('CROP_YA_SHARE_DESCRIPTION', 'Поделись своими эмоция�
 /*
  * Картинка для соцсетей
  */
-define('CROP_YA_SHARE_IMAGE', 'http://uflow.ru/i/socshare.png');
+define('CROP_YA_SHARE_IMAGE', 'http://thflow.com/i/socshare.png');
 
 /*
  * Почтовый адрес техподдержки
  */
-define('CROP_SUPPORT_MAIL', 'support@uflow.ru');
+define('CROP_SUPPORT_MAIL', 'support@thflow.com');
 
 /*
  * Сервисы, подключаемые в Ya share: vkontakte, facebook, odnoklassniki, moimir, gplus, twitter, linkedin, lj, viber, whatsapp, blogger, pocket, qzone, reddit, evernote, renren, sinaWeibo, surfingbird, tencentWeibo, tumblr, digg
