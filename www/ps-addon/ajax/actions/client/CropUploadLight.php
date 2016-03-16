@@ -12,7 +12,7 @@ class CropUploadLight extends AbstractAjaxAction {
     }
 
     protected function isCheckActivity() {
-        return false; //TODO
+        return true;
     }
 
     protected function getRequiredParamKeys() {

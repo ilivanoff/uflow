@@ -10,6 +10,12 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
+//ActivityWatcher::registerActivity();
+
+echo ActivityWatcher::getWaitTime();
+
+die;
+
 //echo DatesTools::inst()->uts2dateInCurTZ(time(), DF_PS_HM);
 
 $command = '"C:\Program Files (x86)\Java\jdk1.7.0_79\bin\java" -jar "C:\Users\azaz\Downloads\compiler-latest\yuicompressor-2.4.8.jar" --type js  --charset UTF-8 -o "C:\Users\azaz\Downloads\compiler-latest\core.yu.min.js" "C:\Users\azaz\Downloads\compiler-latest\core.js"';
