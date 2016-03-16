@@ -28,38 +28,9 @@
                 <span class="anger hint--top hint--rounded hint--anger" data-hint="Злость" data-code="{CropConst::EMOTION_ANGER}"></span>
                 <span class="fear hint--top hint--rounded hint--fear" data-hint="Страх" data-code="{CropConst::EMOTION_FEAR}"></span>
                 <span class="disgust hint--top hint--rounded hint--success" data-hint="Брезгливость" data-code="{CropConst::EMOTION_DISGUST}"></span>
-                <span class="bingbong hint--top hint--rounded" data-hint="Бинго Бонг" data-code="{CropConst::EMOTION_BINGABONG}"></span>
+                <span class="bingbong hint--top hint--rounded" data-hint="Пофигизм:)" data-code="{CropConst::EMOTION_BINGABONG}"></span>
             </div>
         {/if}
-
-        {*
-        <div class="emotions noselect">
-        <div class="joy">
-        <span class="joy"></span>
-        Радость
-        </div>
-        <div class="sadness">
-        <span class="sadness"></span>
-        Печаль
-        </div>
-        <div class="anger">
-        <span class="anger"></span>
-        Злость
-        </div>
-        <div class="disgust">
-        <span class="disgust"></span>
-        Брезгливость
-        </div>
-        <div class="fear">
-        <span class="fear"></span>
-        Страх
-        </div>
-        <div class="bingbong">
-        <span class="bingbong"></span>
-        Бинго Бонг
-        </div>
-        </div>
-        *}
 
         <div class="crop-email">
             <input type="text" placeholder="email" />

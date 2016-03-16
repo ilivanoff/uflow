@@ -114,7 +114,7 @@ input#choose-file {
     display: inline-block;
     width: 88px;
     height: 88px;
-    background-image: url('/i/emotions/sprite.png');
+    background-image: url('/i/em/sprite.png');
     background-repeat: no-repeat; 
     margin: 0px 6px;
     opacity: 0.5;
