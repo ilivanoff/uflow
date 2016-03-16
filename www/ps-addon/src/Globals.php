@@ -73,7 +73,7 @@ define('CROP_USE_EMOTIONS', true);
 /*
  * Показывать ли статистику распределения эмоций
  */
-define('CROP_EM_STATISTIC_PIE', false);
+define('CROP_EM_STATISTIC_PIE', true);
 
 /*
  * Включена ли возможность добавления новых сообщений
