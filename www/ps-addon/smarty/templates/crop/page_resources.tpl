@@ -1,4 +1,5 @@
-<link rel="shortcut icon" href="/fav.png" type="image/png">
+<link rel="shortcut icon" href="/favicon.ico" />
+{*<link rel="shortcut icon" href="/fav.png" type="image/png">*}
 
 <link rel="stylesheet" href="/ps-content/css/core.css" type="text/css" media="all" />
 <!--<link rel="stylesheet" href="/ps-content/css/common.css" type="text/css" media="all" />-->
