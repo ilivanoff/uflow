@@ -92,8 +92,8 @@
         <img class="em-progress" alt="loading" src="/ps-content/images/icons/page_loading.gif">
     </div>
 
-    {if $smarty.const.CROP_USE_EMOTIONS}
+    {*if $smarty.const.CROP_USE_EMOTIONS}
         <div class="figure fig-bottom"></div>
-    {/if}
+    {/if*}
 
 </div>
