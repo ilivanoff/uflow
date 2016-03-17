@@ -10,9 +10,40 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
-//ActivityWatcher::registerActivity();
+for ($i = 0; $i < 10; $i++) {
+    $citata = PsCitates::citata();
+    echo $citata[0] . ': ' . $citata[1];
+    br();
+}
 
-echo ActivityWatcher::getWaitTime();
+die;
+
+//ActivityWatcher::registerActivity();
+$author = '';
+$authorC = '';
+$text = '';
+$textC = '';
+foreach (PsCitates::citates() as $c) {
+    $tokens = explode(' | ', $c, 2);
+    $a = $tokens[0];
+    if (ps_strlen($a) > ps_strlen($author)) {
+        $author = $a;
+        $authorC = $c;
+    }
+    $t = $tokens[1];
+    if (ps_strlen($t) > ps_strlen($text)) {
+        $text = $t;
+        $textC = $c;
+    }
+}
+
+echo $author;
+br();
+echo $authorC;
+br();
+echo $text;
+br();
+echo $textC;
 
 die;
 
