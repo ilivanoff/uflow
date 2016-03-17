@@ -29,8 +29,7 @@
         <div class="info">
             <h2>Как добавить запись</h2>
             <p>
-                Для добавления новой записи нажмите кнопку добавления в правом верхнем углу экрана.
-                {*:<a href="/add.php"><img src="/i/png/32x32/add.png"></a>*}
+                Добавить новую запись можно в <a href="/add.php">соответствующем разделе</a>.
             </p>
 
             <p>
@@ -93,7 +92,7 @@
     </div>
 
     {*if $smarty.const.CROP_USE_EMOTIONS}
-        <div class="figure fig-bottom"></div>
+    <div class="figure fig-bottom"></div>
     {/if*}
 
 </div>

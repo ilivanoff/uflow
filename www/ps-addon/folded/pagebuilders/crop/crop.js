@@ -40,67 +40,19 @@ var CropUtils = {
 
 PsUtil.scheduleDeferred(function() {
     var $head = $('h1.head:first');
+    
+    //Управление кнопками навинации
+    new function() {
+        var $nav = $('nav');
         
-    /*
-     * Навигационное меню
-     */
-    var CropHeaderController = function() {
-        
-        var $navButtons = $('<div>').addClass('nav-buttons').insertAfter($head);
-        function navButtonsAdd(icon, title, href) {
-            var $img = $('<img>').attr('src', '/i/png/32x32/'+icon+'.png');
-            var $a = $('<a>').attr('title', title).attr('href', PsIs.string(href) ? href : '#').append($img);
-            if (PsIs.func(href)) {
-                $a.clickClbck(href);
-            }
-            $navButtons.append($a);
+        var onScroll = function() {
+            $nav.css('top', $(window).scrollTop());
         }
         
-        navButtonsAdd('globe', 'Главная', '/');
-        navButtonsAdd('add', 'Добавить запись', '/add.php');
-        navButtonsAdd('info', 'Информация', '/info.php');
-        /*
-        navButtonsAdd('refresh', 'Обновить страницу', function() {
-            location.reload();
-        });
-        */
+        $(window).resize(onScroll).scroll(onScroll);
         
-        /*
-        ['puzzle', 'delete'].walk(function(item) {
-            navButtonsAdd(item);
-        });
-         */
-        
-        var headWidth = $head.width();
-        var dimLast = null;
-        var scrollLeft = null;
-        
-        var onResize = function() {
-            var docWidth = $(document).width();
-            scrollLeft = scrollLeft===null ? $(window).scrollLeft() : scrollLeft;
-            if (dimLast && dimLast.dw == docWidth && dimLast.sl==scrollLeft) return;//---
-            dimLast = {
-                dw: docWidth,
-                sl: scrollLeft
-            }
-            var left = Math.ceil((docWidth - headWidth)/2 + headWidth + (60-32)/2 - scrollLeft);
-            $navButtons.css('left', left);
-        //consoleLog('docWidth: {}, scrollLeft: {}',docWidth,scrollLeft );
-        }
-        
-        $(window).resize(onResize).scroll(function() {
-            var scrollLeftTmp = $(window).scrollLeft();
-            if (scrollLeftTmp == scrollLeft) return;//---
-            scrollLeft = scrollLeftTmp;
-            onResize();
-        });
-        
-        onResize();
-        
-        $navButtons.show();
-    }
-    new CropHeaderController();
-
+        onScroll();
+    };
 
     /*
      * Блок "поделиться" от яндекса

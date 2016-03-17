@@ -17,31 +17,30 @@ body, textarea {
 
 .top-container {
     width: 960px;
-    margin: 1px auto;
+    margin: 0px auto;
 }
 
-.nav-buttons {
-    position: fixed;
-    top: 6px;
-    /*right: 430px;*/
-    /*z-index: 999;*/
-    width: 32px;
-    display: none;
+header {
+    text-align: center;
 }
 
-.nav-buttons a {
-    margin: 3px 0px;
-    display: inline-block;
-}
-
-.nav-buttons img:active {
+header nav {
+    background-color: #296ABA;
     position: relative;
-    top: 1px;
-    left: 1px;
+    top: 0px;
+    line-height: 2.2em;
+    border-top: 1px solid #F0F0F0;
+    z-index: 2;
 }
 
+header nav a {
+    color: wheat;
+    display: inline-block;
+    font-size: 16px;
+    width: 310px;
+}
 
-h1.head {
+header h1 {
     background-color: #3475c5;
     color: #FFFFFF;
     padding: 10px 0px;
@@ -49,13 +48,14 @@ h1.head {
     font-size: 50px;
 
     border-bottom: 4px solid #CCCCCC;
+    padding: 2px 0px 4px;
     /*background: url('/i/bg.png') left center repeat-x #3475c5;*/
     /*height: 58px;*/
 }
 
-h1.head a {
+header h1 a {
     color: white;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 /* Просмотр ячейки */
