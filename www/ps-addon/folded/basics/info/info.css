@@ -134,14 +134,27 @@
 }
 
 
-@media (max-width: 640px) {
+@media (max-width: 980px) {
+    .figure h2 {
+        font-weight: bold;
+    }
+
     .figure img.f {
         display: none !important;
     }
-    
+
     .figure .info {
         float: none !important;
         margin: 0px !important;
         width: 100% !important;
     }
+
+    .figure a {
+        white-space: nowrap;
+    }
+
+    .figure a span {
+        padding-right: 30px;
+    }
+
 }
