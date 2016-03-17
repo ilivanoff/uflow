@@ -39,10 +39,10 @@ var CropUtils = {
 
 
 PsUtil.scheduleDeferred(function() {
-    var $head = $('h1.head:first');
+    var $header = $('header');
     
     //Управление кнопками навинации
-    new function() {
+    var NavController = function() {
         var $nav = $('nav');
         
         var onScroll = function() {
@@ -53,6 +53,7 @@ PsUtil.scheduleDeferred(function() {
         
         onScroll();
     };
+    //new NavController();
 
     /*
      * Блок "поделиться" от яндекса
@@ -60,8 +61,8 @@ PsUtil.scheduleDeferred(function() {
      */
     var YA_SHARE_ID = '#ya-share';
     if (CROP.CROP_YA_SHARE_ENABED) {
-        var headHeight = $head.outerHeight();
-        $(YA_SHARE_ID).css('top', headHeight + 60 + 2);
+        var headHeight = $header.outerHeight();
+        $(YA_SHARE_ID).css('top', headHeight+2);
         PsUtil.callGlobalObject('Ya', function() {
             var Ya = this;
             Ya.share2(YA_SHARE_ID, {
