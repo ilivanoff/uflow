@@ -25,6 +25,11 @@
     font-size: 28px;
     font-weight: normal;
     margin-top: 0px !important;
+    margin-bottom: 10px;
+}
+
+.figure p {
+    margin: 10px 0px;
 }
 
 .figure .info {
@@ -40,11 +45,6 @@
 }
 
 /* fig.left */
-.figure.left h2,
-.figure.left p {
-    margin: 10px 0px;
-}
-
 .figure.left img.f {
     float: left;
     width: 300px;
@@ -55,6 +55,18 @@
     margin-left: 350px;
     text-align: justify;
 }
+
+/* fig.right */
+.figure.right img.f {
+    width: 520px;
+    float: right;
+}
+
+.figure.right .info {
+    float: left;
+    width: 300px;
+}
+
 
 /* f1 */
 .figure.fig1 {
@@ -70,25 +82,9 @@
 
 
 /* f2 */
-.figure.fig2 img.f2 {
-    width: 520px;
-    float: right;
+.figure.fig2 img.f {
     position: relative;
-    left: 10px;
-}
-
-.figure.fig2 .info {
-    float: left;
-    width: 300px;
-}
-
-.figure.fig2 .info img {
-    vertical-align: bottom;
-}
-
-.figure.fig2 ul {
-    list-style: disc;
-    padding-left: 38px;
+    left: 20px;
 }
 
 /* f3 */
@@ -135,4 +131,17 @@
     display: block;
     margin: 0px auto;
     padding-top: 240px;
+}
+
+
+@media (max-width: 640px) {
+    .figure img.f {
+        display: none !important;
+    }
+    
+    .figure .info {
+        float: none !important;
+        margin: 0px !important;
+        width: 100% !important;
+    }
 }

@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="figure fig2">
+    <div class="figure fig2 right">
         <div class="info">
             <h2>Как добавить запись</h2>
             <p>
@@ -50,7 +50,7 @@
             </p>
 
         </div>
-        <img src="/i/addcell.png" class="f2"/>
+        <img src="/i/addcell.png" class="f"/>
         <div class="clearall"></div>
     </div>
 
