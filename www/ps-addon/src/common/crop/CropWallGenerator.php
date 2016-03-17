@@ -56,7 +56,7 @@ class CropWallGenerator {
             return; //---
         }
 
-        $bottomY = max(array(1 + $topY - CropConst::CROPS_GROUP_CELLS, 1));
+        $bottomY = max(array(1 + $topY - CropConst::GROUPS_LOAD_PORTION, 1));
 
         for ($y = $topY; $y >= $bottomY; --$y) {
             echo "<div class='gr' data-gr='$y'>";
