@@ -1,6 +1,6 @@
 ﻿/*
 Created: 14.08.2010
-Modified: 06.03.2016
+Modified: 18.03.2016
 Model: MySQL 5.1
 Database: MySQL 5.1
 */
@@ -34,6 +34,8 @@ CREATE TABLE crop_cell
   COMMENT 'Признак подтверждённости ячейки. Вместе с этим обнуляется v_temp',
   b_ban Bool NOT NULL DEFAULT 0
   COMMENT 'Признак забаненности ячейки',
+  b_html Bool NOT NULL DEFAULT 0
+  COMMENT 'Признак того, что содержимое v_text будет отображаться во всплывающих элементах ''as is''',
  PRIMARY KEY (id_cell)
 )
   DEFAULT CHARACTER SET utf8
