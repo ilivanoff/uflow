@@ -15,6 +15,26 @@ body, textarea {
     line-height: 1.42857;
 }
 
+/* Кнопки расшаривания */
+#ya-share {
+    position: fixed;
+    left: 0px;
+    top: 30px;
+    width: 24px;
+}
+
+#ya-share a {
+    background: none;
+    padding: 0px;
+    padding-bottom: 3px;
+}
+
+.ya-share2__popup {
+    text-align: left;
+    position: static;
+}
+
+
 .top-container {
     width: 960px;
     margin: 1px auto 0px;
@@ -103,21 +123,17 @@ header h1 a {
 }
 
 
-/* Кнопки расшаривания */
-#ya-share {
-    position: fixed;
-    left: 0px;
-    top: 30px;
-    width: 24px;
+/*
+    КАСТОМНЫЕ НАСТРОЙКИ ЯЧЕЙКИ
+*/
+/*Цитата*/
+.cell-view .content .cit {
+
 }
 
-#ya-share a {
-    background: none;
-    padding: 0px;
-    padding-bottom: 3px;
-}
-
-.ya-share2__popup {
-    text-align: left;
-    position: static;
+.cell-view .content .aut {
+    font-weight: bold;
+    font-style: italic;
+    text-align: right;
+    padding-right: 2px;
 }

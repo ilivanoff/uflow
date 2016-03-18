@@ -65,7 +65,7 @@ class CropUploadLight extends AbstractAjaxAction {
         /*
          * Загружаем ячейку
          */
-        $cell = CropUploaderLight::upload($params->str('crop'), $email, $text, $params->int('em'));
+        $cell = CropUploaderLight::upload($params->str('crop'), $email, $text, false, $params->int('em'));
 
         /*
          * Строим страницу с ответом

@@ -10,7 +10,7 @@
                 {$cell->getDtEvent()}
             </div>
             <div>
-                {html_4show($cell->getText())}
+                {$cell->getText4Show()}
             </div>
         </div>
         <div class="clearall"></div>

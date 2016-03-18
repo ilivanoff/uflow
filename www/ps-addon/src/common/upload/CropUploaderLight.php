@@ -6,10 +6,10 @@
  * @author azaz
  */
 class CropUploaderLight {
+
     /**
      * Префикс данных изображения
      */
-
     const DATA_IMG_PREFIX = 'data:image/png;base64,';
 
     /**
@@ -18,10 +18,11 @@ class CropUploaderLight {
      * @param string $dataUrl - изображение в base64
      * @param string $email - электронный адрес отправителя
      * @param string $text - текст
+     * @param bool $asis - выводить как html
      * @param int $em - эмоция
      * @return CropCell Ячейка
      */
-    public static function upload($dataUrl, $email, $text, $em) {
+    public static function upload($dataUrl, $email, $text, $asis, $em) {
         $LOGGER = PsLogger::inst(__CLASS__);
 
         $em = CropConst::USE_EMOTIONS ? $em : CropConst::EMOTIONS_DISABLED;
@@ -29,7 +30,7 @@ class CropUploaderLight {
         $emName = CropConst::getEmotionName($em);
 
         $LOGGER->info();
-        $LOGGER->info('Uploading image. Emotion: [{}] {}. Email: \'{}\'. Text: \'{}\' (len: {}).', $em, $emName, $email, $text, ps_strlen($text));
+        $LOGGER->info('Uploading image. Emotion: [{}] {}. Email: \'{}\'. Text: \'{}\' (len: {}). AsIs ? {}.', $em, $emName, $email, $text, ps_strlen($text), var_export($asis, true));
 
         if ($LOGGER->isEnabled()) {
             $LOGGER->info('Crop len: ' . strlen($dataUrl));
@@ -97,7 +98,7 @@ class CropUploaderLight {
             $DM_TEMP_CLEAR = false;
 
             //Бронируем ячейку
-            $cell = CropBean::inst()->makeCell($DM_TEMP->getDirName(), $email, $text, $em);
+            $cell = CropBean::inst()->makeCell($DM_TEMP->getDirName(), $email, $text, $asis, $em);
 
             $LOGGER->info('{}', $cell);
             //Копируем файлы в директорию

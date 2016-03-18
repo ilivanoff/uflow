@@ -85,7 +85,11 @@ $(function () {
                 var $img = $('<img>').addClass('progress').attr('src', CONST.IMG_LOADING_PROGRESS);
                 $div.append($img).data('cell', cellId);
                 var $content = $('<div>').addClass('content').append($('<div>').addClass('date').text(obj.d)).appendTo($div);
-                $content.append($('<div>').html(obj.t.htmlEntities()));
+                if (obj.h) {
+                    $content.append($('<div>').html(obj.t));
+                } else {
+                    $content.append($('<div>').html(obj.t.htmlEntities()));
+                }
 
                 PsResources.getImgSize(src, function (wh) {
                     $img.attr('src', wh ? src : '/i/blank.png').removeClass('progress');

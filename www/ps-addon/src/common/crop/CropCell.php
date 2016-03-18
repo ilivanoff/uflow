@@ -43,6 +43,14 @@ class CropCell extends BaseDataStore {
         return 1 == $this->b_ban;
     }
 
+    public function isHtml() {
+        return 1 == $this->b_html;
+    }
+
+    public function getText4Show() {
+        return $this->isHtml() ? $this->getText() : html_4show($this->getText());
+    }
+
     public function existsImgBig() {
         return DirManagerCrop::imgExists($this->id_cell, CropConst::TMP_FILE_BIG);
     }

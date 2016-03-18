@@ -24,7 +24,7 @@ class CropWallGenerator {
     /**
      * Версия кеширования
      */
-    const CACHE_VERSION = '1a';
+    const CACHE_VERSION = '1.b';
 
     /**
      * Метод генерирует стену
@@ -147,11 +147,13 @@ class CropWallGenerator {
         $content = '';
         foreach ($cells as $cell) {
             $banned = 1 == $cell['b_ban'];
+            $ishtml = 1 == $cell['b_html'];
 
             $content .= 'cells[' . $cell['id_cell'] . ']=' . json_encode(array(
                         'b' => $banned,
                         'd' => $cell['dt_event'],
-                        't' => $banned ? '' : $cell['v_text']
+                        't' => $banned ? '' : $cell['v_text'],
+                        'h' => $ishtml
                     )) . ';';
         }
         return PsHtml::linkJs(null, $content);
