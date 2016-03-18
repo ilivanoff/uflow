@@ -7,13 +7,16 @@
  */
 class CropTests {
 
+    /** @var PsArrayRandomAccess */
     private static $images = null; //---
-    /** @var DirItem */
-    private static $image = null; //---
+
+    /**
+     * @return PsArrayRandomAccess
+     */
 
     private static function images() {
         PsDefines::assertProductionOff(__CLASS__);
-        return is_array(self::$images) ? self::$images : self::$images = DirManager::inst()->getDirContent(DirManagerCrop::DIR_CROP_TEST, DirItemFilter::IMAGES);
+        return self::$images ? self::$images : self::$images = PsArrayRandomAccess::inst(DirManager::inst()->getDirContent(DirManagerCrop::DIR_CROP_TEST, DirItemFilter::IMAGES));
     }
 
     /**
@@ -21,12 +24,7 @@ class CropTests {
      * @return DirItem не изменённая картинка
      */
     private static function randomImg() {
-        do {
-            $img = self::images()[array_rand(self::images())];
-            if (!self::$image || !self::$image->equals($img)) {
-                return self::$image = $img; //---
-            }
-        } while (true);
+        return self::images()->getValue();
     }
 
     /**
