@@ -10,13 +10,6 @@ ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
-$keys = array_keys(array(1, 2, 3, 4));
-$keys2 = $keys;
-shuffle($keys2);
-
-print_r($keys);
-br();
-print_r($keys2);
 
 die;
 
