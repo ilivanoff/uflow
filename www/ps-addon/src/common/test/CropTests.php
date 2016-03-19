@@ -73,7 +73,7 @@ class CropTests {
     /**
      * Метод создаёт сразу несколько ячеек
      */
-    public static final function makeCropCells($count) {
+    public static final function makeCropCells($count = 100) {
         for ($i = 0; $i < PsCheck::int($count); $i++) {
             self::makeCropCell();
         }

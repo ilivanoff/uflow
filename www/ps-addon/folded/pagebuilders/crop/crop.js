@@ -41,6 +41,10 @@ var CropUtils = {
 PsUtil.scheduleDeferred(function() {
     var $header = $('header');
     
+    //Подсветим текущую страницу
+    var script = PsUrl.getPhpScriptName();
+    $header.find('nav a[href="/'+(script=='index.php' ? '' : script)+'"]').addClass('active');
+    
     //Управление кнопками навинации
     var NavController = function() {
         var $nav = $('nav');

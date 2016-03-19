@@ -60,6 +60,10 @@ header nav a {
     width: 310px;
 }
 
+header nav a.active {
+    color: white;
+}
+
 header h1 {
     background-color: #3475c5;
     color: #FFFFFF;
