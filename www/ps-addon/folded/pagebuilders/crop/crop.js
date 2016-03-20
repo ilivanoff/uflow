@@ -69,7 +69,7 @@ PsUtil.scheduleDeferred(function() {
         $(YA_SHARE_ID).css('top', headHeight+2);
         PsUtil.callGlobalObject('Ya', function() {
             var Ya = this;
-            Ya.share2(YA_SHARE_ID, {
+            Ya.share2(YA_SHARE_ID.removeFirstChar(), {
                 theme: {
                     services: PsStrings.trim(CROP.CROP_YA_SHARE_SERVICES).replaceAll(' ', ''),
                     //counter: true,
