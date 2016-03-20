@@ -52,6 +52,7 @@ header nav {
     top: 0px;
     line-height: 3em;
     z-index: 2;
+    padding: 1px 0px;
 }
 
 header nav a {
@@ -75,6 +76,15 @@ header h1 {
     letter-spacing: 1px;
     /*background: url('/i/bg.png') left center repeat-x #3475c5;*/
     /*height: 58px;*/
+}
+
+/*Короткий вид*/
+header h1 {
+    display: none;
+}
+
+header nav a {
+    font-size: 20px;
 }
 
 @media (max-width: 980px) {
