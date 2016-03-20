@@ -1,6 +1,6 @@
 ﻿/*
 Created: 14.08.2010
-Modified: 18.03.2016
+Modified: 20.03.2016
 Model: MySQL 5.1
 Database: MySQL 5.1
 */
@@ -26,6 +26,8 @@ CREATE TABLE crop_cell
   COMMENT 'Дата привязки ячейки',
   v_mail Varchar(255) NOT NULL
   COMMENT 'Электронный адрес отправителя',
+  v_author Varchar(255)
+  COMMENT 'Автор',
   v_text Text
   COMMENT 'Сообщение',
   v_temp Varchar(30)
