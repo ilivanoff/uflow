@@ -24,6 +24,7 @@ class CropWallGenerator {
     /**
      * Версия кеширования
      */
+
     const CACHE_VERSION = '1.b';
 
     /**
@@ -34,13 +35,8 @@ class CropWallGenerator {
     public static function build($topY = null) {
         //self::generate();
         //return;
-        $useCache = true;
-        PsProfiler::inst(__CLASS__)->start('Build ' . ($useCache ? 'cached' : 'direct'));
-        if ($useCache) {
-            self::buildWallCache($topY);
-        } else {
-            self::buildWallDirect($topY);
-        }
+        PsProfiler::inst(__CLASS__)->start('Build');
+        self::buildWallCache($topY);
         PsProfiler::inst(__CLASS__)->stop();
     }
 
@@ -64,49 +60,6 @@ class CropWallGenerator {
             echo "<div class='crn l'>$y</div>";
 
             echo self::buildWallGroup($y);
-
-            //Справа не показываем номер ячейки, так как там - навигация
-            //echo "<div class='crn r'>$y</div>";
-
-            echo '</div>';
-        }
-    }
-
-    /**
-     * Метод генерирует стену напрямую, без кеша
-     * 
-     * @param int|null $topY - номер последней группы
-     */
-    private static function buildWallDirect($lastGr = null) {
-        foreach (CropCellsManager::inst()->loadCells4Show($lastGr) as $y => $cells) {
-            $groupDi = DirManagerCrop::groupFile($y);
-            $groupIsFile = $groupDi->isFile();
-
-            echo "<div class='gr' data-gr='$y'>";
-
-            echo "<div class='crn l'>$y</div>";
-
-            if ($groupIsFile) {
-                $grId = 'cgr-' . $y;
-                echo PsHtml::img(array('usemap' => '#' . $grId, 'src' => $groupDi));
-                echo "<map id='$grId' name='$grId'>";
-                foreach ($cells as $cell) {
-                    $idCell = $cell['id_cell'];
-                    $xCell = round((CropConst::CROPS_GROUP_CELLS - $cell['x']) * CropConst::CROP_SIZE_SMALL);
-                    $xCellEnd = $xCell + CropConst::CROP_SIZE_SMALL;
-                    echo "<area data-c='$idCell' coords='$xCell, 0, $xCellEnd, 60' shape='rect' nohref='nohref'>";
-                }
-                echo '</map>';
-            } else {
-                echo self::makeGroupImages($y, $cells);
-            }
-
-            echo '<script>';
-            echo 'var cells = window["cells"] || {};';
-            foreach ($cells as $cell) {
-                echo 'cells[' . $cell['id_cell'] . ']=' . json_encode(array(/* 'x' => $cell['x'], 'y' => $cell['y'], */'t' => $cell['v_text'], 'd' => $cell['dt_event'])) . ';';
-            }
-            echo '</script>';
 
             //Справа не показываем номер ячейки, так как там - навигация
             //echo "<div class='crn r'>$y</div>";
@@ -152,6 +105,7 @@ class CropWallGenerator {
             $content .= 'cells[' . $cell['id_cell'] . ']=' . json_encode(array(
                         'b' => $banned,
                         'd' => $cell['dt_event'],
+                        'a' => $banned ? '' : $cell['v_author'],
                         't' => $banned ? '' : $cell['v_text'],
                         'h' => $ishtml
                     )) . ';';

@@ -5,13 +5,10 @@
         {else}
             <img src="/i/blank.png"/>
         {/if}
-        <div class="content">
-            <div class="date">
-                {$cell->getDtEvent()}
-            </div>
-            <div>
-                {$cell->getText4Show()}
-            </div>
+        <div class="cell-content">
+            <div class="date">{$cell->getDtEvent()}</div>
+            <div class="text">{$cell->getText4Show()}</div>
+            <div class="auth">{$cell->getAuthor4Show()}</div>
         </div>
         <div class="clearall"></div>
     </div>

@@ -11,7 +11,7 @@ var CropUtils = {
     
     //Метод подготавливает отображение ячейки
     prepareCellView: function(cellId, $div) {
-        var $content = $div.find('.content');
+        var $content = $div.find('.cell-content');
         $content.append($('<div>').text('#'+cellId).addClass('num').attr('title', 'Номер ячейки'));
         var $date = $content.find('.date'); 
         var utc = $date.text();

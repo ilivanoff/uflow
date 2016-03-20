@@ -35,6 +35,10 @@ class CropCell extends BaseDataStore {
         return $this->v_mail;
     }
 
+    public function getAuthor() {
+        return $this->v_author;
+    }
+
     public function getText() {
         return $this->v_text;
     }
@@ -45,6 +49,10 @@ class CropCell extends BaseDataStore {
 
     public function isHtml() {
         return 1 == $this->b_html;
+    }
+
+    public function getAuthor4Show() {
+        return html_4show($this->getAuthor());
     }
 
     public function getText4Show() {

@@ -275,11 +275,15 @@ input#choose-file {
 }
 
 .crop-text .crop-textarea-holder {
-    text-align: left;
+    /*text-align: left;*/
     /*margin-left: 70px;*/
 }
 
 .crop-text textarea {
+}
+
+.ps-textarea-preview {
+    margin: 0px;
 }
 
 .container textarea, .container input {

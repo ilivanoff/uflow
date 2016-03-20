@@ -108,22 +108,23 @@ header h1 a {
     margin: 112px 56px 112px 56px;
 }
 
-.cell-view .content {
+.cell-content {
     margin: 0px;
+    cursor: default;
     margin-left: 250px;
     text-align: left;
     position: relative;
     /*word-break: break-all;*/
 }
 
-.cell-view .content .date {
+.cell-content .date {
     color: #444;
     cursor: default;
     font-weight: bold;
     padding-bottom: 2px;
 }
 
-.cell-view .content .num {
+.cell-content .num {
     color: #bbb;
     cursor: default;
     top: 0px;
@@ -132,16 +133,12 @@ header h1 a {
     position: absolute;
 }
 
-
-/*
-    КАСТОМНЫЕ НАСТРОЙКИ ЯЧЕЙКИ
-*/
-/*Цитата*/
-.cell-view .content .cit {
-
+.cell-content .text {
+    margin: 0px;
+    line-height: 1.4em;
 }
 
-.cell-view .content .aut {
+.cell-content .auth {
     font-weight: bold;
     font-style: italic;
     text-align: right;

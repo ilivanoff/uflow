@@ -12,15 +12,16 @@ class CropBean extends BaseBean {
      * 
      * @param string $temp - название директории временного хранилища, чтобы восстановить привязку в случае ошибки
      * @param string $email - электронный адрес
+     * @param string $author - автор ячейки
      * @param string $text - текст ячейки
      * @param bool $asis - выводить как html
      * @param int $em - код эмоции
      * @return CropCell Ячейка
      */
-    public function makeCell($temp, $email, $text, $asis, $em) {
+    public function makeCell($temp, $email, $author, $text, $asis, $em) {
         PsLock::lockMethod(__CLASS__, __FUNCTION__);
         try {
-            $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, n_em, b_ok, b_ban, v_temp, v_mail, v_text, b_html) VALUES (unix_timestamp(), ?, 0, 0, ?, ?, ?, ?)', array(PsCheck::int($em), $temp, PsCheck::email($email), PsCheck::notEmptyString($text), !!$asis ? 1 : 0)));
+            $cellId = PsCheck::positiveInt($this->insert('INSERT INTO crop_cell (dt_event, n_em, b_ok, b_ban, v_temp, v_mail, v_author, v_text, b_html) VALUES (unix_timestamp(), ?, 0, 0, ?, ?, ?, ?, ?)', array(PsCheck::int($em), $temp, PsCheck::email($email), $author, PsCheck::notEmptyString($text), !!$asis ? 1 : 0)));
 
             $cellNum = PsCheck::notNegativeInt($this->getCnt('select count(1) as cnt from crop_cell') - 1);
 
@@ -84,7 +85,7 @@ class CropBean extends BaseBean {
      * @param int $y - номер группы
      */
     public function getGroupCells($y) {
-        return $this->getArray('select id_cell, x, y, v_text, dt_event, b_ban, b_html from crop_cell where y=? order by x desc', PsCheck::positiveInt($y));
+        return $this->getArray('select id_cell, x, y, v_author, v_text, dt_event, b_ban, b_html from crop_cell where y=? order by x desc', PsCheck::positiveInt($y));
     }
 
     /**
@@ -111,13 +112,6 @@ class CropBean extends BaseBean {
     public function getMaxY() {
         $y = $this->getValue('select max(y) as y from crop_cell');
         return PsCheck::isInt($y) ? PsCheck::int($y) : null; //---
-    }
-
-    /**
-     * Метод загружает ячейки групп для показа
-     */
-    public function loadCells4Show($lastGr, $portion) {
-        return $this->getArrayIndexedMulti('select id_cell, x, y, v_text, dt_event from crop_cell where y<? and y>=? order by n desc', array($lastGr, $lastGr - $portion), 'y');
     }
 
     /**

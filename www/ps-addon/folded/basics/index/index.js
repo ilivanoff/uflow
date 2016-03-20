@@ -84,11 +84,16 @@ $(function () {
                 var src = '/c/' + cellId + '/big.png';
                 var $img = $('<img>').addClass('progress').attr('src', CONST.IMG_LOADING_PROGRESS);
                 $div.append($img).data('cell', cellId);
-                var $content = $('<div>').addClass('content').append($('<div>').addClass('date').text(obj.d)).appendTo($div);
-                if (obj.h) {
-                    $content.append($('<div>').html(obj.t));
-                } else {
-                    $content.append($('<div>').html(obj.t.htmlEntities()));
+                var $content = $('<div>').addClass('cell-content').appendTo($div);
+                //Дата
+                $content.append($('<div>').addClass('date').text(obj.d))
+                //Текст
+                if (obj.t) {
+                    $content.append($('<div>').addClass('text').html(obj.h ? obj.t : obj.t.htmlEntities()));
+                }
+                //Автор
+                if (obj.a) {
+                    $content.append($('<div>').addClass('auth').text(obj.a));
                 }
 
                 PsResources.getImgSize(src, function (wh) {
@@ -124,7 +129,7 @@ $(function () {
                 pageX: $('.wall')[0].offsetLeft,
                 pageY: 150
             },
-                    $('.wall img:first'));
+            $('.wall img:first'));
         }
     }
     // # 1.
@@ -224,31 +229,31 @@ $(function () {
                 ctxt: this,
                 y: this.getLastY()
             },
-                    function (ok) {
-                        var $box = $(ok);
-                        var $images = $box.find("img[src^='/']");
-                        if (!$images.isEmptySet()) {
-                            $box.hide();
+            function (ok) {
+                var $box = $(ok);
+                var $images = $box.find("img[src^='/']");
+                if (!$images.isEmptySet()) {
+                    $box.hide();
 
-                            var allImgsLoaded = PsUtil.once(function () {
-                                //Если уже всё загружено - прячем кнопку и отписываемся от скрола
-                                if (!this.canPreload()) {
-                                    CropCore.$preload.hide();
-                                    PsScroll.unbindWndScrolledBottom(this.doPreloadScroll, this);
-                                }
-                                //Показываем загруженный блок
-                                $box.show();
-                                //Снимаем состояние предзагрузки
-                                preloadingDone();
-                            }, this);
-
-                            PsResources.onAllImagesLoaded($images, allImgsLoaded);
+                    var allImgsLoaded = PsUtil.once(function () {
+                        //Если уже всё загружено - прячем кнопку и отписываемся от скрола
+                        if (!this.canPreload()) {
+                            CropCore.$preload.hide();
+                            PsScroll.unbindWndScrolledBottom(this.doPreloadScroll, this);
                         }
+                        //Показываем загруженный блок
+                        $box.show();
+                        //Снимаем состояние предзагрузки
+                        preloadingDone();
+                    }, this);
 
-                        CropCore.$wall.append($box);
+                    PsResources.onAllImagesLoaded($images, allImgsLoaded);
+                }
 
-                        return true;
-                    }, 'Загрузка стены', function (ok) {
+                CropCore.$wall.append($box);
+
+                return true;
+            }, 'Загрузка стены', function (ok) {
                 if (!ok) {
                     //Снимаем состояние предзагрузки
                     preloadingDone();

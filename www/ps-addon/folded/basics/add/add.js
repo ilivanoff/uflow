@@ -258,7 +258,7 @@ $(function () {
                 return;//---
             }
 
-            CropLogger.logInfo("Submitting light {}. Emotion: {}. Text: '{}'", img.toString(), emotionCode, text);
+            CropLogger.logInfo("Submitting light {}. Emotion: {}. Email: {}. Author: {}. Text: '{}'", img.toString(), emotionCode, email, author, text);
 
             CropCore.progress.start();
             
@@ -809,13 +809,13 @@ $(function () {
     /*
      * TEXTAREA
      */
-    function PsTextareaManager($ta){
+    function PsTextareaManager($author, $ta){
         var ta = $ta[0];
     
         //MAXLEN
         var maxLen = strToInt($ta.data('ml'));
     
-        var $preview = $('<div>').addClass('ps-textarea-preview').hide().insertAfter($ta);
+        var $preview = $('<div>').addClass('ps-textarea-preview cell-content').hide().insertAfter($ta);
         var $maxlen = maxLen ? $('<div>').addClass('ps-textarea-maxlen').insertAfter($preview) : null;
     
         function updateLeftSymbols(filled) {
@@ -831,6 +831,31 @@ $(function () {
         var minHeight = 40;
         var maxHeight = 100;
     
+        //ПРЕДПРОСМОТР
+        function updatePreview() {
+            var author = CropCore.prepareText($author.val());
+
+            var message = CropCore.prepareText($ta.val());
+            updateLeftSymbols(message.length);
+
+            $preview.empty().hide();
+            
+            if(!author && !message) {
+                return;//---
+            }
+            
+            //Текст
+            if (message) {
+                $preview.append($('<div>').addClass('text').html(message.htmlEntities()));
+            }
+            //Автор
+            if (author) {
+                $preview.append($('<div>').addClass('auth').text(author));
+            }
+
+            $preview.show();
+        }
+    
         function stateChanged() {
             //РАЗМЕРЫ ПОЛЯ ВВОДА
             var scrollHeight = ta.scrollHeight;
@@ -845,13 +870,12 @@ $(function () {
             //Если мы показали скролл, то пролистаем в самый низ
             //http://stackoverflow.com/questions/9170670/how-do-i-set-textarea-scroll-bar-to-bottom-as-a-default
             if (showScroll) ta.scrollTop = scrollHeight;
-        
-            //ПРЕДПРОСМОТР
-            var value = CropCore.prepareText($ta.val());
-            $preview.html(value.htmlEntities()).setVisible(value.length > 0);
-            updateLeftSymbols(value.length);
+            
+            //Обновим предпросмотр
+            updatePreview();
         }
     
+        $author.keyup(updatePreview).change(updatePreview).focus(updatePreview).blur(updatePreview);
         $ta.keyup(stateChanged).change(stateChanged).focus(stateChanged).blur(stateChanged).change();
     }
 
@@ -871,7 +895,7 @@ $(function () {
     RecaptureManager.init();
     
     //Подготавливаем менеджер управления текстовым полем
-    new PsTextareaManager(CropCore.$cropTextArea);
+    new PsTextareaManager(CropCore.$cropAuthorInput, CropCore.$cropTextArea);
     
     //Стилизуем label
     CropCore.$fileInputLabel.button({

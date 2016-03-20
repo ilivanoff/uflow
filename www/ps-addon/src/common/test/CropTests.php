@@ -66,8 +66,7 @@ class CropTests {
      */
     public static final function makeCropCell() {
         PsCitates::citata($cauth, $ctext);
-        $text = "<div class='cit'>$ctext</div><div class='aut'>$cauth</div>";
-        return CropUploaderLight::upload(self::randomCropBigImgBase64(), PsRand::mail(), $text, true, CropTests::randomEmotionCode());
+        return CropUploaderLight::upload(self::randomCropBigImgBase64(), PsRand::mail(), $cauth, $ctext, true, CropTests::randomEmotionCode());
     }
 
     /**

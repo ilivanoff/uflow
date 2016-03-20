@@ -16,7 +16,7 @@ class CropUploadLight extends AbstractAjaxAction {
     }
 
     protected function getRequiredParamKeys() {
-        return array('crop', 'email', 'text', 'em', 'cap');
+        return array('crop', 'email', 'author', 'text', 'em', 'cap');
     }
 
     protected function executeImpl(ArrayAdapter $params) {
@@ -45,6 +45,14 @@ class CropUploadLight extends AbstractAjaxAction {
         }
 
         /*
+         * AUTHOR
+         */
+        $author = $params->str('author');
+        if (ps_strlen($author) > 255) {
+            return 'Подпись не должна превышать 255 символов';
+        }
+
+        /*
          * ТЕКСТ
          */
         $text = normalize_string($params->str('text'));
@@ -65,7 +73,7 @@ class CropUploadLight extends AbstractAjaxAction {
         /*
          * Загружаем ячейку
          */
-        $cell = CropUploaderLight::upload($params->str('crop'), $email, $text, false, $params->int('em'));
+        $cell = CropUploaderLight::upload($params->str('crop'), $email, $author, $text, false, $params->int('em'));
 
         /*
          * Строим страницу с ответом
