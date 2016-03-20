@@ -32,14 +32,19 @@
             </div>
         {/if}
 
-        <div class="crop-email">
-            <input type="text" placeholder="Ваш email" />
-            <span class="hint hint--right hint--rounded hint--error" data-hint="email нигде не публикуется и нужен для управления ячейкой"><span class="fa fa-at"></span></span>
+        <div class="crop-input crop-email">
+            <input type="text" class="required" placeholder="Ваш email для управления ячейкой" />
+            <span class="informer hint hint--right hint--rounded hint--error" data-hint="email нигде не публикуется и нужен для управления ячейкой"><span class="fa fa-at"></span></span>
+        </div>
+
+        <div class="crop-input crop-author">
+            <input type="text" placeholder="Если хотите, можете подписаться" />
+            <span class="informer"><span class="fa fa-child"></span></span>
         </div>
 
         <div class="crop-text">
             <div class="crop-textarea-holder">
-                <textarea data-manual="1" data-ml="{$smarty.const.CROP_MSG_MAX_LEN}" placeholder="Ваши мысли..."></textarea>
+                <textarea class="required" data-manual="1" data-ml="{$smarty.const.CROP_MSG_MAX_LEN}" placeholder="Ваши мысли..."></textarea>
             </div>
         </div>
 

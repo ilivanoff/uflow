@@ -37,6 +37,9 @@ $(function () {
         //email
         $cropEmail: $('.container .crop-email'),
         $cropEmailInput: $('.container .crop-email input'),
+        //Автор
+        $cropAuthor: $('.container .crop-author'),
+        $cropAuthorInput: $('.container .crop-author input'),
         //Текст
         $cropText: $('.container .crop-text'),
         $cropTextArea: $('.container .crop-text textarea'),
@@ -89,6 +92,7 @@ $(function () {
                 }
                 this.$fileInputLabel.uiButtonDisable();
                 this.$cropEmailInput.disable();
+                this.$cropAuthorInput.disable();
                 this.$cropTextArea.disable();
                 this.$buttonSend.uiButtonDisable();
                 CropEditor.setEnabled(false);
@@ -102,6 +106,7 @@ $(function () {
                 }
                 this.$fileInputLabel.uiButtonEnable();
                 this.$cropEmailInput.enable();
+                this.$cropAuthorInput.enable();
                 this.$cropTextArea.enable();
                 this.$buttonSend.uiButtonEnable();
                 CropEditor.setEnabled(true);
@@ -147,6 +152,8 @@ $(function () {
             CropCore.$emotions.hide();
             //Поле для ввода email
             CropCore.$cropEmail.hide();
+            //Поле для ввода автора
+            CropCore.$cropAuthor.hide();
             //Текст для ввода сообщения
             CropCore.$cropText.hide();
             //Прячем капчу
@@ -180,6 +187,7 @@ $(function () {
             ImageTransform.enable();
             ImageFilters.enable();
             CropCore.$cropEmail.show();
+            CropCore.$cropAuthor.show();
             CropCore.$cropText.show();
             CropCore.$emotions.show();
             CropCore.$buttonsBottom.show();
@@ -220,6 +228,13 @@ $(function () {
                 return;//---
             }
 
+            //Автор
+            var author = $.trim(CropCore.$cropAuthorInput.val());
+            if (author.length > 255) {
+                CropCore.$cropAuthorInput.focus().select();
+                return;//---
+            }
+
             //Текст
             var text = CropCore.prepareText(CropCore.$cropTextArea.val());
             if (PsIs.empty(text)) {
@@ -246,12 +261,15 @@ $(function () {
             CropLogger.logInfo("Submitting light {}. Emotion: {}. Text: '{}'", img.toString(), emotionCode, text);
 
             CropCore.progress.start();
+            
+            PsScroll.scrollTop(300);
 
             var crop = PsCanvas.cloneAndResize(CropEditor.crop.getCropCanvas(), 240, 240);
 
             AjaxExecutor.executePost('CropUploadLight', {
                 crop: crop.toDataURL(),
                 email: email, //Email
+                author: author, //Автор
                 text: text, //Текст
                 em: emotionCode, //Код эмоции
                 cap: RecaptureManager.response
