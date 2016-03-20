@@ -76,6 +76,12 @@ header h1 {
     /*height: 58px;*/
 }
 
+@media (max-width: 980px) {
+    header h1 {
+        font-size: 40px !important;
+    }
+}
+
 header h1 a {
     color: white;
     text-decoration: none !important;

@@ -69,42 +69,6 @@ input#choose-file {
 .hint--fear.hint--top:before {
     border-top-color: #C34BBD !important; }
 
-
-
-/*
-.container .emotions img {
-    margin: 0px 2px;
-    padding: 3px;
-    display: inline-block;
-    border: 2px solid transparent;
-    width: 88px;
-}
-
-.container .emotions img.joy:hover {
-    border-color: #CBCB01;
-}
-
-.container .emotions img.sadness:hover {
-    border-color: #12AFEF;
-}
-
-.container .emotions img.anger:hover {
-    border-color: red;
-}
-
-.container .emotions img.fear:hover {
-    border-color: #C34BBD;
-}
-
-.container .emotions img.disgust:hover {
-    border-color: #56D100;
-}
-
-.container .emotions img.bingbong:hover {
-    border-color: #F995B6;
-}
-*/
-
 .container .emotions {
     display: none;
     margin: 20px 0px 15px;
@@ -291,6 +255,7 @@ input#choose-file {
 
 .crop-email span.hint {
     cursor: help;
+    font-size: 18px;
     margin-left: 5px;
 }
 
@@ -311,6 +276,10 @@ input#choose-file {
 }
 
 .crop-text textarea {
+
+}
+
+.container textarea, .container input {
     font-size: 14px;
     padding: 5px;
 }
