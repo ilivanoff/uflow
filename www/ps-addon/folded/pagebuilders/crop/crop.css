@@ -19,8 +19,9 @@ body, textarea {
 #ya-share {
     position: fixed;
     left: 0px;
-    top: 30px;
+    top: 112px;
     width: 24px;
+    z-index: 10;
 }
 
 #ya-share a {
