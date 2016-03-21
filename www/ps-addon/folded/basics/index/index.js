@@ -198,7 +198,7 @@ $(function () {
                 mouseenter: onShow,
                 mousemove: onUpdate,
                 mouseleave: onHideDeferred,
-                click: onClick
+                click: onShow
             });
 
             PsJquery.on({
