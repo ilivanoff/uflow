@@ -25,6 +25,10 @@ class PB_crop extends AbstractPageBuilder {
 
         //4. GET SMARTY PARAMS FOR TPL
         $smartyParams['content'] = BasicPagesManager::inst()->getResourcesLinks($this->basicPage->getIdent(), ContentHelper::getContent($this->basicPage));
+
+        //5. BUILD PARAMS
+        $builderCtxt->setBuildOption(PageParams::BO_EXPORT_FOLDINDS, false); //Нам не нужны фолдинги
+
         return $smartyParams;
     }
 
