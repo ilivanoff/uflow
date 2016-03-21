@@ -66,7 +66,7 @@
     width: 270px;
 }
 
-.cell-view.popup .banned {
+.cell-view.popup.banned {
     color: red;
     font-weight: bold;
 }

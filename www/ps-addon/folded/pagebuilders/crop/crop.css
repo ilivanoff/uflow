@@ -110,6 +110,22 @@ header h1 a {
     /*max-width: 600px;*/
 }
 
+.cell-view.lu {
+    border-radius: 0px 6px 6px 6px;
+}
+
+.cell-view.ru {
+    border-radius: 6px 0px 6px 6px;
+}
+
+.cell-view.rb {
+    border-radius: 6px 6px 0px 6px;
+}
+
+.cell-view.lb {
+    border-radius: 6px 6px 6px 0px;
+}
+
 .cell-view img {
     float: left;
     padding: 0px;
