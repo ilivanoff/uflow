@@ -14,14 +14,16 @@ $(function () {
 
     //Кнопка лайк
     VK.Widgets.Like("vk_like", {
-        type: "button"
-    });
+        type: "button",
+        pageUrl: '/cell.php?id=' + defs.cell_id
+    },
+            defs.cell_id);
 
     //Подготовим панель с комментариями
     VK.Widgets.Comments('vk_comments', {
         limit: 10,
         attach: '*',
-        pageUrl: '/?id=' + defs.cell_id
+        pageUrl: '/cell.php?id=' + defs.cell_id
     });
 
     /*

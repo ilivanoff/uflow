@@ -66,7 +66,7 @@
     <script src='https://www.google.com/recaptcha/api.js?onload=ongRecaptchaLoaded&render=explicit' async defer></script>
 {/if}
 
-{if $PAGE=='cell'}
+{if $PAGE=='index' || $PAGE=='cell'}
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
 {/if}
 

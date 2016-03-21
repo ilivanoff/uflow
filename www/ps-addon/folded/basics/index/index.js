@@ -3,6 +3,11 @@ cells = {};
 
 $(function () {
 
+    VK.init({
+        apiId: CROP.CROP_VK_API_ID,
+        onlyWidgets: true
+    });
+
     var CropLogger = PsLogger.inst('CropUpload').setTrace();
 
     var CropCore = {
@@ -62,7 +67,7 @@ $(function () {
 
         var onHide = function () {
             if ($div) {
-                $div.remove();
+                $div.hide();
                 $div = null;
             }
             if (onHideTimer) {
@@ -85,40 +90,53 @@ $(function () {
 
             var obj = cells[cellId];
             //Нет данных или ячейка забанена - пропускаем
-            if (!obj) {
+            if (!obj || obj.b) {
                 return;//---
             }
 
-            $div = $('<div>').addClass('cell-view popup');
+            $div = $('#cell-' + cellId);
 
-            //Ячейка забанена? Показываем окошко с информацией и выходим
-            if (obj.b) {
-                $div.addClass('banned').append(crIMG('/i/gun/barrel.png')).append('&nbsp;Ячейка #' + cellId + ' забанена').appendTo('body').calculatePosition(e, 3, 3);
-                return;//---
+            if ($div.isEmptySet()) {
+                $div = $('<div>').addClass('cell-view popup');
+
+                //Ячейка забанена? Показываем окошко с информацией и выходим
+                if (obj.b) {
+                    $div.addClass('banned').append(crIMG('/i/gun/barrel.png')).append('&nbsp;Ячейка #' + cellId + ' забанена').appendTo('body').calculatePosition(e, 3, 3);
+                    return;//---
+                }
+
+                var src = '/c/' + cellId + '/big.png';
+                var $img = $('<img>').addClass('progress').attr('src', CONST.IMG_LOADING_PROGRESS).click(onHide);
+                $div.append($img).data('cell', cellId);
+                var $content = $('<div>').addClass('cell-content').appendTo($div);
+                //Дата
+                $content.append($('<div>').addClass('date').text(obj.d))
+                //Текст
+                if (obj.t) {
+                    $content.append($('<div>').addClass('text').html(obj.h ? obj.t : obj.t.htmlEntities()));
+                }
+                //Автор
+                if (obj.a) {
+                    $content.append($('<div>').addClass('auth').text(obj.a));
+                }
+
+                $div.append($('<div>').addClass('vk-like-holder').append($('<div>').attr('id', 'vk_like_' + cellId)));
+
+                //Кнопка лайк
+                VK.Widgets.Like('vk_like_' + cellId, {
+                    type: "button",
+                    pageUrl: '/cell.php?id=' + cellId
+                },
+                        cellId);
+
+                PsResources.getImgSize(src, function (wh) {
+                    $img.attr('src', wh ? src : '/i/blank.png').removeClass('progress');
+                });
+
+                $div.append($('<div>').addClass('clearall'));
+                $div = CropUtils.prepareCellView(cellId, $div);
+                $div.hide().attr('id', 'cell-' + cellId).appendTo('body');//.width($div.width());
             }
-
-            var src = '/c/' + cellId + '/big.png';
-            var $img = $('<img>').addClass('progress').attr('src', CONST.IMG_LOADING_PROGRESS).click(onHide);
-            $div.append($img).data('cell', cellId);
-            var $content = $('<div>').addClass('cell-content').appendTo($div);
-            //Дата
-            $content.append($('<div>').addClass('date').text(obj.d))
-            //Текст
-            if (obj.t) {
-                $content.append($('<div>').addClass('text').html(obj.h ? obj.t : obj.t.htmlEntities()));
-            }
-            //Автор
-            if (obj.a) {
-                $content.append($('<div>').addClass('auth').text(obj.a));
-            }
-
-            PsResources.getImgSize(src, function (wh) {
-                $img.attr('src', wh ? src : '/i/blank.png').removeClass('progress');
-            });
-
-            $div.append($('<div>').addClass('clearall'));
-            $div = CropUtils.prepareCellView(cellId, $div);
-            $div.appendTo('body');//.width($div.width());
 
             //onUpdate(e);
 
@@ -179,6 +197,8 @@ $(function () {
 
                 $div.css('left', left).css('top', top).addClass(xPos + yPos);
             }
+
+            $div.show();
 
             attach();
             onUpdate(e);
