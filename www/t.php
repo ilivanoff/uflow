@@ -4,12 +4,13 @@ header('Content-Type: text/html; charset=utf-8');
 
 require_once 'ps-includes/MainImportAdmin.php';
 
-PsDefines::assertProductionOff(__FILE__);
+PsDefines::assertProductionOff('t');
 
 ExceptionHandler::registerPretty();
 
 PsUtil::startUnlimitedMode();
 
+echo ConfigIni::projectName();
 
 die;
 
