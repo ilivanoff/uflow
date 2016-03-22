@@ -82,7 +82,11 @@
 {if $PAGE=='cell'}
     <meta property="og:url"           content="{$smarty.const.CROP_YA_SHARE_URL}/cell.php?id={$cell->getCellId()}" />
     <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="Ячейка {$cell->getAuthor4Show()}" />
+    {if $cell->hasAuthor()}
+        <meta property="og:title"         content="{$cell->getAuthor4Show()}" />
+    {else}
+        <meta property="og:title"         content="Ячейка" />
+    {/if}
     <meta property="og:description"   content="{$cell->getText4Show()}" />
     <meta property="og:image"         content="{$smarty.const.CROP_YA_SHARE_URL}{$cell->relImgBig()}" />
 {/if}

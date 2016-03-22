@@ -39,6 +39,10 @@ class CropCell extends BaseDataStore {
         return $this->v_author;
     }
 
+    public function hasAuthor() {
+        return PsCheck::isNotEmptyString($this->v_author);
+    }
+
     public function getText() {
         return $this->v_text;
     }
@@ -52,7 +56,7 @@ class CropCell extends BaseDataStore {
     }
 
     public function getAuthor4Show() {
-        return html_4show($this->getAuthor());
+        return $this->hasAuthor() ? html_4show($this->getAuthor()) : '';
     }
 
     public function getText4Show() {
