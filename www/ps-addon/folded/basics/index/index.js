@@ -61,7 +61,7 @@ $(function () {
             }
         }
 
-        var singleMode = true;
+        var singleMode = false;
 
         var onBubbleHover = function () {
             onHideTimer.stop();
