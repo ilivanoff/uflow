@@ -36,14 +36,17 @@ var CropUtils = {
         return false;//---
     },
     //Инициацилизации лайков VK
-    initVkLike: function (cellId) {
+    initVkLike: function (cellId, author, text) {
+        //consoleLog('{} = {}:{}', cellId, author, text);
         $('#vk_like_' + cellId).addClass('vk-like');
         VK.Widgets.Like('vk_like_' + cellId, {
             //type: 'mini',
             type: 'button',
-            pageUrl: '/cell.php?id=' + cellId
-        },
-                cellId);
+            pageTitle: author ? 'author' : 'Ячейка',
+            pageDescription: text,
+            pageUrl: '/cell.php?id=' + cellId,
+            pageImage: '/c/'+cellId+'/big.png'
+        }, cellId);
     }
 }
 

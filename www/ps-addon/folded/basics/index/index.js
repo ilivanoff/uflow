@@ -145,7 +145,7 @@ $(function () {
                 $div.hide().attr('id', 'cell-' + cellId).appendTo('body');//.width($div.width());
 
                 //Кнопка лайк
-                CropUtils.initVkLike(cellId);
+                CropUtils.initVkLike(cellId, obj.a, obj.t);
                 FB.XFBML.parse($div.find('.fb-like').parent()[0]);
             }
 

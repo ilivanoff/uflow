@@ -2,7 +2,9 @@ $(function () {
     //Подготовим отображение
     CropUtils.prepareCellView(defs.cell_id, $('.cell-view'));
 
-    $('.cell-view img').click(function () {
+    var $cell = $('.cell-view');
+
+    $cell.children('img').click(function () {
         window.close()
     });
 
@@ -13,7 +15,7 @@ $(function () {
     });
 
     //Кнопка лайк
-    CropUtils.initVkLike(defs.cell_id);
+    CropUtils.initVkLike(defs.cell_id, $cell.find('.auth').text(), $cell.find('.text').text());
 
     //Подготовим панель с комментариями
     VK.Widgets.Comments('vk_comments', {
