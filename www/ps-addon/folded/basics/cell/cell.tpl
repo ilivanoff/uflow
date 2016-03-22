@@ -16,9 +16,8 @@
 
 <div class="vk-like-holder">
     {*VK Like button*}
-    <div class="c-like" id="vk_like_{$cell->getCellId()}">
-    </div>
-    {FB like button}
+    <div class="c-like" id="vk_like_{$cell->getCellId()}"></div>
+    {*FB like button*}
     <div class="fb-like" 
          data-href="http://thflow.com/cell.php?id={$cell->getCellId()}" 
          data-layout="button_count" 
