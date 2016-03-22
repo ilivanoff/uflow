@@ -13,11 +13,7 @@ $(function () {
     });
 
     //Кнопка лайк
-    VK.Widgets.Like("vk_like", {
-        type: "button",
-        pageUrl: '/cell.php?id=' + defs.cell_id
-    },
-            defs.cell_id);
+    CropUtils.initVkLike(defs.cell_id);
 
     //Подготовим панель с комментариями
     VK.Widgets.Comments('vk_comments', {

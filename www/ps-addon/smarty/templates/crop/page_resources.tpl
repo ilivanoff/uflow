@@ -68,7 +68,25 @@
 
 {if $PAGE=='index' || $PAGE=='cell'}
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
+    <script type="text/javascript" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.5"></script>
 {/if}
+
+{if $PAGE=='index'}
+    <meta property="og:url"           content="{$smarty.const.CROP_YA_SHARE_URL}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="{$smarty.const.CROP_YA_SHARE_TITLE}" />
+    <meta property="og:description"   content="{$smarty.const.CROP_YA_SHARE_DESCRIPTION}" />
+    <meta property="og:image"         content="{$smarty.const.CROP_YA_SHARE_IMAGE}" />
+{/if}
+
+{if $PAGE=='cell'}
+    <meta property="og:url"           content="{$smarty.const.CROP_YA_SHARE_URL}/cell.php?id={$cell->getCellId()}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Ячейка {$cell->getAuthor4Show()}" />
+    <meta property="og:description"   content="{$cell->getText4Show()}" />
+    <meta property="og:image"         content="{$smarty.const.CROP_YA_SHARE_URL}{$cell->relImgBig()}" />
+{/if}
+
 
 {*Кнопки соц сетей Ya share*}
 {if $smarty.const.CROP_YA_SHARE_ENABED}

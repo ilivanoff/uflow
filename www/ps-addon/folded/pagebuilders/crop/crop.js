@@ -34,6 +34,16 @@ var CropUtils = {
             return true;//----
         }
         return false;//---
+    },
+    //Инициацилизации лайков VK
+    initVkLike: function (cellId) {
+        $('#vk_like_' + cellId).addClass('vk-like');
+        VK.Widgets.Like('vk_like_' + cellId, {
+            //type: 'mini',
+            type: 'button',
+            pageUrl: '/cell.php?id=' + cellId
+        },
+                cellId);
     }
 }
 

@@ -67,6 +67,14 @@ class CropCell extends BaseDataStore {
         return DirManagerCrop::imgExists($this->id_cell, CropConst::TMP_FILE_SMALL);
     }
 
+    public function relImgBig() {
+        return DirManagerCrop::cropDiBig($this->id_cell)->getRelPath();
+    }
+
+    public function relImgSmall() {
+        return DirManagerCrop::cropDiSmall($this->id_cell)->getRelPath();
+    }
+
 }
 
 ?>

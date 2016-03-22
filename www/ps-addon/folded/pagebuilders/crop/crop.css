@@ -99,6 +99,19 @@ header h1 a {
     text-decoration: none !important;
 }
 
+/* Блок социальных лайков */
+.vk-like-holder {
+    clear: both;
+    height: 22px;
+    text-align: left;
+}
+
+.vk-like {
+    display: inline-block;
+	/*Стиль нужен для корректного размещения fb-like*/
+    vertical-align: bottom;
+}
+
 /* Просмотр ячейки */
 .cell-view {
     background-color: #fff;
@@ -108,6 +121,11 @@ header h1 a {
     border-radius: 6px 6px 6px 6px;
     padding: 8px;
     /*max-width: 600px;*/
+}
+
+.cell-view .vk-like-holder {
+    /* Совпадает с .cell-view:padding */
+    padding-top: 8px;
 }
 
 .cell-view.lu {

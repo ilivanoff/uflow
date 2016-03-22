@@ -29,7 +29,7 @@ class BP_cell extends BasicPage {
     }
 
     public function getSmartyParams4Resources() {
-        
+        return array('cell' => $this->cell);
     }
 
 }

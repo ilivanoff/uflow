@@ -61,17 +61,22 @@ $(function () {
             }
         }
 
+        var singleMode = true;
+
         var onBubbleHover = function () {
             onHideTimer.stop();
         }
 
         var onHide = function () {
+            if (onHideTimer) {
+                onHideTimer.stop();
+            }
+            if (singleMode) {
+                return;//---
+            }
             if ($div) {
                 $div.hide();
                 $div = null;
-            }
-            if (onHideTimer) {
-                onHideTimer.stop();
             }
         }
 
@@ -82,6 +87,10 @@ $(function () {
         }
 
         var onShow = function (e, $target) {
+            if (singleMode && $div) {
+                return;//---
+            }
+
             onHide();
 
             var cellId = extractCellId($target);
@@ -120,15 +129,13 @@ $(function () {
                     $content.append($('<div>').addClass('auth').text(obj.a));
                 }
 
-                $div.append($('<div>').addClass('vk-like-holder').append($('<div>').attr('id', 'vk_like_' + cellId)));
+                $div.append($('<div>').addClass('clearall'));
+                $div.append($('<div>').addClass('vk-like-holder').
+                        append($('<div>').attr('id', 'vk_like_' + cellId)).
+                        append('<div class="fb-like" data-href="http://thflow.com/cell.php?id=' + cellId + '" data-layout="button_count" data-action="like" data-show-faces="true"></div>')
+                        );
 
-                //Кнопка лайк
-                VK.Widgets.Like('vk_like_' + cellId, {
-                    type: "button",
-                    pageUrl: '/cell.php?id=' + cellId
-                },
-                        cellId);
-
+                //Загрузим изображение
                 PsResources.getImgSize(src, function (wh) {
                     $img.attr('src', wh ? src : '/i/blank.png').removeClass('progress');
                 });
@@ -136,6 +143,10 @@ $(function () {
                 $div.append($('<div>').addClass('clearall'));
                 $div = CropUtils.prepareCellView(cellId, $div);
                 $div.hide().attr('id', 'cell-' + cellId).appendTo('body');//.width($div.width());
+
+                //Кнопка лайк
+                CropUtils.initVkLike(cellId);
+                FB.XFBML.parse($div.find('.fb-like').parent()[0]);
             }
 
             //onUpdate(e);
@@ -186,7 +197,7 @@ $(function () {
                     }
                 }
 
-                var top = pageY + offsetY; //Факчитеское расстояние от верха страницы до курсора по вертигаки (с учётом сдвига)
+                var top = pageY + offsetY; //Факчитеское расстояние от верха страницы до курсора по вертикали (с учётом сдвига)
                 if ((top + divHeight > winTop + winHeight) && (top > divHeight)) { //Если при показе элемента вверх он также не влезает, то покажем его вниз
                     top = top - 2 * offsetY - divHeight - trgtHeight;
                 }
